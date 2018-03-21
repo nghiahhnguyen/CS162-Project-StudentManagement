@@ -18,6 +18,12 @@ struct student {
 	student *next;
 };
 
+struct classYear {
+	string class_name;
+	student* head;
+	classYear* next;
+};
+
 struct user {
 	string username;
 	string full_name;
@@ -31,7 +37,7 @@ struct date {
 	int day, month, year;
 };
 
-struct time {
+struct Time {
 	int hour, minute;
 };
 
@@ -47,7 +53,14 @@ enum dateofweek {
 
 struct session {
 	dateofweek session_day;
-	time start, end;
+	Time start, end;
+};
+
+struct presence {
+	string course_code;
+	int semester, id, year, week;
+	float midterm, lab, final;
+	presence* next;
 };
 
 struct course {
@@ -59,23 +72,14 @@ struct course {
 	course* next;
 };
 
-struct presence {
-	string course_code;
-	int semester, id, year, week;
-	float midterm, lab, final;
-	presence* next;
+struct classList {
+	classYear* head;
 };
-
-struct classYear {
-	string class_name;
-	student* head_student;
-	classYear* next;
-};
-
 
 void input(const char path[], classYear&a);
 void output(const char path[], classYear &a);
 void readUser(string path, user* &a);
 void generateUsernameAndPassword(user* &a);
+void generatePassword(student* &a);
 
 #endif
