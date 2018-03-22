@@ -58,6 +58,7 @@ void input(const char path[], classYear &a)
 	}
 	fin.close();
 }
+
 void output(const char path[], classYear &a)
 {
 	ofstream fout;
@@ -66,7 +67,7 @@ void output(const char path[], classYear &a)
 	student *cur = a.head;
 
 	if (fout.good()) {
-		fout << "Class," << a.class_name <<","<< endl;
+		fout << "Class," << a.class_name << "," << endl;
 		fout << "No,Student ID,Student name" << endl;
 		int count = 1;
 		while (cur != NULL) {
@@ -107,7 +108,6 @@ void user::generateUsernameAndPassword() {
 	string password = username;
 	for (i = phone.size() - 4; i < phone.size(); ++i)
 		password += phone[i];
-	
 	//	passing the default username and password
 	this->username = username;
 	this->password = password;
@@ -168,5 +168,128 @@ void viewListOfStudentsInAClass(const classList &a) {
 			cout << setw(10) << count++ << setw(12) << cur_student->id << setw(30) << cur_student->full_name << setw(30) << cur_student->email << setw(12) << cur_student->phone<<endl;
 			cur_student = cur_student->next;
 		}
+}
+
+void viewListOfClass(const classList L)
+{
+	//Nguyen Vo Duc Loc
+
+	classYear *cur = L.head;
+
+	while (cur != NULL)
+	{
+		cout << cur->class_name << endl;
+		cur = cur->next;
 	}
 }
+
+void classList:: addEmptyClass()
+{
+	//insert a new empty class into classList
+	//Nguyen Vo Duc Loc
+
+	string name;
+	cout << "pls enter the name for the class: ";
+	getline(cin, name);
+
+	if (head == NULL)
+	{
+		head = new classYear;
+		head->class_name = name;
+		head->next = NULL;
+		head->head = NULL;
+	}
+	else
+	{
+		classYear *cur = head;
+
+		while (cur->next != NULL)
+			cur = cur->next;
+
+		cur->next = new classYear;
+		cur = cur->next;
+		cur->class_name = name;
+		cur->head = NULL;
+	}
+}
+
+void student:: changePassword()
+{
+	//Nguyen Vo Duc Loc
+
+	string pass, newPass;
+
+	cout << "pls enter your previous password: ";
+	getline(cin, pass);
+
+	if (pass != password)
+	{
+		cout << "wrong password";
+		system("pause");
+		return;
+	}
+
+	cout << "pls enter your new password: ";
+	getline(cin, pass);
+	cout << "pls enter again your new password: ";
+	getline(cin, newPass);
+
+	if (newPass == pass)
+	{
+		password = newPass;
+		cout << "your password is changed successfully";
+	}
+	else
+		cout << "unsucessfully";
+
+	system("pause");
+}
+
+void user:: changePassword()
+{
+	//Nguyen Vo Duc Loc
+
+	string pass, newPass;
+
+	cout << "pls enter your previous password: ";
+	getline(cin, pass);
+
+	if (pass != password)
+	{
+		cout << "wrong password";
+		system("pause");
+		return;
+	}
+
+	cout << "pls enter your new password: ";
+	getline(cin, pass);
+	cout << "pls enter again your new password: ";
+	cin >> newPass;
+
+	if (newPass == pass)
+	{
+		password = newPass;
+		cout << "your password is changed successfully";
+	}
+	else
+		cout << "unsucessfully";
+
+	system("pause");
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

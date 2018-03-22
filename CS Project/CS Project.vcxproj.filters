@@ -31,5 +31,6 @@
     <None Include="17APCS1-Students.csv">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="17APCS1-Student.csv" />
   </ItemGroup>
 </Project>
