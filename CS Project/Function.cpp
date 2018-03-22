@@ -276,20 +276,3 @@ void user:: changePassword()
 
 	system("pause");
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
