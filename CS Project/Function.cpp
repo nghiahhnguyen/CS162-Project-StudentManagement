@@ -53,6 +53,7 @@ void input(const char path[], classYear &a)
 	}
 	fin.close();
 }
+
 void output(const char path[], classYear &a)
 {
 	ofstream fout;
@@ -61,7 +62,7 @@ void output(const char path[], classYear &a)
 	student *cur = a.head;
 
 	if (fout.good()) {
-		fout << "Class," << a.class_name <<","<< endl;
+		fout << "Class," << a.class_name << "," << endl;
 		fout << "No,Student ID,Student name" << endl;
 		int count = 1;
 		while (cur != NULL) {
@@ -76,81 +77,197 @@ void output(const char path[], classYear &a)
 	fout.close();
 }
 
-void generateUsernameAndPassword(user* &a) {
+void user::generateUsernameAndPassword() {
 	//	generete default username and password for academic staff or lecturer
 	//	Nguyen Ho Huu Nghia
 
 	//	find the position of the last name
 	int last_space_position;
-	for (last_space_position = a->full_name.length() - 1; last_space_position >= 0; --last_space_position)
-		if (a->full_name[last_space_position] == ' ')
+	for (last_space_position = full_name.length() - 1; last_space_position >= 0; --last_space_position)
+		if (full_name[last_space_position] == ' ')
 			break;
 
 	//	generate username
 	int i;
 	string username;
-	username += tolower(a->full_name[0]);
+	username += tolower(full_name[0]);
 
 	for (i = 1; i < last_space_position; ++i)
-		if (a->full_name[i] == ' ')
-			username += tolower(a->full_name[i + 1]);
+		if (full_name[i] == ' ')
+			username += tolower(full_name[i + 1]);
 
-	for (i = last_space_position + 1; i < a->full_name.length(); ++i)
-		username += tolower(a->full_name[i]);
+	for (i = last_space_position + 1; i < full_name.length(); ++i)
+		username += tolower(full_name[i]);
 
 	//	generate password
 	string password = username;
-	for (i = a->phone.size() - 4; i < a->phone.size(); ++i)
-		password += a->phone[i];
-	
+	for (i = phone.size() - 4; i < phone.size(); ++i)
+		password += phone[i];
+
 	//	passing the default username and password
-	a->username = username;
-	a->password = password;
+	username = username;
+	password = password;
 }
-void generatePassword(student* &a) {
+
+void student::generatePassword()
+{
 	//	generate default password for student
 	//	by Nghia
 
 	//	find the position of the last name
 	int last_space_position;
-	for (last_space_position = a->full_name.length() - 1; last_space_position >= 0; --last_space_position)
-		if (a->full_name[last_space_position] == ' ')
+	for (last_space_position = full_name.length() - 1; last_space_position >= 0; --last_space_position)
+		if (full_name[last_space_position] == ' ')
 			break;
 
 	//	generate username
 	int i;
 	string short_name;
-	short_name += tolower(a->full_name[0]);
+	short_name += tolower(full_name[0]);
 
 	for (i = 1; i < last_space_position; ++i)
-		if (a->full_name[i] == ' ')
-			short_name += tolower(a->full_name[i + 1]);
+		if (full_name[i] == ' ')
+			short_name += tolower(full_name[i + 1]);
 
-	for (i = last_space_position + 1; i < a->full_name.length(); ++i)
-		short_name += tolower(a->full_name[i]);
+	for (i = last_space_position + 1; i < full_name.length(); ++i)
+		short_name += tolower(full_name[i]);
 
 	//	generate password
 	string password = short_name;
-	for (i = a->phone.size() - 4; i < a->phone.size(); ++i)
-		password += a->phone[i];
-	
+	for (i = phone.size() - 4; i < phone.size(); ++i)
+		password += phone[i];
+
 	//	passing the defalut password to the student
-	a->password = password;
+	password = password;
 }
 
 void viewListOfStudentsInAClass(const classList &a) {
 	cout << "Enter the name of the class you want to view: ";
 	string class_name;
 	cin >> class_name;
-	classYear* cur_class;
-	cur_class = a.head;
-	while (cur_class && !cur_class->class_name.compare(class_name)) 
-		cur_class = cur_class->next;
-	if (!cur_class) {
-		cout << "Class not found!\n";
-		return;
-	}
-	if (!cur_class->class_name.compare(class_name)) {
-		
+
+}
+
+void viewListOfClass(const classList L)
+{
+	//Nguyen Vo Duc Loc
+
+	classYear *cur = L.head;
+
+	while (cur != NULL)
+	{
+		cout << cur->class_name << endl;
+		cur = cur->next;
 	}
 }
+
+void classList:: addEmptyClass()
+{
+	//insert a new empty class into classList
+	//Nguyen Vo Duc Loc
+
+	string name;
+	cout << "pls enter the name for the class: ";
+	getline(cin, name);
+
+	if (head == NULL)
+	{
+		head = new classYear;
+		head->class_name = name;
+		head->next = NULL;
+		head->head = NULL;
+	}
+	else
+	{
+		classYear *cur = head;
+
+		while (cur->next != NULL)
+			cur = cur->next;
+
+		cur->next = new classYear;
+		cur = cur->next;
+		cur->class_name = name;
+		cur->head = NULL;
+	}
+}
+
+void student:: changePassword()
+{
+	//Nguyen Vo Duc Loc
+
+	string pass, newPass;
+
+	cout << "pls enter your previous password: ";
+	getline(cin, pass);
+
+	if (pass != password)
+	{
+		cout << "wrong password";
+		system("pause");
+		return;
+	}
+
+	cout << "pls enter your new password: ";
+	getline(cin, pass);
+	cout << "pls enter again your new password: ";
+	getline(cin, newPass);
+
+	if (newPass == pass)
+	{
+		password = newPass;
+		cout << "your password is changed successfully";
+	}
+	else
+		cout << "unsucessfully";
+
+	system("pause");
+}
+
+void user:: changePassword()
+{
+	//Nguyen Vo Duc Loc
+
+	string pass, newPass;
+
+	cout << "pls enter your previous password: ";
+	getline(cin, pass);
+
+	if (pass != password)
+	{
+		cout << "wrong password";
+		system("pause");
+		return;
+	}
+
+	cout << "pls enter your new password: ";
+	getline(cin, pass);
+	cout << "pls enter again your new password: ";
+	cin >> newPass;
+
+	if (newPass == pass)
+	{
+		password = newPass;
+		cout << "your password is changed successfully";
+	}
+	else
+		cout << "unsucessfully";
+
+	system("pause");
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -3,6 +3,7 @@
 
 #define _CRT_SECURE_NO_WARNINGS
 
+#include<iomanip>
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -16,12 +17,14 @@ struct student {
 	string email;
 	string phone;
 	student *next;
+	void changePassword();
+	void generatePassword();
 };
 
 struct classYear {
 	string class_name;
-	student* head;
-	classYear* next;
+	student *head=NULL;
+	classYear* next=NULL;
 };
 
 struct user {
@@ -31,13 +34,16 @@ struct user {
 	string phone;
 	string password;
 	user* next;
+	void changePassword();
+	void generateUsernameAndPassword();
 };
 
 struct date {
 	int day, month, year;
 };
 
-struct Time {
+struct Time
+{
 	int hour, minute;
 };
 
@@ -51,7 +57,8 @@ enum dateofweek {
 	saturday,
 };
 
-struct session {
+struct session
+{
 	dateofweek session_day;
 	Time start, end;
 };
@@ -72,14 +79,16 @@ struct course {
 	course* next;
 };
 
-struct classList {
-	classYear* head;
+struct classList 
+{
+	classYear *head;
+	void addEmptyClass();
+
 };
 
 void input(const char path[], classYear&a);
 void output(const char path[], classYear &a);
-void readUser(string path, user* &a);
-void generateUsernameAndPassword(user* &a);
-void generatePassword(student* &a);
+void viewListOfClass(classList L);
+
 
 #endif
