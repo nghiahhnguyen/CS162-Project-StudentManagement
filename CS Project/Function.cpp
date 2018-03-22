@@ -2,7 +2,10 @@
 
 void input(const char path[], classYear &a)
 {
-	//	load an entire new class from 
+	//	load an entire new class from a .csv file;
+	//	Nguyen Ho Huu Nghia
+
+	a.head = NULL;
 	ifstream fin(path);
 	if (fin.good()) {
 		//	ignore Class,
@@ -39,6 +42,7 @@ void input(const char path[], classYear &a)
 				a.head->full_name = (string)full_name;
 				a.head->class_name = (string)class_year;
 				a.head->next = NULL;
+				a.head->generatePassword();
 				cur = a.head;
 			}
 			else {
@@ -47,6 +51,7 @@ void input(const char path[], classYear &a)
 				cur->id = username;
 				cur->full_name = (string)full_name;
 				cur->class_name = (string)class_year;
+				cur->generatePassword();
 				cur->next = NULL;
 			}
 		}
@@ -103,14 +108,11 @@ void user::generateUsernameAndPassword() {
 	string password = username;
 	for (i = phone.size() - 4; i < phone.size(); ++i)
 		password += phone[i];
-
 	//	passing the default username and password
-	username = username;
-	password = password;
+	this->username = username;
+	this->password = password;
 }
-
-void student::generatePassword()
-{
+void student::generatePassword() {
 	//	generate default password for student
 	//	by Nghia
 
@@ -136,16 +138,36 @@ void student::generatePassword()
 	string password = short_name;
 	for (i = phone.size() - 4; i < phone.size(); ++i)
 		password += phone[i];
-
+	
 	//	passing the defalut password to the student
-	password = password;
+	this->password = password;
 }
 
 void viewListOfStudentsInAClass(const classList &a) {
+	//	let user view the details of all students in a class
+	//	Nguyen Ho Huu Nghia
+
+
 	cout << "Enter the name of the class you want to view: ";
 	string class_name;
 	cin >> class_name;
-
+	classYear* cur_class;
+	cur_class = a.head;
+	while (cur_class && cur_class->class_name.compare(class_name)) 
+		cur_class = cur_class->next;
+	if (!cur_class) {
+		cout << "Class not found!\n";
+		return;
+	}
+	if (!cur_class->class_name.compare(class_name)) {
+		cout << "Class " << class_name<<endl<<endl;
+		int count = 0;
+		cout << setw(10) << "Number" << setw(12) << "Student ID" << setw(30) << "Full name" << setw(30) << "Email" << setw(12) << "Phone"<<endl;
+		student *cur_student = cur_class->head;
+		while (cur_student) {
+			cout << setw(10) << count++ << setw(12) << cur_student->id << setw(30) << cur_student->full_name << setw(30) << cur_student->email << setw(12) << cur_student->phone<<endl;
+			cur_student = cur_student->next;
+		}
 }
 
 void viewListOfClass(const classList L)

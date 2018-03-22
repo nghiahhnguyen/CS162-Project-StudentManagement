@@ -7,6 +7,8 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <iomanip>
+
 using namespace std;
 
 struct student {
@@ -88,7 +90,7 @@ struct classList
 
 void input(const char path[], classYear&a);
 void output(const char path[], classYear &a);
+void viewListOfStudentsInAClass(const classList &a);
 void viewListOfClass(classList L);
-
 
 #endif
