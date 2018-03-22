@@ -6,6 +6,8 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <iomanip>
+
 using namespace std;
 
 struct student {
@@ -16,6 +18,7 @@ struct student {
 	string email;
 	string phone;
 	student *next;
+	void generatePassword();
 };
 
 struct classYear {
@@ -31,6 +34,7 @@ struct user {
 	string phone;
 	string password;
 	user* next;
+	void generateUsernameAndPassword();
 };
 
 struct date {
@@ -78,8 +82,6 @@ struct classList {
 
 void input(const char path[], classYear&a);
 void output(const char path[], classYear &a);
-void readUser(string path, user* &a);
-void generateUsernameAndPassword(user* &a);
-void generatePassword(student* &a);
+void viewListOfStudentsInAClass(const classList &a);
 
 #endif
