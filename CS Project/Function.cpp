@@ -160,14 +160,15 @@ void viewListOfStudentsInAClass(const classList &a) {
 		return;
 	}
 	if (!cur_class->class_name.compare(class_name)) {
-		cout << "Class " << class_name<<endl<<endl;
+		cout << "Class " << class_name << endl << endl;
 		int count = 0;
-		cout << setw(10) << "Number" << setw(12) << "Student ID" << setw(30) << "Full name" << setw(30) << "Email" << setw(12) << "Phone"<<endl;
+		cout << setw(10) << "Number" << setw(12) << "Student ID" << setw(30) << "Full name" << setw(30) << "Email" << setw(12) << "Phone" << endl;
 		student *cur_student = cur_class->head;
 		while (cur_student) {
-			cout << setw(10) << count++ << setw(12) << cur_student->id << setw(30) << cur_student->full_name << setw(30) << cur_student->email << setw(12) << cur_student->phone<<endl;
+			cout << setw(10) << count++ << setw(12) << cur_student->id << setw(30) << cur_student->full_name << setw(30) << cur_student->email << setw(12) << cur_student->phone << endl;
 			cur_student = cur_student->next;
 		}
+	}
 }
 
 void viewListOfClass(const classList L)
