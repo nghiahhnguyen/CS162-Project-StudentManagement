@@ -246,7 +246,7 @@ void student:: changePassword()
 	system("pause");
 }
 
-void user:: changePassword()
+void user::changePassword()
 {
 	//Nguyen Vo Duc Loc
 
@@ -277,3 +277,5 @@ void user:: changePassword()
 
 	system("pause");
 }
+
+void 
