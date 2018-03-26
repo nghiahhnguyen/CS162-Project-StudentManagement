@@ -8,6 +8,8 @@
 #include <fstream>
 #include <string>
 #include <iomanip>
+#include <conio.h>
+#include <Windows.h>
 
 using namespace std;
 
@@ -81,11 +83,14 @@ struct course {
 	course* next;
 };
 
+struct courseList {
+	course* head;
+};
+
 struct classList 
 {
-	classYear *head;
+	classYear *head=NULL;
 	void addEmptyClass();
-
 };
 
 void input(const char path[], classYear&a);
