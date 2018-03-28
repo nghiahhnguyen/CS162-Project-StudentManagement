@@ -3,7 +3,6 @@
 
 #define _CRT_SECURE_NO_WARNINGS
 
-#include<iomanip>
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -97,5 +96,6 @@ void input(const char path[], classYear&a);
 void output(const char path[], classYear &a);
 void viewListOfStudentsInAClass(const classList &a);
 void viewListOfClass(classList L);
+void importCourse(string path, courseList& a);
 
 #endif
