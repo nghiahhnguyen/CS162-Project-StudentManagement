@@ -3,11 +3,12 @@
 
 #define _CRT_SECURE_NO_WARNINGS
 
-#include<iomanip>
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <iomanip>
+#include <conio.h>
+#include <Windows.h>
 
 using namespace std;
 
@@ -81,16 +82,20 @@ struct course {
 	course* next;
 };
 
+struct courseList {
+	course* head;
+};
+
 struct classList 
 {
-	classYear *head;
+	classYear *head=NULL;
 	void addEmptyClass();
-
 };
 
 void input(const char path[], classYear&a);
 void output(const char path[], classYear &a);
 void viewListOfStudentsInAClass(const classList &a);
 void viewListOfClass(classList L);
+void importCourse(string path, courseList& a);
 
 #endif

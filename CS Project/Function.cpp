@@ -278,4 +278,81 @@ void user::changePassword()
 	system("pause");
 }
 
-void 
+void importCourse(string path, courseList& a) {
+	//	import courses from a .csv file
+	//	Nguyen Ho Huu Nghia
+	//	not finished yet
+
+	ifstream fin(path);
+	fin.ignore(10000, '\n');
+
+	a.head = NULL;
+	if (fin.good()) {
+
+		course* cur;
+
+		//	start reading students' info
+		string course_code, course_name, lecturer_username, temp_course_year, temp_semester, temp_day, temp_month, temp_year;
+		int course_year, semester, day, month, year;
+
+		while (fin.good()) {
+
+			getline(fin, course_code, ',');
+			getline(fin, course_name, ',');
+			getline(fin, lecturer_username, ',');
+			getline(fin, temp_course_year, ',');
+			course_year = stoi(temp_course_year);
+			getline(fin, temp_semester, ',');
+			semester = stoi(temp_semester);
+			getline(fin, temp_day, '/');
+			day = stoi(temp_day);
+			getline(fin, temp_month, '/');
+			month = stoi(temp_month);
+			getline(fin, temp_year, ',');
+			year = stoi(temp_year);
+
+
+			if (a.head == NULL) {
+				a.head = new course;
+				a.head->course_code = course_code;
+				a.head->course_name = course_name;
+				a.head->lecturer_username = lecturer_username;
+				a.head->start_date.day = day;
+				a.head->start_date.month = month;
+				a.head->start_date.day = day;
+				getline(fin, temp_day, '/');
+				day = stoi(temp_day);
+				getline(fin, temp_month, '/');
+				month = stoi(temp_month);
+				getline(fin, temp_year, ',');
+				year = stoi(temp_year);
+				a.head->end_date.day = day;
+				a.head->end_date.month = month;
+				a.head->end_date.year = year;
+				a.head->next = NULL;
+				cur = a.head;
+			}
+			else {
+				cur->next = new course;
+				cur = cur->next;
+				cur->course_code = course_code;
+				cur->course_name = course_name;
+				cur->lecturer_username = lecturer_username;
+				cur->start_date.day = day;
+				cur->start_date.month = month;
+				cur->start_date.day = day;
+				getline(fin, temp_day, '/');
+				day = stoi(temp_day);
+				getline(fin, temp_month, '/');
+				month = stoi(temp_month);
+				getline(fin, temp_year, ',');
+				year = stoi(temp_year);
+				cur->end_date.day = day;
+				cur->end_date.month = month;
+				cur->end_date.year = year;
+				cur->next = NULL;
+			}
+		}
+	}
+	fin.close();
+}
