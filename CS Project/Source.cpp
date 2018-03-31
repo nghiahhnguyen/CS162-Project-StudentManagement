@@ -22,13 +22,9 @@ int main() {
 	readUser("Test User.txt", user_pointer);
 	generateUsernameAndPassword(user_pointer);*/
 
-	a.head->changePassword();
-	cout << endl;
-	cout << a.head->password << endl;
-
-	classList L;
-	L.head = &a;
-	viewListOfClass(L);
+	courseList L;
+	L.addNewCourse();
+	L.addNewCourse();
 
 	system("pause");
 	return 0;
