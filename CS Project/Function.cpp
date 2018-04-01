@@ -355,7 +355,6 @@ void importCourse(string path, courseList& a) {
 	}
 	fin.close();
 }
-
 void editExistedCourse(courseList &a) {
 	//	edit the details about an existing course
 	//	by Nguyen Ho Huu Nghia
@@ -421,4 +420,38 @@ void editExistedCourse(courseList &a) {
 		if (temp == 0)
 			break;
 	}
+  
+void courseList::addNewCourse()
+{
+	//Nguyen Vo Duc Loc
+	//add a new empty course to List
+
+	string name, code;
+
+	cin.get();
+	cout << "pls enter your course name: ";
+	getline(cin, name);
+	
+	cout << "pls enter your course code: ";
+	cin >> code;
+	
+	course *cur = head;
+	if (head == NULL)
+	{
+		head = new course;
+		head->course_name = name;
+		head->course_code = code;
+		head->next = NULL;
+		cout << "you add a new course successfully" << endl;
+		return;
+	}
+	else
+		while (cur->next != NULL)
+			cur = cur->next;
+	cur->next = new course;
+	cur = cur->next;
+	cur->next = NULL;
+	cur->course_name = name;
+	cur->course_code = code;
+	cout << "you add a new course successfully" << endl;
 }

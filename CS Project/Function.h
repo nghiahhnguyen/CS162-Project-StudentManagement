@@ -81,8 +81,10 @@ struct course {
 	course* next;
 };
 
-struct courseList {
-	course* head;
+struct courseList 
+{
+	course* head=NULL;
+	void addNewCourse();
 };
 
 struct classList 
