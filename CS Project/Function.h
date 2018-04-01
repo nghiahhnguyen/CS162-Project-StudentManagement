@@ -8,7 +8,6 @@
 #include <string>
 #include <iomanip>
 #include <conio.h>
-#include <Windows.h>
 
 using namespace std;
 
@@ -99,5 +98,6 @@ void output(const char path[], classYear &a);
 void viewListOfStudentsInAClass(const classList &a);
 void viewListOfClass(classList L);
 void importCourse(string path, courseList& a);
+void editExistingCourse(courseList &a);
 
 #endif

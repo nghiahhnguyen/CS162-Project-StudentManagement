@@ -281,7 +281,6 @@ void user::changePassword()
 void importCourse(string path, courseList& a) {
 	//	import courses from a .csv file
 	//	Nguyen Ho Huu Nghia
-	//	not finished yet
 
 	ifstream fin(path);
 	fin.ignore(10000, '\n');
@@ -356,7 +355,72 @@ void importCourse(string path, courseList& a) {
 	}
 	fin.close();
 }
-//----------------------------------------------------------
+void editExistedCourse(courseList &a) {
+	//	edit the details about an existing course
+	//	by Nguyen Ho Huu Nghia
+
+	while(true){
+		int temp;
+		cout << "Enter the code of the course you want to edit: ";
+		string course_code;
+		cin >> course_code;
+
+		//	traverse the course list until the course is found or
+		//	there is no course left
+		course* cur = a.head;
+		while (cur && course_code.compare(cur->course_code))
+			cur = cur->next;
+
+		//	if there is no course left
+		if (!cur){
+			cout << "Course not found";
+		}
+		//	if the course is found
+		else {
+			while(true){
+				cout << "Enter the number of the action you want to take:\n"
+					<< "1. Edit the course code\n"
+					<< "2. Edit the course name\n"
+					<< "3. Edit the lecturer username\n"
+					<< "4. Edit the year the course takes place\n"
+					<< "5. Edit the semester the course takes place\n";
+				cin >> temp;
+				switch (temp) {
+				case 1:
+					cout << "Enter the new course code: ";
+					cin >> cur->course_code;
+					break;
+				case 2:
+					cout << "Enter the new course name: ";
+					cin >> cur->course_name;
+					break;
+				case 3:
+					cout << "Enter the new lecturer username: ";
+					cin >> cur->lecturer_username;
+					break;
+				case 4:
+					cout << "Enter the new year: ";
+					cin >> cur->year;
+					break;
+				case 5:
+					cout << "Enter the new semester: ";
+					cin >> cur->semester;
+					break;
+				}
+				system("cls");
+				cout << "The new information has been added.\n"
+					<< "Do you want to edit any other information about this course?\nEnter 0 for \"no\" and 1 for \"yes\"\n";
+				if (temp == 0)
+					break;
+			}
+		}
+		cout << "Do you want to edit another course?\n"
+			<< "Enter 1 if you do and 0 if you don't:\n";
+		cin >> temp;
+		if (temp == 0)
+			break;
+	}
+  
 void courseList::addNewCourse()
 {
 	//Nguyen Vo Duc Loc
