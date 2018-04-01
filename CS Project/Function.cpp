@@ -356,3 +356,127 @@ void importCourse(string path, courseList& a) {
 	}
 	fin.close();
 }
+void AddNewStudentToClass(classList L, classYear &a)
+{
+	// Vy Vy
+	// Finished
+
+	string classname;
+	cout << "Which class you want to add new student? ";
+	cin >> classname;
+
+	classYear *cur = L.head;
+	while (cur && cur->class_name.compare(classname)) {
+		// if == return false 
+		cur = cur->next;
+	}
+	if (!cur) {		//cur==NULL
+		cout << "No class found.\n";
+		return;
+	}
+	else if (!cur->class_name.compare(classname)) {	//return false
+		student *add = a.head;
+		cout << "Enter new student's ID: ";
+		int newid;
+		cin >> newid;
+		//char full_name[101];
+		if (newid < add->id) {
+			student *tmp = new student;
+			tmp->id = newid;
+			tmp->class_name = classname;
+			cout << "New student's name: ";
+			cin.ignore(100, '\n');
+			getline(cin, tmp->full_name);
+			cout << "Phone number: ";
+			getline(cin, tmp->phone);
+			cout << "Email: ";
+			getline(cin, tmp->email);
+			tmp->next = add;
+			a.head = tmp;
+		}
+		else {
+			while (add->next && add->next->id < newid) {
+				add = add->next;
+			}
+			if (!add->next) {
+				add->next = new student;
+				add->id = newid;
+				add->class_name = classname;
+				cout << "New student's name: ";
+				cin.ignore(100, '\n');
+				getline(cin, add->full_name);
+				cout << "Phone number: ";
+				getline(cin, add->phone);
+				cout << "Email: ";
+				getline(cin, add->email);
+				add->next = NULL;
+			}
+			else {
+				student *tmp = new student;
+				tmp->id = newid;
+				tmp->class_name = classname;
+				cout << "New student's name: ";
+				cin.ignore(100, '\n');
+				getline(cin, tmp->full_name);
+				cout << "Phone number: ";
+				getline(cin, tmp->phone);
+				cout << "Email: ";
+				getline(cin, tmp->email);
+				tmp->next = add->next;
+				add->next = tmp;
+			}
+		}
+	}
+}
+void EditStudent(classList L, classYear a)
+{
+	// Vy Vy
+	// Finished
+
+	string classname;
+	cout << "Which class you want to edit an existing student? ";
+	cin >> classname;
+
+	classYear *cur = L.head;
+	while (cur && cur->class_name.compare(classname)) {
+		// if == return false 
+		cur = cur->next;
+	}
+	if (!cur) {		//cur==NULL
+		cout << "Sorry. No class found.\n";
+		return;
+	}
+	else if (!cur->class_name.compare(classname)) {	//return false
+		student *edit = a.head;
+		cout << "Enter student ID: ";
+		int newid;
+		cin >> newid;
+		while (edit && newid != edit->id) {
+			edit = edit->next;
+		}
+		if (!edit) {
+			cout << "Sorry. No student found.\n";
+			return;
+		}
+		else {
+			cout << "What info do you want to edit?\n";
+			cout << "1. Phone number\n";
+			cout << "2. Email\n";
+			cout << "Please enter the appropriate number: ";
+			int n;
+			cin >> n;
+
+			switch (n) {
+			case 1: {
+				cout << "Please enter new phone number: ";
+				cin >> edit->phone;
+				break;
+			}
+			default: {
+				cout << "Please enter new email: ";
+				cin >> edit->email;
+			}
+			}
+		}
+	}
+}
