@@ -356,7 +356,7 @@ void importCourse(string path, courseList& a) {
 	fin.close();
 }
 
-void editExistedCourse(courseList &a) {
+void editExistingCourse(courseList &a) {
 	//	edit the details about an existing course
 	//	by Nguyen Ho Huu Nghia
 
