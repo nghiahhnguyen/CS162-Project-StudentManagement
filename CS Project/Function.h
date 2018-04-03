@@ -8,7 +8,6 @@
 #include <string>
 #include <iomanip>
 #include <conio.h>
-#include <Windows.h>
 
 using namespace std;
 
@@ -82,8 +81,10 @@ struct course {
 	course* next;
 };
 
-struct courseList {
-	course* head;
+struct courseList 
+{
+	course* head=NULL;
+	void addNewCourse();
 };
 
 struct classList 
@@ -97,5 +98,6 @@ void output(const char path[], classYear &a);
 void viewListOfStudentsInAClass(const classList &a);
 void viewListOfClass(classList L);
 void importCourse(string path, courseList& a);
+void editExistingCourse(courseList &a);
 
 #endif
