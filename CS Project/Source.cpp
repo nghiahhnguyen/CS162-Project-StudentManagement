@@ -1,7 +1,7 @@
 #include "Function.h"
 
 int main() {
-  classYear a;
+	classYear a;
 	char path[] = "17APCS1-Students.csv";
 	char path2[] = "Output.csv";
 
