@@ -5,7 +5,6 @@ void input(const char path[], classYear &a)
 	//	load an entire new class from a .csv file;
 	//	Nguyen Ho Huu Nghia
 
-	a.head = NULL;
 	ifstream fin(path);
 	if (fin.good()) {
 		//	ignore Class,
@@ -363,7 +362,6 @@ void AddNewStudentToClass(classList L, classYear &a)
 	string classname;
 	cout << "Which class you want to add new student? ";
 	cin >> classname;
-
 	classYear *cur = L.head;
 	while (cur && cur->class_name.compare(classname)) {
 		// if == return false 
@@ -544,7 +542,9 @@ void editExistedCourse(courseList &a) {
 		if (temp == 0)
 			break;
 	}
-  
+}
+
+
 void courseList::addNewCourse()
 {
 	//Nguyen Vo Duc Loc
@@ -578,4 +578,378 @@ void courseList::addNewCourse()
 	cur->course_name = name;
 	cur->course_code = code;
 	cout << "you add a new course successfully" << endl;
+}
+
+//	Don't mind this function, it's for experimental purpose for later UI
+void gotoxy(int x, int y)
+{
+	COORD coord;
+	coord.X = x;
+	coord.Y = y;
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
+}
+
+void showMenu(classList class_list, courseList course_list, userList staff, userList lecturer) {
+
+	//	Show the menu for a student
+	//	By Nguyen Ho Huu Nghia
+
+	bool check = true;
+	while(check){
+
+		system("cls");
+		cout << "\t\t\t\tSTUDENT MANAGEMENT PROGRAM\n"
+			<< "\t\t*********************************************************\n\n\n" 
+			<< "Enter the number corresponding to your role:\n"
+			<< "[1] Student\n"
+			<< "[2] Academic Staff\n"
+			<< "[3] Lecturer\n\n"
+			<< "Your answer: ";
+		
+		int answer;
+		cin >> answer;
+
+		//	if the user is a student
+		if(answer==1){
+
+			bool check_1 = true, check_2 = true;
+			while (check_1) {
+				int temp;
+				student* cur_student = class_list.head->head;
+
+
+				system("cls");
+				cout << "\t\t\t\tSTUDENT MANAGEMENT PROGRAM\n"
+					<< "\t\t*********************************************************\n\n\n"
+					<< "LOG IN\n"
+					<< "Username: ";
+				string username, password;
+				cin >> username;
+				cout << "Password: ";
+				cin >> password;
+
+
+				//	Check if there is any student matching the log in info
+				while (true) {
+					while (cur_student && (username.compare(to_string(cur_student->id)) || password.compare(cur_student->password)))
+						cur_student = cur_student->next;
+
+					//	if there is a user
+					if (!username.compare(to_string(cur_student->id)))
+						break;
+
+					system("cls");
+					cout << "\t\t\t\tSTUDENT MANAGEMENT PROGRAM\n"
+						<< "\t\t*********************************************************\n\n"
+						<< "The username and password match no student\n"
+						<< "LOG IN\n"
+						<< "Username: ";
+					getline(cin, username);
+					cout << "Password: ";
+					getline(cin, password);
+				}
+
+
+				system("cls");
+				cout << "\t\t\t\tSTUDENT MANAGEMENT PROGRAM\n"
+					<< "\t\t*********************************************************\n\n";
+
+				cout << "Enter the number corresponding to the action you want to take: \n"
+					<< "[1] Show main menu\n"
+					<< "[2] Show my information\n"
+					<< "[3] Change password\n"
+					<< "[4] Log out\n"
+					<< "Your answer: ";
+
+				cin >> temp;
+
+				if (temp == 1) {
+					int temp_1;
+
+					while (check_2) {
+
+						system("cls");
+						cout << "\t\t\t\t\tSTUDENT MANAGEMENT PROGRAM\n"
+							<< "\t\t*********************************************************\n\n";
+
+						cout << "Enter the number corresponding to the action you want to take: \n"
+							<< "[1] Check-in\n"
+							<< "[2] View check-in result\n"
+							<< "[3] View my scores\n"
+							<< "[4] View schedules\n"
+							<< "[5] Back to the previous menu\n"
+							<< "Your answer: ";
+
+						cin >> temp_1;
+
+						if (temp_1 == 1) {
+
+						}
+						else if (temp_1 == 2) {
+
+						}
+						else if (temp_1 == 3) {
+
+						}
+						else if (temp_1 == 4) {
+
+						}
+						else if (temp_1 == 5) {
+							break;
+						}
+					}
+				}
+				else if (temp == 2) {
+
+				}
+				else if (temp == 3) {
+
+				}
+				else if (temp == 4) {
+					break;
+				}
+				system("cls");
+				cout << "\t\t\t\tSTUDENT MANAGEMENT PROGRAM\n"
+					<< "\t\t*********************************************************\n\n";
+
+				cout << "Enter the number corresponding to the action you want to take: \n"
+					<< "[1] Show main menu\n"
+					<< "[2] Show my information\n"
+					<< "[3] Change password\n"
+					<< "[4] Log out\n"
+					<< "Your answer: ";
+
+				cin >> temp;
+			}
+			continue;
+		}
+
+		//	if the user is an academic staff
+		else if (answer == 2) {
+			bool check_1 = true, check_2 = true;
+			while (check_1) {
+				int temp;
+				user* cur_user = staff.head;
+
+
+				system("cls");
+				cout << "\t\t\t\tSTUDENT MANAGEMENT PROGRAM\n"
+					<< "\t\t*********************************************************\n\n\n"
+					<< "LOG IN\n"
+					<< "Username: ";
+				string username, password;
+				cin >> username;
+				cout << "Password: ";
+				cin >> password;
+
+
+				//	Check if there is any staff matching the log in info
+				while (true) {
+					while (cur_user && (username.compare(cur_user->username) || password.compare(cur_user->password)))
+						cur_user = cur_user->next;
+
+					//	if there is a staff that match the log in info
+					if (!username.compare(cur_user->username))
+						break;
+
+					//	if there is none then repeat
+					system("cls");
+					cout << "\t\t\t\tSTUDENT MANAGEMENT PROGRAM\n"
+						<< "\t\t*********************************************************\n\n"
+						<< "The username and password match no academic staff\n"
+						<< "LOG IN\n"
+						<< "Username: ";
+					getline(cin, username);
+					cout << "Password: ";
+					getline(cin, password);
+				}
+
+
+				system("cls");
+				cout << "\t\t\t\tSTUDENT MANAGEMENT PROGRAM\n"
+					<< "\t\t*********************************************************\n\n";
+
+				cout << "Enter the number corresponding to the action you want to take: \n"
+					<< "[1] Show main menu\n"
+					<< "[2] Show my information\n"
+					<< "[3] Change password\n"
+					<< "[4] Log out\n"
+					<< "Your answer: ";
+
+				cin >> temp;
+
+				if (temp == 1) {
+					int temp_1;
+
+					while (check_2) {
+
+						system("cls");
+						cout << "\t\t\t\t\tSTUDENT MANAGEMENT PROGRAM\n"
+							<< "\t\t*********************************************************\n\n";
+
+						cout << "Enter the number corresponding to the group of actions you want to take: \n"
+							<< "[1] Classes and students\n"
+							<< "[2] Courses\n"
+							<< "[3] Schedules\n"
+							<< "[4] Attendance\n"
+							<< "[5] Scoreboard\n"
+							<< "[6] Back to the previous menu\n"
+							<< "Your answer: ";
+
+						cin >> temp_1;
+
+						if (temp_1 == 1) {
+
+						}
+						else if (temp_1 == 2) {
+
+						}
+						else if (temp_1 == 3) {
+
+						}
+						else if (temp_1 == 4) {
+
+						}
+						else if (temp_1 == 5) {
+
+						}
+						else if (temp_1 == 6) {
+							break;
+						}
+					}
+				}
+				else if (temp == 2) {
+
+				}
+				else if (temp == 3) {
+
+				}
+				else if (temp == 4) {
+					break;
+				}
+				system("cls");
+				cout << "\t\t\t\tSTUDENT MANAGEMENT PROGRAM\n"
+					<< "\t\t*********************************************************\n\n";
+
+				cout << "Enter the number corresponding to the action you want to take: \n"
+					<< "[1] Show main menu\n"
+					<< "[2] Show my information\n"
+					<< "[3] Change password\n"
+					<< "[4] Log out\n"
+					<< "Your answer: ";
+
+				cin >> temp;
+			}
+			continue;
+		}
+		else if(answer==3) {
+			bool check_1 = true, check_2 = true;
+			while (check_1) {
+				int temp;
+				user* cur_user = lecturer.head;
+
+
+				system("cls");
+				cout << "\t\t\t\tSTUDENT MANAGEMENT PROGRAM\n"
+					<< "\t\t*********************************************************\n\n\n"
+					<< "LOG IN\n"
+					<< "Username: ";
+				string username, password;
+				cin >> username;
+				cout << "Password: ";
+				cin >> password;
+
+
+				//	Check if there is any lecturer matching the log in info
+				while (true) {
+					while (cur_user && (username.compare(cur_user->username) || password.compare(cur_user->password)))
+						cur_user = cur_user->next;
+
+					//	if there is a lecturer matching the log in info
+					if (!username.compare(cur_user->username))
+						break;
+
+					//	if there is none then repeat
+					system("cls");
+					cout << "\t\t\t\tSTUDENT MANAGEMENT PROGRAM\n"
+						<< "\t\t*********************************************************\n\n"
+						<< "The username and password match no lecturer\n"
+						<< "LOG IN\n"
+						<< "Username: ";
+					getline(cin, username);
+					cout << "Password: ";
+					getline(cin, password);
+				}
+
+
+				system("cls");
+				cout << "\t\t\t\tSTUDENT MANAGEMENT PROGRAM\n"
+					<< "\t\t*********************************************************\n\n";
+
+				cout << "Enter the number corresponding to the action you want to take: \n"
+					<< "[1] Show main menu\n"
+					<< "[2] Show my information\n"
+					<< "[3] Change password\n"
+					<< "[4] Log out\n"
+					<< "Your answer: ";
+
+				cin >> temp;
+
+				if (temp == 1) {
+					int temp_1;
+
+					while (check_2) {
+
+						system("cls");
+						cout << "\t\t\t\t\tSTUDENT MANAGEMENT PROGRAM\n"
+							<< "\t\t*********************************************************\n\n";
+
+						cout << "Enter the number corresponding to the action you want to take: \n"
+							<< "[1] Import scoreboard of a course(midterm, final, lab, bonus)\n"
+							<< "[2] Edit grade of a student\n"
+							<< "[3] View a scoreboard\n"
+							<< "[4] Back to the previous menu\n"
+							<< "Your answer: ";
+
+						cin >> temp_1;
+
+						if (temp_1 == 1) {
+
+						}
+						else if (temp_1 == 2) {
+
+						}
+						else if (temp_1 == 3) {
+
+						}
+						else if (temp_1 == 4) {
+							break;
+						}
+					}
+				}
+				else if (temp == 2) {
+
+				}
+				else if (temp == 3) {
+
+				}
+				else if (temp == 4) {
+					break;
+				}
+				system("cls");
+				cout << "\t\t\t\tSTUDENT MANAGEMENT PROGRAM\n"
+					<< "\t\t*********************************************************\n\n";
+
+				cout << "Enter the number corresponding to the action you want to take: \n"
+					<< "[1] Show main menu\n"
+					<< "[2] Show my information\n"
+					<< "[3] Change password\n"
+					<< "[4] Log out\n"
+					<< "Your answer: ";
+
+				cin >> temp;
+			}
+			continue;
+		}
+	}
 }
