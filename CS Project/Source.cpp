@@ -30,6 +30,8 @@ int main() {
 	L.head = &a;
 	viewListOfClass(L);
 
+	courseList b;
+
 	system("pause");
 	return 0;
 }

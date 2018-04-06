@@ -480,3 +480,33 @@ void EditStudent(classList L, classYear a)
 		}
 	}
 }
+void removeAcourse(courseList b)
+{
+	// Vy Vy
+	// Finished but haven't checked
+	
+	course* cur = b.head;
+	course* del;
+	string code;
+	cout << "Enter the course's code you want to remove: ";
+	getline(cin, code, '\n');
+
+	if (b.head || code == b.head->course_code) {		//1st course
+		del = b.head;
+		b.head = b.head->next;
+		delete del;
+		return;
+	}
+
+	while (cur->next || cur->next->course_code != code)
+		cur = cur->next;
+
+	if (cur->next) {
+		del = cur->next;
+		cur->next = del->next;
+		delete del;
+	}
+	else if (!cur->next) {
+		cout << "Sorry, the course you want to delete doesn't exist.\n";
+	}
+}
