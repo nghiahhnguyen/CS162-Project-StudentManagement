@@ -41,6 +41,8 @@ int main() {
 
 
 
+	courseList b;
+
 	system("pause");
 	return 0;
 }
