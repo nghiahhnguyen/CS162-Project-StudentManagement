@@ -106,6 +106,7 @@ void output(const char path[], classYear &a);
 void viewListOfStudentsInAClass(const classList &a);
 void viewListOfClass(classList L);
 void importCourse(string path, courseList& a);
+void removeAcourse(courseList b);
 void editExistingCourse(courseList &a);
 void gotoxy(int x, int y);
 void showMenu(classList class_list, courseList course_list, userList staff, userList lecturer);
