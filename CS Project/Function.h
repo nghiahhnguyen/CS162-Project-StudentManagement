@@ -8,7 +8,9 @@
 #include <string>
 #include <iomanip>
 #include <conio.h>
-#include <Windows.h>
+#include <stdio.h>
+#include <cstring>
+#include "windows.h"
 
 using namespace std;
 
@@ -41,6 +43,10 @@ struct user {
 	void generateUsernameAndPassword();
 };
 
+struct userList {
+	user* head;
+};
+
 struct date {
 	int day, month, year;
 };
@@ -70,11 +76,12 @@ struct presence {
 	string course_code;
 	int semester, id, year, week;
 	float midterm, lab, final, total;	//Thay bao cho them cot total
-	presence* next;						
+	char attendance[6];
+	presence* next;
 };
 
 struct course {
-	string course_code, course_name, lecturer_username;
+	string course_code, course_name, lecturer_username, room;
 	int year, semester;
 	date start_date, end_date;
 	session* head_session;
@@ -82,8 +89,10 @@ struct course {
 	course* next;
 };
 
-struct courseList {
-	course* head;
+struct courseList 
+{
+	course* head=NULL;
+	void addNewCourse();
 };
 
 struct classList 
@@ -97,5 +106,7 @@ void output(const char path[], classYear &a);
 void viewListOfStudentsInAClass(const classList &a);
 void viewListOfClass(classList L);
 void importCourse(string path, courseList& a);
-
+void editExistingCourse(courseList &a);
+void gotoxy(int x, int y);
+void showMenu(classList class_list, courseList course_list, userList staff, userList lecturer);
 #endif
