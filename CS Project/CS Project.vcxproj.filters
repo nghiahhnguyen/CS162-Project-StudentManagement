@@ -32,7 +32,7 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="17APCS1-Student.csv" />
-    <None Include="..\..\..\..\OneDrive - VNU-HCMUS\APCS\Computer Science\Project Final\Courses-Schedule.xlsx" />
-    <None Include="..\..\..\..\OneDrive - VNU-HCMUS\APCS\Computer Science\Project Final\CS161-Presence.xlsx" />
+    <None Include="Courses-Schedule.xlsx" />
+    <None Include="CS161-Presence.xlsx" />
   </ItemGroup>
 </Project>

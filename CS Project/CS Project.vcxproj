@@ -146,10 +146,10 @@
     <ClInclude Include="Function.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\..\OneDrive - VNU-HCMUS\APCS\Computer Science\Project Final\Courses-Schedule.xlsx" />
-    <None Include="..\..\..\..\OneDrive - VNU-HCMUS\APCS\Computer Science\Project Final\CS161-Presence.xlsx" />
     <None Include="17APCS1-Student.csv" />
     <None Include="17APCS1-Students.csv" />
+    <None Include="Courses-Schedule.xlsx" />
+    <None Include="CS161-Presence.xlsx" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
