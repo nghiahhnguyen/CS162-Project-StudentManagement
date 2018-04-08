@@ -26,11 +26,7 @@ struct student {
 	void generatePassword();
 };
 
-struct classYear {
-	string class_name;
-	student *head=NULL;
-	classYear* next=NULL;
-};
+
 
 struct user {
 	string username;
@@ -54,6 +50,10 @@ struct date {
 struct Time
 {
 	int hour, minute;
+	void operator=(Time& a) {
+		this->hour = a.hour;
+		this->minute = a.minute;
+	}
 };
 
 enum dateofweek {
@@ -70,8 +70,14 @@ struct session
 {
 	dateofweek session_day;
 	Time start, end;
+	void operator=(session &a) {
+		this->start = a.start;
+		this->end = a.end;
+		this->session_day = a.session_day;
+	}
 };
 
+//	stands for a student in a course
 struct presence {
 	string course_code;
 	int semester, id, year, week;
@@ -84,9 +90,16 @@ struct course {
 	string course_code, course_name, lecturer_username, room;
 	int year, semester;
 	date start_date, end_date;
-	session* head_session;
+	session course_session;
 	presence* head_presence;
 	course* next;
+};
+
+struct classYear {
+	string class_name;
+	student *head = NULL;
+	classYear* next = NULL;
+	course* head_course;
 };
 
 struct courseList 
@@ -110,4 +123,6 @@ void removeAcourse(courseList b);
 void editExistingCourse(courseList &a);
 void gotoxy(int x, int y);
 void showMenu(classList class_list, courseList course_list, userList staff, userList lecturer);
+void importCoursesSchedulesOfAClass(classYear cur_class, char path[]);
+void addACourseSchedule(courseList course_list);
 #endif

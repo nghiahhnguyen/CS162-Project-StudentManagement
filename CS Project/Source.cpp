@@ -16,6 +16,7 @@ int main() {
 	readUser("Test User.txt", user_pointer);
 	generateUsernameAndPassword(user_pointer);*/
 
+	
 	classList class_list;
 	courseList course_list;
 	userList staff, lecturer;

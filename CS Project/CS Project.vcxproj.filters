@@ -34,10 +34,10 @@
     <None Include="17APCS1-Student.csv">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="..\..\..\..\OneDrive - VNU-HCMUS\APCS\Computer Science\Project Final\Courses-Schedule.xlsx">
+    <None Include="Courses-Schedule.csv">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="..\..\..\..\OneDrive - VNU-HCMUS\APCS\Computer Science\Project Final\CS161-Presence.xlsx">
+    <None Include="CS161-Presence.csv">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
