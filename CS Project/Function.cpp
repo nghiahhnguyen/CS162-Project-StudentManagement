@@ -509,7 +509,7 @@ void removeAcourse(courseList b)
 	}
 }
 
-void editExistedCourse(courseList &a) {
+void editExistingCourse(courseList &a) {
 	//	edit the details about an existing course
 	//	by Nguyen Ho Huu Nghia
 
@@ -681,7 +681,7 @@ void showMenu(classList class_list, courseList course_list, userList staff, user
 					getline(cin, password);
 				}
 
-
+				//	first menu
 				system("cls");
 				cout << "\t\t\t\tSTUDENT MANAGEMENT PROGRAM\n"
 					<< "\t\t*********************************************************\n\n";
@@ -700,6 +700,7 @@ void showMenu(classList class_list, courseList course_list, userList staff, user
 
 					while (check_2) {
 
+						//	main menu
 						system("cls");
 						cout << "\t\t\t\t\tSTUDENT MANAGEMENT PROGRAM\n"
 							<< "\t\t*********************************************************\n\n";
@@ -874,6 +875,8 @@ void showMenu(classList class_list, courseList course_list, userList staff, user
 			}
 			continue;
 		}
+
+		//	if the user is a lecturer
 		else if(answer==3) {
 			bool check_1 = true, check_2 = true;
 			while (check_1) {
@@ -986,3 +989,297 @@ void showMenu(classList class_list, courseList course_list, userList staff, user
 	}
 }
 
+void importCoursesSchedulesOfAClass(classYear cur_class, char path[]) {
+	
+	//	import all courses' schedules of a single class from a .csv file
+	//	By Nguyen Ho Huu Nghia
+
+	//	open the file
+	ifstream fin;
+	fin.open(path);
+
+	//	check if file is succesfully opened
+	if (!fin.is_open()) {
+		cout << "File at the following address is not loaded: \n"
+			<< path <<endl;
+		fin.close();
+	}
+	else{
+
+
+		//	ignore the 1st line containing the name of columns
+		fin.ignore(10000, '\n');
+
+
+		cur_class.head_course = new course;
+		cur_class.head_course->next = NULL;
+		char buffer[5];
+
+		getline(fin, cur_class.head_course->course_code, ',');
+		getline(fin, cur_class.head_course->course_name, ',');
+		getline(fin, cur_class.head_course->lecturer_username, ',');
+
+		fin.getline(buffer, 5, ',');
+		cur_class.head_course->year = atoi(buffer);
+
+		fin.getline(buffer, 2, ',');
+		cur_class.head_course->semester = atoi(buffer);
+
+		//	start date
+		fin.getline(buffer, 3, '-');
+		cur_class.head_course->start_date.day = atoi(buffer);
+		fin.getline(buffer, 3, '-');
+		cur_class.head_course->start_date.month = atoi(buffer);
+		fin.getline(buffer, 5, ',');
+		cur_class.head_course->start_date.year = atoi(buffer);
+
+		//	end date
+		fin.getline(buffer, 3, '-');
+		cur_class.head_course->end_date.day = atoi(buffer);
+		fin.getline(buffer, 3, '-');
+		cur_class.head_course->end_date.month = atoi(buffer);
+		fin.getline(buffer, 5, ',');
+		cur_class.head_course->end_date.year = atoi(buffer);
+
+		fin.getline(buffer, 2, ',');
+		switch (atoi(buffer)) {
+		case 1:
+			cur_class.head_course->course_session.session_day = sunday;
+			break;
+		case 2:
+			cur_class.head_course->course_session.session_day = monday;
+			break;
+		case 3:
+			cur_class.head_course->course_session.session_day = tuesday;
+			break;
+		case 4:
+			cur_class.head_course->course_session.session_day = wednesday;
+			break;
+		case 5:
+			cur_class.head_course->course_session.session_day = thursday;
+			break;
+		case 6:
+			cur_class.head_course->course_session.session_day = friday;
+			break;
+		case 7:
+			cur_class.head_course->course_session.session_day = saturday;
+			break;
+		}
+		//	Start time
+		fin.getline(buffer, 3, ':');
+		cur_class.head_course->course_session.start.hour = atoi(buffer);
+		fin.getline(buffer, 3, ',');
+		cur_class.head_course->course_session.start.minute = atoi(buffer);
+
+		//	End time
+		fin.getline(buffer, 3, ':');
+		cur_class.head_course->course_session.end.hour = atoi(buffer);
+		fin.getline(buffer, 3, ',');
+		cur_class.head_course->course_session.end.minute = atoi(buffer);
+
+		getline(fin, cur_class.head_course->room, '\n');
+
+		/*
+		cur_class.head_course->course_code = course_code;
+		cur_class.head_course->course_name = course_name;
+		cur_class.head_course->lecturer_username = lecturer_username;
+		cur_class.head_course->year = year;
+		cur_class.head_course->semester = semester;
+		cur_class.head_course->start_date = start_date;
+		cur_class.head_course->end_date = end_date;
+		cur_class.head_course->course_session = course_session;
+		cur_class.head_course->room = room;
+		*/
+
+		course* cur_course = cur_class.head_course;
+		cur_course->next = new course;
+		cur_course = cur_course->next;
+		cur_course->next = NULL;
+
+		while (fin.good()) {
+			getline(fin, cur_course->course_code, ',');
+			getline(fin, cur_course->course_name, ',');
+			getline(fin, cur_course->lecturer_username, ',');
+
+			fin.getline(buffer, 5, ',');
+			cur_course->year = atoi(buffer);
+
+			fin.getline(buffer, 2, ',');
+			cur_course->semester = atoi(buffer);
+
+			//	start date
+			fin.getline(buffer, 3, '-');
+			cur_course->start_date.day = atoi(buffer);
+			fin.getline(buffer, 3, '-');
+			cur_course->start_date.month = atoi(buffer);
+			fin.getline(buffer, 5, ',');
+			cur_course->start_date.year = atoi(buffer);
+
+			//	end date
+			fin.getline(buffer, 3, '-');
+			cur_course->end_date.day = atoi(buffer);
+			fin.getline(buffer, 3, '-');
+			cur_course->end_date.month = atoi(buffer);
+			fin.getline(buffer, 5, ',');
+			cur_course->end_date.year = atoi(buffer);
+
+			fin.getline(buffer, 2, ',');
+			switch (atoi(buffer)) {
+			case 1:
+				cur_course->course_session.session_day = sunday;
+				break;
+			case 2:
+				cur_course->course_session.session_day = monday;
+				break;
+			case 3:
+				cur_course->course_session.session_day = tuesday;
+				break;
+			case 4:
+				cur_course->course_session.session_day = wednesday;
+				break;
+			case 5:
+				cur_course->course_session.session_day = thursday;
+				break;
+			case 6:
+				cur_course->course_session.session_day = friday;
+				break;
+			case 7:
+				cur_course->course_session.session_day = saturday;
+				break;
+			}
+			//	Start time
+			fin.getline(buffer, 3, ':');
+			cur_course->course_session.start.hour = atoi(buffer);
+			fin.getline(buffer, 3, ',');
+			cur_course->course_session.start.minute = atoi(buffer);
+
+			//	End time
+			fin.getline(buffer, 3, ':');
+			cur_course->course_session.end.hour = atoi(buffer);
+			fin.getline(buffer, 3, ',');
+			cur_course->course_session.end.minute = atoi(buffer);
+
+			getline(fin, cur_course->room, '\n');
+
+			cur_course->next = new course;
+			cur_course = cur_course->next;
+			cur_course->next = NULL;
+		}
+		fin.close();
+	}
+
+}
+
+void addACourseSchedule(courseList course_list) {
+	
+	//	add a new course at the end of the course list and let the user type in its schedule
+	//	by Nguyen Ho Huu Nghia
+
+	//	create a new object of course
+	course* cur_course;
+	if (course_list.head == NULL){
+		course_list.head = new course;
+		cur_course = course_list.head;
+	}
+	else {
+		while (cur_course->next)
+			cur_course = cur_course->next;
+		cur_course->next = new course;
+		cur_course = cur_course->next;
+	}
+	
+	char buffer[100];
+	system("cls");
+	cout << "Enter the course code: ";
+	cin >> cur_course->course_code;
+
+	system("cls");
+	cout << "Enter the course name: ";
+	cin.ignore();
+	cin.getline(buffer, 100, '\n');
+	cur_course->course_name = buffer;
+
+	system("cls");
+	cout << "Enter the course lecturer username: ";
+	cin.getline(buffer, 100, '\n');
+	cur_course->lecturer_username = buffer;
+	system("cls");
+	cout << "Enter the year in which the course take place: ";
+	cin >> cur_course->year;
+	system("cls");
+	cout << "Enter the semester in which the course take place: ";
+	cin >> cur_course->semester;
+	system("cls");
+
+	cout << "Enter the start date in the format of dd/mm/yyyy";
+	cin.ignore();
+	cin.getline(buffer, 3, '/');
+	cur_course->start_date.day = atoi(buffer);
+	cin.getline(buffer, 3, '/');
+	cur_course->start_date.month = atoi(buffer);
+	cin.getline(buffer, 5, '\n');
+	cur_course->start_date.year = atoi(buffer);
+
+	system("cls");
+	cout << "Enter the end date in the format of dd/mm/yyyy";
+	cin.getline(buffer, 3, '/');
+	cur_course->end_date.day = atoi(buffer);
+	cin.getline(buffer, 3, '/');
+	cur_course->end_date.month = atoi(buffer);
+	cin.getline(buffer, 5, '\n');
+	cur_course->end_date.year = atoi(buffer);
+
+	system("cls");
+	cout << "Enter the day of the week in which the session take place:\n"
+		<< "[1] Sunday\n"
+		<< "[2] Monday\n"
+		<< "[3] Tuesday\n"
+		<< "[4] Wednesday\n"
+		<< "[5] Thursday\n"
+		<< "[6] Friday\n"
+		<< "[7] Saturday\n";
+	int temp;
+	cin >> temp;
+	switch (temp) {
+	case 1:
+		cur_course->course_session.session_day = sunday;
+		break;
+	case 2:
+		cur_course->course_session.session_day = monday;
+		break;
+	case 3:
+		cur_course->course_session.session_day = tuesday;
+		break;
+	case 4:
+		cur_course->course_session.session_day = wednesday;
+		break;
+	case 5:
+		cur_course->course_session.session_day = thursday;
+		break;
+	case 6:
+		cur_course->course_session.session_day = friday;
+		break;
+	case 7:
+		cur_course->course_session.session_day = saturday;
+		break;
+	}
+
+	system("cls");
+	cout << "Enter the start time of the session in the format hh:mm : ";
+	cin.get();
+	cin.getline(buffer, 3, ':');
+	cur_course->course_session.start.hour = atoi(buffer);
+	cin.getline(buffer, 3, '\n');
+	cur_course->course_session.start.minute = atoi(buffer);
+
+	system("cls");
+	cout << "Enter the end time of the session in the format hh:mm : ";
+	cin.getline(buffer, 3, ':');
+	cur_course->course_session.end.hour = atoi(buffer);
+	cin.getline(buffer, 3, '\n');
+	cur_course->course_session.end.minute = atoi(buffer);
+
+	system("cls");
+	cout << "Enter the name of the room in which the session takes place: ";
+	cin >> cur_course->room;
+}
