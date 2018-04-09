@@ -125,4 +125,10 @@ void gotoxy(int x, int y);
 void showMenu(classList class_list, courseList course_list, userList staff, userList lecturer);
 void importCoursesSchedulesOfAClass(classYear cur_class, char path[]);
 void addACourseSchedule(courseList course_list);
+void moveStudentsFromClassAToB(classList a);
+bool exit();
+void exportPresence(string path, course a);
+course* searchCourse(string a, course *b);
+void viewScore(course* a);
+void viewCourseList(course* a);
 #endif

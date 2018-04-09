@@ -1283,3 +1283,145 @@ void addACourseSchedule(courseList course_list) {
 	cout << "Enter the name of the room in which the session takes place: ";
 	cin >> cur_course->room;
 }
+
+bool exit() {
+	bool t;
+	cout << "Do you want to exit ? not 0 =YES, 0=NO : ";
+	cin >> t;
+	return t;
+}
+
+void moveStudentsFromClassAToB(classList a) {
+
+	//	By NT Tung
+
+	bool t;
+	if (t) return;
+	string name;
+	classYear *cur = a.head, *ca, *cb;
+	bool input = false;
+	do {
+		cout << "Enter a class to transfer from :";
+		cin >> name;
+		cout << endl;
+		while (cur->class_name != name && cur != NULL) {
+			cur = cur->next;
+		}
+		if (cur != NULL) {
+			ca = cur;
+			input = true;
+		}
+	} while (!input);
+	if (t) return;
+	cur = a.head;
+	input = false;
+	do {
+		cout << "Enter a class to transfer to :";
+		cin >> name;
+		cout << endl;
+		while (cur->class_name != name && cur != NULL) {
+			cur = cur->next;
+		}
+		if (cur != NULL) {
+			cb = cur;
+			if (cb != ca)
+				input = true;
+		}
+	} while (!input);
+	if (t) return;
+	student *p = ca->head, *ini = ca->head;
+	bool discont = false;
+	bool trans;
+	while (!discont&&p->next != NULL) {
+		cout << "Transfer this student out ? not 0 =YES, 0=NO :";
+		cout << p->next->id;
+		cout << endl;
+		cout << p->next->full_name;
+		cout << endl;
+		cout << p->next->class_name;
+		cout << endl;
+		cout << p->next->password;
+		cout << endl;
+		cout << p->next->email;
+		cout << endl;
+		cout << p->next->phone;
+		cout << endl;
+		cin >> trans;
+		cout << endl;
+		if (trans) {
+			student *tmp = p->next;
+			p->next = p->next->next;
+			tmp->next = cb->head;
+			cb->head = tmp;
+		}
+		else p = p->next;
+		cout << "Discontinue or not ? not 0 = YES, 0 = NO :";
+		cin >> discont;
+		if (discont) break;
+	}
+	cout << "Transfer this student out ? not 0 =YES, 0=NO :";
+	cout << ini->id;
+	cout << endl;
+	cout << ini->full_name;
+	cout << endl;
+	cout << ini->class_name;
+	cout << endl;
+	cout << ini->password;
+	cout << endl;
+	cout << ini->email;
+	cout << endl;
+	cout << ini->phone;
+	cout << endl;
+	cin >> trans;
+	cout << endl;
+	if (trans) {
+		ca->head = ini->next;
+		ini->next = cb->head;
+		cb->head = ini;
+	}
+	return;
+}
+void exportPresence(string path, course a) {
+
+	//	By NT Tung
+
+	ofstream fout;
+	fout.open(path);
+	presence *cur = a.head_presence;
+	fout << a.course_code << endl;
+	while (cur != NULL) {
+		fout << cur->id << endl;
+		cur = cur->next;
+	}
+}
+course* searchCourse(string a, course *b) {
+
+	//	By NT Tung
+
+	while (b != NULL) {
+		if (b->course_code == a) return b;
+		b = b->next;
+	}
+	return NULL;
+}
+void viewScore(course* a) {
+
+	//	By NT Tung
+
+	presence* cur = a->head_presence;
+	cout << "Scoreboard of " << a->course_code << endl;
+	while (cur != NULL) {
+		cout << "ID : " << cur->id << " Midterm : " << cur->midterm << " Lab : " << cur->lab << " Final : " << cur->final << endl;
+		cur = cur->next;
+	}
+}
+void viewCourseList(course* a) {
+
+	//	By NT Tung
+
+	cout << "List of courses" << endl;
+	while (a != NULL) {
+		cout << "Course code : " << a->course_code << " Course name : " << a->course_name << endl;
+		a = a->next;
+	}
+}
