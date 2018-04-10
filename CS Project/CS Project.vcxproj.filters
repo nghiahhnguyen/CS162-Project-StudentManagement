@@ -31,8 +31,17 @@
     <None Include="17APCS1-Students.csv">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="17APCS1-Student.csv" />
-    <None Include="Courses-Schedule.xlsx" />
-    <None Include="CS161-Presence.xlsx" />
+    <None Include="17APCS1-Student.csv">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Courses-Schedule.csv">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="CS161-Presence.csv">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Courses.csv">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
