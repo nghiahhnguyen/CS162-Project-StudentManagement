@@ -1355,7 +1355,7 @@ bool exit() {
 	return t;
 }
 
-<<<<<<< HEAD
+
 void viewAttendance(courseList course_list, presence* head_presence)
 {
 	// Haven't checked
@@ -1387,7 +1387,7 @@ void viewAttendance(courseList course_list, presence* head_presence)
 			cout << endl;
 			student_presence = student_presence->next;
 		}
-=======
+
 void moveStudentsFromClassAToB(classList a) {
 
 	//	By NT Tung
@@ -1520,6 +1520,5 @@ void viewCourseList(course* a) {
 	while (a != NULL) {
 		cout << "Course code : " << a->course_code << " Course name : " << a->course_name << endl;
 		a = a->next;
->>>>>>> master
 	}
 }
