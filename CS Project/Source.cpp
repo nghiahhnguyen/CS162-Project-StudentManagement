@@ -16,7 +16,6 @@ int main() {
 	readUser("Test User.txt", user_pointer);
 	generateUsernameAndPassword(user_pointer);*/
 
-	/*
 	classList class_list;
 	courseList course_list;
 	userList staff, lecturer;
@@ -40,17 +39,6 @@ int main() {
 
 	showMenu(class_list, course_list, staff, lecturer);
 
-	*/
-
-	courseList a;
-
-	importCourses("Courses.csv", a);
-
-	classList class_list;
-	class_list.head = new classYear;
-	class_list.head->class_name = "apcs";
-	importCoursesSchedulesOfAClass(a, class_list.head, "Courses-Schedule.csv");
-	addACourseSchedule(a, class_list);
 	system("pause");
 	return 0;
 }
