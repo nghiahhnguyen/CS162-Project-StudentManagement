@@ -277,7 +277,7 @@ void user::changePassword()
 	system("pause");
 }
 
-void importCourse(string path, courseList& a) {
+void importCourses(string path, courseList& a) {
 	//	import courses from a .csv file
 	//	Nguyen Ho Huu Nghia
 
@@ -290,70 +290,69 @@ void importCourse(string path, courseList& a) {
 		course* cur;
 
 		//	start reading students' info
-		string course_code, course_name, lecturer_username, temp_course_year, temp_semester, temp_day, temp_month, temp_year;
-		int course_year, semester, day, month, year;
+		string buffer;
 
 		while (fin.good()) {
 
-			getline(fin, course_code, ',');
-			getline(fin, course_name, ',');
-			getline(fin, lecturer_username, ',');
-			getline(fin, temp_course_year, ',');
-			course_year = stoi(temp_course_year);
-			getline(fin, temp_semester, ',');
-			semester = stoi(temp_semester);
-			getline(fin, temp_day, '/');
-			day = stoi(temp_day);
-			getline(fin, temp_month, '/');
-			month = stoi(temp_month);
-			getline(fin, temp_year, ',');
-			year = stoi(temp_year);
-
-
 			if (a.head == NULL) {
 				a.head = new course;
-				a.head->course_code = course_code;
-				a.head->course_name = course_name;
-				a.head->lecturer_username = lecturer_username;
-				a.head->start_date.day = day;
-				a.head->start_date.month = month;
-				a.head->start_date.day = day;
-				getline(fin, temp_day, '/');
-				day = stoi(temp_day);
-				getline(fin, temp_month, '/');
-				month = stoi(temp_month);
-				getline(fin, temp_year, ',');
-				year = stoi(temp_year);
-				a.head->end_date.day = day;
-				a.head->end_date.month = month;
-				a.head->end_date.year = year;
+				getline(fin, a.head->course_code, ',');
+				getline(fin, a.head->course_name, ',');
+				getline(fin, a.head->lecturer_username, ',');
+				getline(fin, a.head->year, ',');
+				getline(fin, buffer, ',');
+				a.head->semester = stoi(buffer);
+
+				getline(fin, buffer, '-');
+				a.head->start_date.day = stoi(buffer);
+				getline(fin, buffer, '-');
+				a.head->start_date.month = stoi(buffer);
+				getline(fin, buffer, ',');
+				a.head->start_date.day = stoi(buffer);
+
+				getline(fin, buffer, '-');
+				a.head->end_date.day = stoi(buffer);
+				getline(fin, buffer, '-');
+				a.head->end_date.month = stoi(buffer);
+				getline(fin, buffer, ',');
+				a.head->end_date.year = stoi(buffer);
+				getline(fin, a.head->room, '\n');
 				a.head->next = NULL;
 				cur = a.head;
 			}
+
 			else {
 				cur->next = new course;
 				cur = cur->next;
-				cur->course_code = course_code;
-				cur->course_name = course_name;
-				cur->lecturer_username = lecturer_username;
-				cur->start_date.day = day;
-				cur->start_date.month = month;
-				cur->start_date.day = day;
-				getline(fin, temp_day, '/');
-				day = stoi(temp_day);
-				getline(fin, temp_month, '/');
-				month = stoi(temp_month);
-				getline(fin, temp_year, ',');
-				year = stoi(temp_year);
-				cur->end_date.day = day;
-				cur->end_date.month = month;
-				cur->end_date.year = year;
+				getline(fin, cur->course_code, ',');
+				getline(fin, cur->course_name, ',');
+				getline(fin, cur->lecturer_username, ',');
+				getline(fin, cur->year, ',');
+				getline(fin, buffer, ',');
+				cur->semester = stoi(buffer);
+
+				getline(fin, buffer, '-');
+				cur->start_date.day = stoi(buffer);
+				getline(fin, buffer, '-');
+				cur->start_date.month = stoi(buffer);
+				getline(fin, buffer, ',');
+				cur->start_date.day = stoi(buffer);
+
+				getline(fin, buffer, '-');
+				cur->end_date.day = stoi(buffer);
+				getline(fin, buffer, '-');
+				cur->end_date.month = stoi(buffer);
+				getline(fin, buffer, ',');
+				cur->end_date.year = stoi(buffer);
+
+				getline(fin, cur->room, '\n');
 				cur->next = NULL;
 			}
 		}
 	}
 	fin.close();
 }
+
 void AddNewStudentToClass(classList L, classYear &a)
 {
 	// Vy Vy
@@ -425,6 +424,7 @@ void AddNewStudentToClass(classList L, classYear &a)
 		}
 	}
 }
+
 void EditStudent(classList L, classYear a)
 {
 	// Vy Vy
@@ -546,7 +546,8 @@ void editExistingCourse(courseList &a) {
 					break;
 				case 2:
 					cout << "Enter the new course name: ";
-					cin >> cur->course_name;
+					cin.ignore();
+					getline(cin, cur->course_name);
 					break;
 				case 3:
 					cout << "Enter the new lecturer username: ";
@@ -612,9 +613,10 @@ void courseList::addNewCourse()
 	cout << "you add a new course successfully" << endl;
 }
 
-//	Don't mind this function, it's for experimental purpose for later UI
 void gotoxy(int x, int y)
 {
+	//	Don't mind this function, it's for experimental purpose for later UI
+
 	COORD coord;
 	coord.X = x;
 	coord.Y = y;
@@ -854,6 +856,7 @@ void showMenu(classList class_list, courseList course_list, userList staff, user
 					}
 					else if (temp == 4) {
 						check_1 = false;
+						break;
 					}
 				}
 			}
@@ -965,7 +968,7 @@ void showMenu(classList class_list, courseList course_list, userList staff, user
 	}
 }
 
-void importCoursesSchedulesOfAClass(classYear cur_class, char path[]) {
+void importCoursesSchedulesOfAClass(courseList course_list, classYear* cur_class, string path) {
 	
 	//	import all courses' schedules of a single class from a .csv file
 	//	By Nguyen Ho Huu Nghia
@@ -987,73 +990,92 @@ void importCoursesSchedulesOfAClass(classYear cur_class, char path[]) {
 		fin.ignore(10000, '\n');
 
 
-		cur_class.head_course = new course;
-		cur_class.head_course->next = NULL;
+		cur_class->head_course_code = new courseCode;
+		cur_class->head_course_code->next = NULL;
 		char buffer[5];
+		
+		getline(fin, cur_class->head_course_code->course_code, ',');
 
-		getline(fin, cur_class.head_course->course_code, ',');
-		getline(fin, cur_class.head_course->course_name, ',');
-		getline(fin, cur_class.head_course->lecturer_username, ',');
+		//	find the corresponding course in the course list
+		course *cur_course = course_list.head, *pre_course=cur_course;
+		while (cur_course->course_code != cur_class->head_course_code->course_code && cur_course != NULL) {
+			pre_course = cur_course;
+			cur_course = cur_course->next;
+		}
 
-		fin.getline(buffer, 5, ',');
-		cur_class.head_course->year = atoi(buffer);
+		//	if the course doesn't exist, add a new one
+		if (cur_course == NULL) {
+			pre_course->next = new course;
+			cur_course = pre_course->next;
+		}
+		
+		getline(fin, cur_course->course_name, ',');
+		getline(fin, cur_course->lecturer_username, ',');
+
+
+		schedule* cur_schedule = createNewNode(cur_course->head_schedule);
+		
+
+
+		getline(fin, cur_schedule->year, ',');
 
 		fin.getline(buffer, 2, ',');
-		cur_class.head_course->semester = atoi(buffer);
+		cur_schedule->semester = atoi(buffer);
 
 		//	start date
 		fin.getline(buffer, 3, '-');
-		cur_class.head_course->start_date.day = atoi(buffer);
+		cur_schedule->start_date.day = atoi(buffer);
 		fin.getline(buffer, 3, '-');
-		cur_class.head_course->start_date.month = atoi(buffer);
+		cur_schedule->start_date.month = atoi(buffer);
 		fin.getline(buffer, 5, ',');
-		cur_class.head_course->start_date.year = atoi(buffer);
+		cur_schedule->start_date.year = atoi(buffer);
 
 		//	end date
 		fin.getline(buffer, 3, '-');
-		cur_class.head_course->end_date.day = atoi(buffer);
+		cur_schedule->end_date.day = atoi(buffer);
 		fin.getline(buffer, 3, '-');
-		cur_class.head_course->end_date.month = atoi(buffer);
+		cur_schedule->end_date.month = atoi(buffer);
 		fin.getline(buffer, 5, ',');
-		cur_class.head_course->end_date.year = atoi(buffer);
+		cur_schedule->end_date.year = atoi(buffer);
 
 		fin.getline(buffer, 2, ',');
 		switch (atoi(buffer)) {
 		case 1:
-			cur_class.head_course->course_session.session_day = sunday;
+			cur_schedule->course_session.session_day = sunday;
 			break;
 		case 2:
-			cur_class.head_course->course_session.session_day = monday;
+			cur_schedule->course_session.session_day = monday;
 			break;
 		case 3:
-			cur_class.head_course->course_session.session_day = tuesday;
+			cur_schedule->course_session.session_day = tuesday;
 			break;
 		case 4:
-			cur_class.head_course->course_session.session_day = wednesday;
+			cur_schedule->course_session.session_day = wednesday;
 			break;
 		case 5:
-			cur_class.head_course->course_session.session_day = thursday;
+			cur_schedule->course_session.session_day = thursday;
 			break;
 		case 6:
-			cur_class.head_course->course_session.session_day = friday;
+			cur_schedule->course_session.session_day = friday;
 			break;
 		case 7:
-			cur_class.head_course->course_session.session_day = saturday;
+			cur_schedule->course_session.session_day = saturday;
 			break;
 		}
 		//	Start time
 		fin.getline(buffer, 3, ':');
-		cur_class.head_course->course_session.start.hour = atoi(buffer);
+		cur_schedule->course_session.start.hour = atoi(buffer);
 		fin.getline(buffer, 3, ',');
-		cur_class.head_course->course_session.start.minute = atoi(buffer);
+		cur_schedule->course_session.start.minute = atoi(buffer);
 
 		//	End time
 		fin.getline(buffer, 3, ':');
-		cur_class.head_course->course_session.end.hour = atoi(buffer);
+		cur_schedule->course_session.end.hour = atoi(buffer);
 		fin.getline(buffer, 3, ',');
-		cur_class.head_course->course_session.end.minute = atoi(buffer);
+		cur_schedule->course_session.end.minute = atoi(buffer);
 
-		getline(fin, cur_class.head_course->room, '\n');
+		//	Get room
+		getline(fin, cur_schedule->room, '\n');
 
 		/*
 		cur_class.head_course->course_code = course_code;
@@ -1067,108 +1089,170 @@ void importCoursesSchedulesOfAClass(classYear cur_class, char path[]) {
 		cur_class.head_course->room = room;
 		*/
 
-		course* cur_course = cur_class.head_course;
-		cur_course->next = new course;
-		cur_course = cur_course->next;
-		cur_course->next = NULL;
+		courseCode* cur_course_code = cur_class->head_course_code;
+
 
 		while (fin.good()) {
-			getline(fin, cur_course->course_code, ',');
+
+			//	create a new course code 
+			cur_course_code->next = new courseCode;
+			cur_course_code = cur_course_code->next;
+
+			getline(fin, cur_course_code->course_code, ',');
+
+			//	find the corresponding course in the course list
+			course *cur_course = course_list.head, *pre_course = cur_course;
+			while (cur_course->course_code != cur_course_code->course_code && cur_course != NULL) {
+				pre_course = cur_course;
+				cur_course = cur_course->next;
+			}
+
+			//	if the course doesn't exist, add a new one
+			if (cur_course == NULL) {
+				pre_course->next = new course;
+				cur_course = pre_course->next;
+			}
+
 			getline(fin, cur_course->course_name, ',');
 			getline(fin, cur_course->lecturer_username, ',');
 
-			fin.getline(buffer, 5, ',');
-			cur_course->year = atoi(buffer);
+			schedule* cur_schedule = createNewNode(cur_course->head_schedule);
+
+
+			getline(fin, cur_schedule->year, ',');
 
 			fin.getline(buffer, 2, ',');
-			cur_course->semester = atoi(buffer);
+			cur_schedule->semester = atoi(buffer);
 
 			//	start date
 			fin.getline(buffer, 3, '-');
-			cur_course->start_date.day = atoi(buffer);
+			cur_schedule->start_date.day = atoi(buffer);
 			fin.getline(buffer, 3, '-');
-			cur_course->start_date.month = atoi(buffer);
+			cur_schedule->start_date.month = atoi(buffer);
 			fin.getline(buffer, 5, ',');
-			cur_course->start_date.year = atoi(buffer);
+			cur_schedule->start_date.year = atoi(buffer);
 
 			//	end date
 			fin.getline(buffer, 3, '-');
-			cur_course->end_date.day = atoi(buffer);
+			cur_schedule->end_date.day = atoi(buffer);
 			fin.getline(buffer, 3, '-');
-			cur_course->end_date.month = atoi(buffer);
+			cur_schedule->end_date.month = atoi(buffer);
 			fin.getline(buffer, 5, ',');
-			cur_course->end_date.year = atoi(buffer);
+			cur_schedule->end_date.year = atoi(buffer);
 
 			fin.getline(buffer, 2, ',');
 			switch (atoi(buffer)) {
 			case 1:
-				cur_course->course_session.session_day = sunday;
+				cur_schedule->course_session.session_day = sunday;
 				break;
 			case 2:
-				cur_course->course_session.session_day = monday;
+				cur_schedule->course_session.session_day = monday;
 				break;
 			case 3:
-				cur_course->course_session.session_day = tuesday;
+				cur_schedule->course_session.session_day = tuesday;
 				break;
 			case 4:
-				cur_course->course_session.session_day = wednesday;
+				cur_schedule->course_session.session_day = wednesday;
 				break;
 			case 5:
-				cur_course->course_session.session_day = thursday;
+				cur_schedule->course_session.session_day = thursday;
 				break;
 			case 6:
-				cur_course->course_session.session_day = friday;
+				cur_schedule->course_session.session_day = friday;
 				break;
 			case 7:
-				cur_course->course_session.session_day = saturday;
+				cur_schedule->course_session.session_day = saturday;
 				break;
 			}
 			//	Start time
 			fin.getline(buffer, 3, ':');
-			cur_course->course_session.start.hour = atoi(buffer);
+			cur_schedule->course_session.start.hour = atoi(buffer);
 			fin.getline(buffer, 3, ',');
-			cur_course->course_session.start.minute = atoi(buffer);
+			cur_schedule->course_session.start.minute = atoi(buffer);
 
 			//	End time
 			fin.getline(buffer, 3, ':');
-			cur_course->course_session.end.hour = atoi(buffer);
+			cur_schedule->course_session.end.hour = atoi(buffer);
 			fin.getline(buffer, 3, ',');
-			cur_course->course_session.end.minute = atoi(buffer);
+			cur_schedule->course_session.end.minute = atoi(buffer);
 
-			getline(fin, cur_course->room, '\n');
+			//	Get room
+			getline(fin, cur_schedule->room, '\n');
 
-			cur_course->next = new course;
-			cur_course = cur_course->next;
-			cur_course->next = NULL;
 		}
 		fin.close();
 	}
 
 }
 
-void addACourseSchedule(courseList course_list) {
+void addACourseSchedule(courseList course_list, classList class_list) {
 	
 	//	add a new course at the end of the course list and let the user type in its schedule
 	//	by Nguyen Ho Huu Nghia
 
-	//	create a new object of course
-	course* cur_course;
-	if (course_list.head == NULL){
-		course_list.head = new course;
-		cur_course = course_list.head;
-	}
-	else {
-		while (cur_course->next)
-			cur_course = cur_course->next;
-		cur_course->next = new course;
-		cur_course = cur_course->next;
+	string class_name;
+	cout << "Enter the name of the class: ";
+	cin >> class_name;
+
+	//	find the class in the class list
+	classYear* cur_class = class_list.head;
+	if (class_list.head->class_name != class_name){
+		while (cur_class->next != NULL && cur_class->class_name != class_name)
+			cur_class = cur_class->next;
+		if (cur_class->next == NULL) {
+			cout << "Class not found.\n";
+			return;
+		}
+		else {
+			cur_class = cur_class->next;
+		}
 	}
 	
 	char buffer[100];
+	courseCode* cur_course_code = createNewNode(cur_class->head_course_code);
+
 	system("cls");
 	cout << "Enter the course code: ";
-	cin >> cur_course->course_code;
+	cin >> cur_course_code->course_code;
+	
+	course *cur_course = course_list.head;
+	if (course_list.head == NULL) {
+		cout << "Course does not exist. Do you want to add it?\n"
+			<<"[Y]Yes\n[N]No\n"
+			<<"Your answer: ";
+		char a;
+		cin >> a;
+		if (a == 'N')
+			return;
+		else {
+			cur_course = new course;
+		}
+	}
+	else {
+		while (cur_course->next && cur_course->next->course_code!=cur_course_code->course_code)
+			cur_course = cur_course->next;
+		if (!cur_course->next) {
+			cout << "Course does not exist. Do you want to add it?\n"
+				<< "[Y]Yes\n[N]No\n"
+				<< "Your answer: ";
+			char a;
+			cin >> a;
+			if (a == 'N')
+				return;
+			else {
+				cur_course->next = new course;
+				cur_course = cur_course->next;
+			}
+		}
+		else {
+			cur_course = cur_course->next;
+		}
+	}
 
+	schedule *cur_schedule = createNewNode(cur_course->head_schedule);
+
+
+	/*
 	system("cls");
 	cout << "Enter the course name: ";
 	cin.ignore();
@@ -1179,31 +1263,35 @@ void addACourseSchedule(courseList course_list) {
 	cout << "Enter the course lecturer username: ";
 	cin.getline(buffer, 100, '\n');
 	cur_course->lecturer_username = buffer;
+	*/
+
+
 	system("cls");
 	cout << "Enter the year in which the course take place: ";
-	cin >> cur_course->year;
+	cin.ignore();
+	getline(cin, cur_course->year, '\n');
 	system("cls");
 	cout << "Enter the semester in which the course take place: ";
 	cin >> cur_course->semester;
 	system("cls");
 
-	cout << "Enter the start date in the format of dd/mm/yyyy";
+	cout << "Enter the start date in the format of dd-mm-yyyy: ";
 	cin.ignore();
-	cin.getline(buffer, 3, '/');
-	cur_course->start_date.day = atoi(buffer);
-	cin.getline(buffer, 3, '/');
-	cur_course->start_date.month = atoi(buffer);
+	cin.getline(buffer, 3, '-');
+	cur_schedule->start_date.day = atoi(buffer);
+	cin.getline(buffer, 3, '-');
+	cur_schedule->start_date.month = atoi(buffer);
 	cin.getline(buffer, 5, '\n');
-	cur_course->start_date.year = atoi(buffer);
+	cur_schedule->start_date.year = atoi(buffer);
 
 	system("cls");
-	cout << "Enter the end date in the format of dd/mm/yyyy";
-	cin.getline(buffer, 3, '/');
-	cur_course->end_date.day = atoi(buffer);
-	cin.getline(buffer, 3, '/');
-	cur_course->end_date.month = atoi(buffer);
+	cout << "Enter the end date in the format of dd-mm-yyyy: ";
+	cin.getline(buffer, 3, '-');
+	cur_schedule->end_date.day = atoi(buffer);
+	cin.getline(buffer, 3, '-');
+	cur_schedule->end_date.month = atoi(buffer);
 	cin.getline(buffer, 5, '\n');
-	cur_course->end_date.year = atoi(buffer);
+	cur_schedule->end_date.year = atoi(buffer);
 
 	system("cls");
 	cout << "Enter the day of the week in which the session take place:\n"
@@ -1218,25 +1306,25 @@ void addACourseSchedule(courseList course_list) {
 	cin >> temp;
 	switch (temp) {
 	case 1:
-		cur_course->course_session.session_day = sunday;
+		cur_schedule->course_session.session_day = sunday;
 		break;
 	case 2:
-		cur_course->course_session.session_day = monday;
+		cur_schedule->course_session.session_day = monday;
 		break;
 	case 3:
-		cur_course->course_session.session_day = tuesday;
+		cur_schedule->course_session.session_day = tuesday;
 		break;
 	case 4:
-		cur_course->course_session.session_day = wednesday;
+		cur_schedule->course_session.session_day = wednesday;
 		break;
 	case 5:
-		cur_course->course_session.session_day = thursday;
+		cur_schedule->course_session.session_day = thursday;
 		break;
 	case 6:
-		cur_course->course_session.session_day = friday;
+		cur_schedule->course_session.session_day = friday;
 		break;
 	case 7:
-		cur_course->course_session.session_day = saturday;
+		cur_schedule->course_session.session_day = saturday;
 		break;
 	}
 
@@ -1244,20 +1332,20 @@ void addACourseSchedule(courseList course_list) {
 	cout << "Enter the start time of the session in the format hh:mm : ";
 	cin.get();
 	cin.getline(buffer, 3, ':');
-	cur_course->course_session.start.hour = atoi(buffer);
+	cur_schedule->course_session.start.hour = atoi(buffer);
 	cin.getline(buffer, 3, '\n');
-	cur_course->course_session.start.minute = atoi(buffer);
+	cur_schedule->course_session.start.minute = atoi(buffer);
 
 	system("cls");
 	cout << "Enter the end time of the session in the format hh:mm : ";
 	cin.getline(buffer, 3, ':');
-	cur_course->course_session.end.hour = atoi(buffer);
+	cur_schedule->course_session.end.hour = atoi(buffer);
 	cin.getline(buffer, 3, '\n');
-	cur_course->course_session.end.minute = atoi(buffer);
+	cur_schedule->course_session.end.minute = atoi(buffer);
 
 	system("cls");
 	cout << "Enter the name of the room in which the session takes place: ";
-	cin >> cur_course->room;
+	cin >> cur_schedule->room;
 }
 
 bool exit() {
