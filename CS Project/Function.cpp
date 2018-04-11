@@ -1545,7 +1545,43 @@ bool exit() {
 	return t;
 }
 
-<<<<<<< HEAD
+//	24
+void viewAttendance(courseList course_list, presence* head_presence)
+{
+	// Haven't checked
+	// Vy Vy
+
+	string code;
+	cout << "Enter code of the course you want to check attendance: ";
+	cin >> code;
+	course* cur = course_list.head;
+
+	while (cur && cur->course_code != code) {
+		cur = cur->next;
+	}
+	if (!cur)
+		cout << "Sorry, the course you enter doesn't exist.\n";
+	else {
+		presence* student_presence = head_presence;
+		while (student_presence) {
+			cout << setw(17) << "Monday" << setw(5 + 7) << "Tuesday" << setw(5 + 9) << "Wednesday";
+			cout << setw(5 + 7) << "Thurday" << setw(5 + 6) << "Friday" << setw(5 + 8) << "Saturday";
+			cout << endl;
+			cout << student_presence->id << setw(5);
+			cout << student_presence->attendance[0] << setw(5 + 6);
+			cout << student_presence->attendance[1] << setw(5 + 7);
+			cout << student_presence->attendance[2] << setw(5 + 9);
+			cout << student_presence->attendance[3] << setw(5 + 7);
+			cout << student_presence->attendance[4] << setw(5 + 6);
+			cout << student_presence->attendance[5];
+			cout << endl;
+			student_presence = student_presence->next;
+		}
+	}
+}
+
+//	25
+>>>>>>> b284af22993e9bc052efb6ab6a22780268b1d779
 void viewAttendance(courseList course_list, presence* head_presence)
 {
 	// Haven't checked
@@ -1668,9 +1704,8 @@ void moveStudentsFromClassAToB(classList a) {
 	}
 	return;
 }
-=======
+
 //	25
->>>>>>> Nghia
 void exportPresence(string path, course a) {
 
 	//	By NT Tung
