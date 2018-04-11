@@ -166,5 +166,6 @@ void exportPresence(string path, course a);
 course* searchCourse(string a, course *b);
 void viewScore(course* a);
 void viewCourseList(course* a);
+void viewAttendance(courseList course_list, presence* head_presence);
 
 #endif
