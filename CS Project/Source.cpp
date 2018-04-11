@@ -33,6 +33,7 @@ int main() {
 	//	first student of the first class is initialized as NULL
 	//	to use the input function
 	first_class->head = NULL;
+	importUsers(staff, "Academic-Staff.csv");
 	
 	input(path, *first_class);
 	output(path2, *first_class);
