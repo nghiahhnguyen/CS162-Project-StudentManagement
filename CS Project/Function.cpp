@@ -1581,6 +1581,128 @@ void viewAttendance(courseList course_list, presence* head_presence)
 }
 
 //	25
+void viewAttendance(courseList course_list, presence* head_presence)
+{
+	// Haven't checked
+	// Vy Vy
+
+	string code;
+	cout << "Enter code of the course you want to check attendance: ";
+	cin >> code;
+	course* cur = course_list.head;
+
+	while (cur && cur->course_code != code) {
+		cur = cur->next;
+	}
+	if (!cur)
+		cout << "Sorry, the course you enter doesn't exist.\n";
+	else {
+		presence* student_presence = head_presence;
+		while (student_presence) {
+			cout << setw(17) << "Monday" << setw(5 + 7) << "Tuesday" << setw(5 + 9) << "Wednesday";
+			cout << setw(5 + 7) << "Thurday" << setw(5 + 6) << "Friday" << setw(5 + 8) << "Saturday";
+			cout << endl;
+			cout << student_presence->id << setw(5);
+			cout << student_presence->attendance[0] << setw(5 + 6);
+			cout << student_presence->attendance[1] << setw(5 + 7);
+			cout << student_presence->attendance[2] << setw(5 + 9);
+			cout << student_presence->attendance[3] << setw(5 + 7);
+			cout << student_presence->attendance[4] << setw(5 + 6);
+			cout << student_presence->attendance[5];
+			cout << endl;
+			student_presence = student_presence->next;
+		}
+
+void moveStudentsFromClassAToB(classList a) {
+
+	//	By NT Tung
+
+	bool t;
+	if (t) return;
+	string name;
+	classYear *cur = a.head, *ca, *cb;
+	bool input = false;
+	do {
+		cout << "Enter a class to transfer from :";
+		cin >> name;
+		cout << endl;
+		while (cur->class_name != name && cur != NULL) {
+			cur = cur->next;
+		}
+		if (cur != NULL) {
+			ca = cur;
+			input = true;
+		}
+	} while (!input);
+	if (t) return;
+	cur = a.head;
+	input = false;
+	do {
+		cout << "Enter a class to transfer to :";
+		cin >> name;
+		cout << endl;
+		while (cur->class_name != name && cur != NULL) {
+			cur = cur->next;
+		}
+		if (cur != NULL) {
+			cb = cur;
+			if (cb != ca)
+				input = true;
+		}
+	} while (!input);
+	if (t) return;
+	student *p = ca->head, *ini = ca->head;
+	bool discont = false;
+	bool trans;
+	while (!discont&&p->next != NULL) {
+		cout << "Transfer this student out ? not 0 =YES, 0=NO :";
+		cout << p->next->id;
+		cout << endl;
+		cout << p->next->full_name;
+		cout << endl;
+		cout << p->next->class_name;
+		cout << endl;
+		cout << p->next->password;
+		cout << endl;
+		cout << p->next->email;
+		cout << endl;
+		cout << p->next->phone;
+		cout << endl;
+		cin >> trans;
+		cout << endl;
+		if (trans) {
+			student *tmp = p->next;
+			p->next = p->next->next;
+			tmp->next = cb->head;
+			cb->head = tmp;
+		}
+		else p = p->next;
+		cout << "Discontinue or not ? not 0 = YES, 0 = NO :";
+		cin >> discont;
+		if (discont) break;
+	}
+	cout << "Transfer this student out ? not 0 =YES, 0=NO :";
+	cout << ini->id;
+	cout << endl;
+	cout << ini->full_name;
+	cout << endl;
+	cout << ini->class_name;
+	cout << endl;
+	cout << ini->password;
+	cout << endl;
+	cout << ini->email;
+	cout << endl;
+	cout << ini->phone;
+	cout << endl;
+	cin >> trans;
+	cout << endl;
+	if (trans) {
+		ca->head = ini->next;
+		ini->next = cb->head;
+		cb->head = ini;
+	}
+	return;
+}
 void exportPresence(string path, course a) {
 
 	//	By NT Tung
