@@ -21,7 +21,7 @@ struct student {
 	string password;
 	string email;
 	string phone;
-	student *next;
+	student *next = NULL;
 	void changePassword();
 	void generatePassword();
 	void printInfo();
@@ -35,7 +35,7 @@ struct user {
 	string email;
 	string phone;
 	string password;
-	user* next;
+	user* next = NULL;
 	void changePassword();
 	void generateUsernameAndPassword();
 	void printInfo();
@@ -152,20 +152,28 @@ void output(char path[], classYear &a);
 void viewListOfStudentsInAClass(const classList &a);
 void viewListOfClass(classList L);
 void importCourses(string path, courseList& a);
+void importCourses(courseList& a);
 void AddNewStudentToClass(classList L, classYear &a);
 void EditStudent(classList L, classYear a);
 void removeAcourse(courseList b);
 void editExistingCourse(courseList &a);
 void gotoxy(int x, int y);
-void showMenu(classList class_list, courseList course_list, userList staff, userList lecturer);
-void importCoursesSchedulesOfAClass(courseList course_list, classYear* cur_class, string path);
-void addACourseSchedule(courseList course_list, classList class_list);
+void showMenu(classList &class_list, courseList &course_list, userList &staff, userList &lecturer);
+//	This version is for importing courses' schedule without asking for the class and path
+//	For the developers
+void importCoursesSchedulesOfAClass(courseList &course_list, classYear* cur_class, string path);
+//	This version asks the user what is the class and the file path
+//	For the users
+void importCoursesSchedulesOfAClass(courseList &course_list, classList &class_list);
+void addACourseSchedule(courseList &course_list, classList &class_list);
 void moveStudentsFromClassAToB(classList a);
 bool exit();
 void exportPresence(string path, course a);
 course* searchCourse(string a, course *b);
 void viewScore(course* a);
-void viewCourseList(course* a);
+void viewCourseList(courseList a);
 void viewAttendance(courseList course_list, presence* head_presence);
+void importUsers(userList &staff, string path);
+void inputPassword(string &password);
 
 #endif

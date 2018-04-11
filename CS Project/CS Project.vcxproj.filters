@@ -43,5 +43,8 @@
     <None Include="Courses.csv">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="Academic-Staff.csv">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
