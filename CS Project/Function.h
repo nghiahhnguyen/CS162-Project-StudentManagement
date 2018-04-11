@@ -24,6 +24,7 @@ struct student {
 	student *next;
 	void changePassword();
 	void generatePassword();
+	void printInfo();
 };
 
 
@@ -37,6 +38,7 @@ struct user {
 	user* next;
 	void changePassword();
 	void generateUsernameAndPassword();
+	void printInfo();
 };
 
 struct userList {
@@ -145,11 +147,13 @@ T* createNewNode(T* head) {
 
 
 
-void input(const char path[], classYear&a);
-void output(const char path[], classYear &a);
+void input(char path[], classYear&a);
+void output(char path[], classYear &a);
 void viewListOfStudentsInAClass(const classList &a);
 void viewListOfClass(classList L);
 void importCourses(string path, courseList& a);
+void AddNewStudentToClass(classList L, classYear &a);
+void EditStudent(classList L, classYear a);
 void removeAcourse(courseList b);
 void editExistingCourse(courseList &a);
 void gotoxy(int x, int y);
