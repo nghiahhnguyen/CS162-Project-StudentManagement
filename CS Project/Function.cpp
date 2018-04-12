@@ -371,7 +371,7 @@ void AddNewStudentToClass(classList L, classYear &a)
 		return;
 	}
 	else if (!cur->class_name.compare(classname)) {	//return false
-		student *add = a.head;
+		student *add = cur->head;
 		cout << "Enter new student's ID: ";
 		int newid;
 		cin >> newid;
