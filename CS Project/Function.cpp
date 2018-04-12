@@ -1355,10 +1355,6 @@ bool exit() {
 	return t;
 }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 17b897e6e5187f1e94c6519c08e3efe30eb2902b
 void viewAttendance(courseList course_list, presence* head_presence)
 {
 	// Haven't checked

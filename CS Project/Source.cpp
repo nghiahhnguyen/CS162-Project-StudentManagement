@@ -40,9 +40,6 @@ int main() {
 
 	showMenu(class_list, course_list, staff, lecturer);
 
-<<<<<<< HEAD
-=======
-	*/
 
 	courseList a;
 
@@ -55,6 +52,6 @@ int main() {
 	addACourseSchedule(a, class_list);
 
 	system("pause");
->>>>>>> 17b897e6e5187f1e94c6519c08e3efe30eb2902b
+
 	return 0;
 }
