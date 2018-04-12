@@ -371,7 +371,7 @@ void AddNewStudentToClass(classList L, classYear &a)
 		return;
 	}
 	else if (!cur->class_name.compare(classname)) {	//return false
-		student *add = a.head;
+		student *add = cur->head;
 		cout << "Enter new student's ID: ";
 		int newid;
 		cin >> newid;
@@ -1355,7 +1355,10 @@ bool exit() {
 	return t;
 }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 17b897e6e5187f1e94c6519c08e3efe30eb2902b
 void viewAttendance(courseList course_list, presence* head_presence)
 {
 	// Haven't checked
@@ -1521,4 +1524,80 @@ void viewCourseList(course* a) {
 		cout << "Course code : " << a->course_code << " Course name : " << a->course_name << endl;
 		a = a->next;
 	}
+}
+void editGrade(courseList a)
+{
+	//Vy Vy
+
+	string code;
+	cout << "Enter the course's code you want to edit grade: ";
+	cin >> code;
+	course* cur = a.head;
+	while (cur && cur->course_code != code) {
+		cur = cur->next;
+	}
+	if (!cur) {
+		cout << "Sorry, the code you entered doesn't exist.\n";
+		return;
+	}
+	else {
+		int newid;
+		cout << "Enter ID of the student you want to edit grade: ";
+		cin >> newid;
+		presence* edit = cur->head_presence;
+		while (edit && edit->id != newid)
+			edit = edit->next;
+		if (!edit) {
+			cout << "Sorry, the ID student you entered doesn't exist.\n";
+			return;
+		}
+		else
+			recursionEditGrade(1, edit);
+	}
+}
+void recursionEditGrade(int n, presence *&edit)
+{
+	// Vy Vy
+
+	if (n == 0) {
+		cout << "Please enter edited total grade: ";
+		cin >> edit->total;
+		return;
+	}
+
+	cout << "Which grade you want to edit?\n";
+	cout << "1. Mid-term\n";
+	cout << "2. Lab\n";
+	cout << "3. Final\n";
+	cout << "4. Bonus\n";
+	int x;
+	cin >> x;
+
+	switch (x) {
+	case 1: {
+		cout << "Please enter edited mid-term grade: ";
+		cin >> edit->midterm;
+		break;
+	}
+	case 2: {
+		cout << "Please enter edited lab grade: ";
+		cin >> edit->lab;
+		break;
+	}
+	case 3: {
+		cout << "Please enter edited final grade: ";
+		cin >> edit->final;
+		break;
+	}
+	default: {
+		cout << "Please enter edited bonus grade: ";
+		cin >> edit->bonus;
+	}
+	}
+
+	cout << "Do you want to edit another grade?\n";
+	cout << "1. Yes\n";
+	cout << "0. No\n";
+	cin >> n;
+	recursionEditGrade(n, edit);
 }
