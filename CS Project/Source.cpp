@@ -51,6 +51,7 @@ int main() {
 	class_list.head->class_name = "apcs";
 	importCoursesSchedulesOfAClass(a, class_list.head, "Courses-Schedule.csv");
 	addACourseSchedule(a, class_list);
+
 	system("pause");
 	return 0;
 }
