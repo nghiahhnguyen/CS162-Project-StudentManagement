@@ -1407,7 +1407,7 @@ void gotoxy(int x, int y)
 //	19
 //	This version is for importing courses' schedule without asking for the class and path
 //	For the developers
-void importCoursesSchedulesOfAClass(courseList &course_list, classYear* cur_class, string path) {
+void importCoursesSchedulesOfAClass(courseList &course_list, classYear* cur_class, string path, string class_code) {
 	
 	//	import all courses' schedules of a single class from a .csv file
 	//	By Nguyen Ho Huu Nghia
@@ -1454,7 +1454,7 @@ void importCoursesSchedulesOfAClass(courseList &course_list, classYear* cur_clas
 
 		schedule* cur_schedule = createNewNode(cur_course->head_schedule);
 		
-
+		cur_schedule->class_name = cur_class->class_name;
 
 		getline(fin, cur_schedule->year, ',');
 
@@ -1557,6 +1557,7 @@ void importCoursesSchedulesOfAClass(courseList &course_list, classYear* cur_clas
 
 			schedule* cur_schedule = createNewNode(cur_course->head_schedule);
 
+			cur_schedule->class_name = cur_class->class_name;
 
 			getline(fin, cur_schedule->year, ',');
 
@@ -1696,7 +1697,7 @@ void importCoursesSchedulesOfAClass(courseList &course_list, classList &class_li
 
 		schedule* cur_schedule = createNewNode(cur_course->head_schedule);
 
-
+		cur_schedule->class_name = cur_class->class_name;
 
 		getline(fin, cur_schedule->year, ',');
 
@@ -1799,6 +1800,7 @@ void importCoursesSchedulesOfAClass(courseList &course_list, classList &class_li
 
 			schedule* cur_schedule = createNewNode(cur_course->head_schedule);
 
+			cur_schedule->class_name = cur_class->class_name;
 
 			getline(fin, cur_schedule->year, ',');
 
@@ -1936,6 +1938,7 @@ void addACourseSchedule(courseList &course_list, classList &class_list) {
 
 	schedule *cur_schedule = createNewNode(cur_course->head_schedule);
 
+	cur_schedule->class_name = cur_class->class_name;
 
 	/*
 	system("cls");
