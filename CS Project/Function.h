@@ -56,6 +56,9 @@ struct Time
 		this->hour = a.hour;
 		this->minute = a.minute;
 	}
+	void displayTime() {
+		cout << hour << ":" << minute << endl;
+	}
 };
 
 enum dateofweek {
@@ -77,19 +80,55 @@ struct session
 		this->end = a.end;
 		this->session_day = a.session_day;
 	}
+	void displaySession() {
+		switch (session_day) {
+		case 1:
+			cout << "Date of week: Sunday\n";
+				
+			break;
+		case 2:
+			cout << "Date of week: Monday\n";
+				
+			break;
+		case 3:
+			cout << "Date of week: Tuesday\n";
+				
+			break;
+		case 4:
+			cout << "Date of week: Wednesday\n";
+				
+			break;
+		case 5:
+			cout << "Date of week: Thursday\n";
+				
+			break;
+		case 6:
+			cout << "Date of week: Friday\n";
+				
+			break;
+		case 7:
+			cout << "Date of week: Saturday\n";
+				
+			break;
+		}
+		cout << "Start time: ";
+		start.displayTime();
+		cout << "End time: ";
+		end.displayTime();
+	}
 };
 
 //	stands for a student in a course
 struct presence {
 	string course_code, year;
 	int semester, id, week;
-	float midterm, lab, final, total;	//Thay bao cho them cot total
+	float midterm, lab, final, total, bonus;	//Thay bao cho them cot total
 	char attendance[6];
 	presence* next=NULL;
 };
 
 struct schedule {
-	string room, year;
+	string room, year, class_name;
 	int semester;
 	date start_date, end_date;
 	session course_session;
@@ -115,7 +154,7 @@ struct classYear {
 	string class_name;
 	student *head = NULL;
 	classYear* next = NULL;
-	courseCode* head_course_code;
+	courseCode* head_course_code = NULL;
 };
 
 struct courseList 
@@ -161,7 +200,7 @@ void gotoxy(int x, int y);
 void showMenu(classList &class_list, courseList &course_list, userList &staff, userList &lecturer);
 //	This version is for importing courses' schedule without asking for the class and path
 //	For the developers
-void importCoursesSchedulesOfAClass(courseList &course_list, classYear* cur_class, string path);
+void importCoursesSchedulesOfAClass(courseList &course_list, classYear* cur_class, string path, string class_code);
 //	This version asks the user what is the class and the file path
 //	For the users
 void importCoursesSchedulesOfAClass(courseList &course_list, classList &class_list);
@@ -175,5 +214,10 @@ void viewCourseList(courseList a);
 void viewAttendance(courseList course_list, presence* head_presence);
 void importUsers(userList &staff, string path);
 void inputPassword(string &password);
+void findCourseFromCode(courseList &course_list, string &course_code, course*  &result);
+void findClassFromCode(classList &class_list, string &class_name, classYear*  &result);
+void viewListOfSchedules(courseList &course_list, classList &class_list);
+void recursionEditGrade(int n, presence *&edit);
+void editGrade(courseList &a);
 
 #endif
