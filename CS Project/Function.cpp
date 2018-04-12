@@ -1521,7 +1521,7 @@ void viewCourseList(course* a) {
 		a = a->next;
 	}
 }
-void editGrade(courseList a)
+void editGrade(courseList &a)
 {
 	//Vy Vy
 
