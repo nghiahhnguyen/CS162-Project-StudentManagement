@@ -30,13 +30,20 @@ int main() {
 
 	char path[] = "17APCS1-Students.csv";
 	char path2[] = "Output.csv";
+
 	//	first student of the first class is initialized as NULL
 	//	to use the input function
 	first_class->head = NULL;
 	importUsers(staff, "Academic-Staff.csv");
 	
+	//	import students into 17APCS1
 	input(path, *first_class);
 	output(path2, *first_class);
+
+	//	import courses
+	importCourses("Courses.csv",course_list);
+	//	import courses' schedule of 17APCS1
+	importCoursesSchedulesOfAClass(course_list, class_list.head, (string)"Courses-Schedule.csv", (string)"17APCS1");
 
 	showMenu(class_list, course_list, staff, lecturer);
 

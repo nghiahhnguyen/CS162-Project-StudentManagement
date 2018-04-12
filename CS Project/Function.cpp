@@ -308,10 +308,10 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 										<< "\t\t*********************************************************\n\n";
 
 									cout << "Enter the number corresponding to the group of actions you want to take: \n"
-										<< "[1] Import courses’ schedules from a .csv file\n"
-										<< "[2] Add a course’s schedule\n"
-										<< "[3] Edit a course’s schedule\n"
-										<< "[4] Remove a course’s schedule\n"
+										<< "[1] Import courses schedules from a .csv file\n"
+										<< "[2] Add a course\'s schedule\n"
+										<< "[3] Edit a course\'s schedule\n"
+										<< "[4] Remove a course\'s schedule\n"
 										<< "[5] View list of schedules\n"
 										<< "[6] Back to the previous menu\n"
 										<< "Your answer: ";
@@ -331,7 +331,7 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 										//Remove a course's schedule
 									}
 									else if (temp_2 == '5') {
-
+										viewListOfSchedules(course_list, class_list);
 									}
 									else
 										break;
@@ -2041,6 +2041,89 @@ bool exit() {
 	cout << "Do you want to exit ? not 0 =YES, 0=NO : ";
 	cin >> t;
 	return t;
+}
+
+//	23
+void viewListOfSchedules(courseList &course_list, classList &class_list) {
+	//	View list of schedules of a class
+	//	By Nghia
+
+	string class_name;
+	cout << "Enter the name of the class: ";
+	cin.ignore();
+	getline(cin, class_name, '\n');
+
+	//	find the class from the list
+	classYear* cur_class;
+	findClassFromCode(class_list, class_name, cur_class);
+	
+	cout << "Class: " << class_name << endl;
+
+	courseCode* cur_course_code = cur_class->head_course_code;
+	course* cur_course;
+	while (cur_course_code) {
+		findCourseFromCode(course_list, cur_course_code->course_code, cur_course);
+		
+		schedule* cur_schedule = cur_course->head_schedule;
+		while (cur_schedule && cur_schedule->class_name != class_name)
+			cur_schedule = cur_schedule->next;
+		if (cur_schedule == NULL)
+			return;
+		else {
+			cout << "Course code: " << cur_course->course_code << endl
+				<< "Course name: " << cur_course->course_name << endl
+				<< "Lecturer username: " << cur_course->lecturer_username << endl
+				<< "Year: " << cur_schedule->year << endl
+				<< "Semester" << cur_schedule->semester << endl
+				<< "Start date: " << cur_schedule->start_date.day << '-' << cur_schedule->start_date.month << '-' << cur_schedule->start_date.year << endl
+				<< "End date: " << cur_schedule->end_date.day << '-' << cur_schedule->end_date.month << '-' << cur_schedule->end_date.year << endl
+				<< "Course session: " << endl;
+			cur_schedule->course_session.displaySession();
+			cout << endl;
+		}
+	}
+	cout << "Press Enter to continue\n";
+	system("pause");
+}
+
+void findCourseFromCode(courseList& course_list, string& course_code, course*  &result) {
+	//	Find a course in course list given the class_code
+	//	Nghia
+
+	if(course_list.head == NULL) {
+		cout << "Course_list.head is NULL\n";
+		return;
+	}
+	course* cur_course = course_list.head;
+	while (cur_course && cur_course->course_code != course_code)
+		cur_course = cur_course->next;
+	if (!cur_course) {
+		cout << "Course doesn't exist\n";
+	}
+	else {
+		result = cur_course;
+	}
+}
+
+void findClassFromCode(classList& class_list, string& class_name, classYear*  &result) {
+	//	Find a class in class list given the class_code
+	//	Nghia
+
+	if(class_list.head == NULL) {
+	cout << "Course_list.head is NULL\n";
+	return;
+}
+	classYear* cur_class = class_list.head;
+	while (cur_class && cur_class->class_name != class_name)
+		cur_class = cur_class->next;
+	if (!cur_class) {
+		cout << "Class doesn't exist\n";
+	}
+	else {
+		result = cur_class;
+	}
+	cout << "Press Enter to continue\n";
+	system("pause");
 }
 
 //	24
