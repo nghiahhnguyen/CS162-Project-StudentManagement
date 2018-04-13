@@ -1373,16 +1373,15 @@ void viewAttendance(courseList course_list, presence* head_presence)
 	else {
 		presence* student_presence = head_presence;
 		while (student_presence) {
-			cout << setw(17) << "Monday" << setw(5 + 7) << "Tuesday" << setw(5 + 9) << "Wednesday";
-			cout << setw(5 + 7) << "Thurday" << setw(5 + 6) << "Friday" << setw(5 + 8) << "Saturday";
+			cout << setw(17) << "Week01" << setw(11) << "Week02" << setw(11) << "Week03";
+			cout << setw(11) << "Week04" << setw(11) << "Week05" << setw(11) << "Week06";
+			cout << setw(11) << "Week07" << setw(11) << "Week08" << setw(11) << "Week09";
+			cout << setw(11) << "Week10";
 			cout << endl;
 			cout << student_presence->id << setw(5);
-			cout << student_presence->attendance[0] << setw(5 + 6);
-			cout << student_presence->attendance[1] << setw(5 + 7);
-			cout << student_presence->attendance[2] << setw(5 + 9);
-			cout << student_presence->attendance[3] << setw(5 + 7);
-			cout << student_presence->attendance[4] << setw(5 + 6);
-			cout << student_presence->attendance[5];
+			for (int i = 0; i < 10; ++i) {
+				cout << student_presence->attendance[i] << setw(11);
+			}
 			cout << endl;
 			student_presence = student_presence->next;
 		}

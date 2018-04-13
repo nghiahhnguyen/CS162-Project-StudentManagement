@@ -82,7 +82,7 @@ struct presence {
 	string course_code, year;
 	int semester, id, week;
 	float midterm, lab, final, total, bonus;
-	char attendance[6];
+	char attendance[10];
 	presence* next=NULL;
 };
 

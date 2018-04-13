@@ -43,5 +43,8 @@
     <None Include="Courses.csv">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="Score-board.xlsx">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

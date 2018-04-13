@@ -151,6 +151,7 @@
     <None Include="Courses-Schedule.csv" />
     <None Include="Courses.csv" />
     <None Include="CS161-Presence.csv" />
+    <None Include="Score-board.xlsx" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
