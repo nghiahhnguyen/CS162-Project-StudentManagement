@@ -46,7 +46,5 @@ int main() {
 	importCoursesSchedulesOfAClass(course_list, class_list.head, (string)"Courses-Schedule.csv", (string)"17APCS1");
 
 	showMenu(class_list, course_list, staff, lecturer);
-
-	system("pause");
 	return 0;
 }

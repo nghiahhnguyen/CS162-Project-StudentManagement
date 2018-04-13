@@ -40,7 +40,8 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 					<< "\t\t*********************************************************\n\n\n"
 					<< "LOG IN\n"
 					<< "Username: ";
-				string username, password;
+				string password;
+				int username;
 				cin >> username;
 				cout << "Password: ";
 				inputPassword(password);
@@ -48,7 +49,7 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 
 				//	Check if there is any student matching the log in info
 				while (true) {
-					while (cur_student && (username.compare(to_string(cur_student->id)) || password.compare(cur_student->password)))
+					while (cur_student && (username!=cur_student->id || password!=cur_student->password))
 						cur_student = cur_student->next;
 
 					//	if there is a user
@@ -101,6 +102,7 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 							<< "Your answer: ";
 
 						cin >> temp_1;
+						cout << "---------------------------------------------------------\n\n";
 
 						if (temp_1 == 1) {
 
@@ -117,13 +119,18 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 						else if (temp_1 == 5) {
 							check_2 = false;
 						}
+						system("pause");
 					}
 				}
 				else if (temp == 2) {
+					cout << "---------------------------------------------------------\n\n";
 					cur_student->printInfo();
+					system("pause");
 				}
 				else if (temp == 3) {
+					cout << "---------------------------------------------------------\n\n";
 					cur_student->changePassword();
+					system("pause");
 				}
 				else if (temp == 4) {
 					check_1 = false;;
@@ -153,7 +160,7 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 
 				//	Check if there is any staff matching the log in info
 				while (true) {
-					while (cur_user && (username.compare(cur_user->username) || password.compare(cur_user->password)))
+					while (cur_user && (username!=cur_user->username || password!=cur_user->password))
 						cur_user = cur_user->next;
 
 					//	if there is no staff that matches the log in info
@@ -230,6 +237,7 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 
 									char temp_2;
 									cin >> temp_2;
+									cout << "---------------------------------------------------------\n\n";
 									if (temp_2 == '1') {
 										char path[1000];
 										cout << "Enter the path of file: ";
@@ -261,6 +269,8 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 									}
 									else
 										break;
+
+									system("pause");
 								}
 							}
 							else if (temp_1 == 2) {
@@ -281,6 +291,7 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 
 									char temp_2;
 									cin >> temp_2;
+									cout << "---------------------------------------------------------\n\n";
 									if (temp_2 == '1') {
 										importCourses(course_list);
 									}
@@ -298,6 +309,7 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 									}
 									else
 										break;
+									system("pause");
 								}
 							}
 							else if (temp_1 == 3) {
@@ -318,6 +330,7 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 
 									char temp_2;
 									cin >> temp_2;
+									cout << "---------------------------------------------------------\n\n";
 									if (temp_2 == '1') {
 										importCoursesSchedulesOfAClass(course_list, class_list);
 									}
@@ -335,6 +348,7 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 									}
 									else
 										break;
+									system("pause");
 								}
 							}
 							else if (temp_1 == 4) {
@@ -352,6 +366,7 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 
 									char temp_2;
 									cin >> temp_2;
+									cout << "---------------------------------------------------------\n\n";
 									if (temp_2 == '1') {
 										//viewAttendance ;
 									}
@@ -360,6 +375,7 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 									}
 									else
 										break;
+									system("pause");
 								}
 							}
 							else if (temp_1 == 5) {
@@ -377,6 +393,7 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 
 									char temp_2;
 									cin >> temp_2;
+									cout << "---------------------------------------------------------\n\n";
 									if (temp_2 == '1') {
 
 									}
@@ -388,6 +405,7 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 									}
 									else
 										break;
+									system("pause");
 								}
 							}
 							else if (temp_1 == 6) {
@@ -396,10 +414,14 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 						}
 					}
 					else if (temp == 2) {
+						cout << "---------------------------------------------------------\n\n";
 						cur_user->printInfo();
+						system("pause");
 					}
 					else if (temp == 3) {
+						cout << "---------------------------------------------------------\n\n";
 						cur_user->changePassword();
+						system("pause");
 					}
 					else if (temp == 4) {
 						check_1 = false;
@@ -485,6 +507,7 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 								<< "Your answer: ";
 
 							cin >> temp_1;
+							cout << "---------------------------------------------------------\n\n";
 
 							if (temp_1 == 1) {
 
@@ -498,13 +521,18 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 							else if (temp_1 == 4) {
 								break;
 							}
+							system("pause");
 						}
 					}
 					else if (temp == 2) {
+						cout << "---------------------------------------------------------\n\n";
 						cur_user->printInfo();
+						system("pause");
 					}
 					else if (temp == 3) {
+						cout << "---------------------------------------------------------\n\n";
 						cur_user->changePassword();
+						system("pause");
 					}
 					else if (temp == 4) {
 						check_1 = false;
@@ -1407,7 +1435,7 @@ void gotoxy(int x, int y)
 //	19
 //	This version is for importing courses' schedule without asking for the class and path
 //	For the developers
-void importCoursesSchedulesOfAClass(courseList &course_list, classYear* cur_class, string path, string class_code) {
+void importCoursesSchedulesOfAClass(courseList &course_list, classYear* &cur_class, string path, string class_code) {
 	
 	//	import all courses' schedules of a single class from a .csv file
 	//	By Nguyen Ho Huu Nghia
@@ -2070,20 +2098,21 @@ void viewListOfSchedules(courseList &course_list, classList &class_list) {
 		if (cur_schedule == NULL)
 			return;
 		else {
-			cout << "Course code: " << cur_course->course_code << endl
+			cout << "-----------------------------\n\n"
+				<< "Course code: " << cur_course->course_code << endl
 				<< "Course name: " << cur_course->course_name << endl
 				<< "Lecturer username: " << cur_course->lecturer_username << endl
 				<< "Year: " << cur_schedule->year << endl
-				<< "Semester" << cur_schedule->semester << endl
+				<< "Semester: " << cur_schedule->semester << endl
 				<< "Start date: " << cur_schedule->start_date.day << '-' << cur_schedule->start_date.month << '-' << cur_schedule->start_date.year << endl
 				<< "End date: " << cur_schedule->end_date.day << '-' << cur_schedule->end_date.month << '-' << cur_schedule->end_date.year << endl
 				<< "Course session: " << endl;
 			cur_schedule->course_session.displaySession();
 			cout << endl;
 		}
+		cur_course_code = cur_course_code->next;
 	}
-	cout << "Press Enter to continue\n";
-	system("pause");
+
 }
 
 void findCourseFromCode(courseList& course_list, string& course_code, course*  &result) {
@@ -2122,8 +2151,7 @@ void findClassFromCode(classList& class_list, string& class_name, classYear*  &r
 	else {
 		result = cur_class;
 	}
-	cout << "Press Enter to continue\n";
-	system("pause");
+
 }
 
 //	24
@@ -2294,4 +2322,20 @@ void recursionEditGrade(int n, presence *&edit)
 	cout << "0. No\n";
 	cin >> n;
 	recursionEditGrade(n, edit);
+}
+void Time::displayTime() {
+	cout << hour << ":";
+	IntToXX(minute);
+	cout << endl;
+}
+void IntToXX(int n) {
+	char result[3];
+	if (n / 10 == 0) {
+		result[0] = '0';
+		result[1] = n + '0';
+		result[2] = '\0';
+		cout << result;
+	}
+	else
+		cout<<itoa(n, result, 10);
 }
