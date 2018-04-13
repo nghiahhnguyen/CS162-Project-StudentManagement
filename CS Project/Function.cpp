@@ -1435,7 +1435,7 @@ void gotoxy(int x, int y)
 //	19
 //	This version is for importing courses' schedule without asking for the class and path
 //	For the developers
-void importCoursesSchedulesOfAClass(courseList &course_list, classYear* &cur_class, string path, string class_code) {
+void importCoursesSchedulesOfAClass(courseList &course_list, classList &class_list, string path, string class_name) {
 	
 	//	import all courses' schedules of a single class from a .csv file
 	//	By Nguyen Ho Huu Nghia
@@ -1452,6 +1452,20 @@ void importCoursesSchedulesOfAClass(courseList &course_list, classYear* &cur_cla
 	}
 	else{
 
+		classYear *cur_class = class_list.head;
+
+		if (class_name != class_list.head->class_name) {
+			while (cur_class->next && cur_class->next->class_name != class_name)
+				cur_class = cur_class->next;
+			if (!cur_class->next) {
+					cur_class->next = new classYear;
+					cur_class = cur_class->next;
+					cur_class->next = NULL;
+					cur_class->class_name = class_name;
+			}
+			else
+				cur_class = cur_class->next;
+		}
 
 		//	ignore the 1st line containing the name of columns
 		fin.ignore(10000, '\n');
@@ -1679,8 +1693,21 @@ void importCoursesSchedulesOfAClass(courseList &course_list, classList &class_li
 		while (cur_class->next && cur_class->next->class_name != class_name)
 			cur_class = cur_class->next;
 		if (!cur_class->next) {
-			cout << "Class not found. Press enter to continue.\n";
-			system("pause");
+			cout << "Class not found.\n"
+				<< "Do you want to add this class?\n"
+				<< "[y]Yes\n"
+				<< "[n]No\n";
+			char check_add;
+			cin >> check_add;
+			if (check_add == 'n')
+				return;
+			else {
+				cur_class->next = new classYear;
+				cur_class = cur_class->next;
+				cur_class->next = NULL;
+				cur_class->class_name = class_name;
+			}
+
 			return;
 		}
 		else

@@ -199,7 +199,7 @@ void gotoxy(int x, int y);
 void showMenu(classList &class_list, courseList &course_list, userList &staff, userList &lecturer);
 //	This version is for importing courses' schedule without asking for the class and path
 //	For the developers
-void importCoursesSchedulesOfAClass(courseList &course_list, classYear* &cur_class, string path, string class_code);
+void importCoursesSchedulesOfAClass(courseList &course_list, classList &class_list, string path, string class_name);
 //	This version asks the user what is the class and the file path
 //	For the users
 void importCoursesSchedulesOfAClass(courseList &course_list, classList &class_list);
