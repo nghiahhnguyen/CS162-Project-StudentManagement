@@ -57,16 +57,7 @@ struct Time
 		this->hour = a.hour;
 		this->minute = a.minute;
 	}
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-	void displayTime() {
-		cout << hour << ":" << minute << endl;
-	}
->>>>>>> d7f51076cc7cd27ac4ba8e540b2b0578803fa31e
-=======
 	void displayTime();
->>>>>>> parent of a33f108... bullshit
 };
 
 enum dateofweek {
@@ -92,31 +83,31 @@ struct session
 		switch (session_day) {
 		case 1:
 			cout << "Date of week: Sunday\n";
-				
+
 			break;
 		case 2:
 			cout << "Date of week: Monday\n";
-				
+
 			break;
 		case 3:
 			cout << "Date of week: Tuesday\n";
-				
+
 			break;
 		case 4:
 			cout << "Date of week: Wednesday\n";
-				
+
 			break;
 		case 5:
 			cout << "Date of week: Thursday\n";
-				
+
 			break;
 		case 6:
 			cout << "Date of week: Friday\n";
-				
+
 			break;
 		case 7:
 			cout << "Date of week: Saturday\n";
-				
+
 			break;
 		}
 		cout << "Start time: ";
@@ -132,7 +123,7 @@ struct presence {
 	int semester, id, week;
 	float midterm, lab, final, total, bonus;	//Thay bao cho them cot total
 	char attendance[6];
-	presence* next=NULL;
+	presence* next = NULL;
 };
 
 struct schedule {
@@ -148,14 +139,14 @@ struct course {
 	int semester;
 	date start_date, end_date;
 	session course_session;
-	presence* head_presence=NULL;
-	course* next=NULL;
+	presence* head_presence = NULL;
+	course* next = NULL;
 	schedule* head_schedule = NULL;
 };
 
 struct courseCode {
 	string course_code;
-	courseCode* next=NULL;
+	courseCode* next = NULL;
 };
 
 struct classYear {
@@ -165,15 +156,15 @@ struct classYear {
 	courseCode* head_course_code = NULL;
 };
 
-struct courseList 
+struct courseList
 {
-	course* head=NULL;
+	course* head = NULL;
 	void addNewCourse();
 };
 
-struct classList 
+struct classList
 {
-	classYear *head=NULL;
+	classYear *head = NULL;
 	void addEmptyClass();
 };
 
@@ -205,30 +196,14 @@ void EditStudent(classList L, classYear a);
 void removeAcourse(courseList b);
 void editExistingCourse(courseList &a);
 void gotoxy(int x, int y);
-<<<<<<< HEAD
-<<<<<<< HEAD
-void showMenu(classList class_list, courseList course_list, userList staff, userList lecturer);
-void importCoursesSchedulesOfAClass(courseList course_list, classYear* cur_class, string path);
-void addACourseSchedule(courseList course_list, classList class_list);
-=======
-void showMenu(classList &class_list, courseList &course_list, userList &staff, userList &lecturer);
-//	This version is for importing courses' schedule without asking for the class and path
-//	For the developers
-void importCoursesSchedulesOfAClass(courseList &course_list, classYear* cur_class, string path, string class_code);
-=======
 void showMenu(classList &class_list, courseList &course_list, userList &staff, userList &lecturer);
 //	This version is for importing courses' schedule without asking for the class and path
 //	For the developers
 void importCoursesSchedulesOfAClass(courseList &course_list, classList &class_list, string path, string class_name);
->>>>>>> parent of a33f108... bullshit
 //	This version asks the user what is the class and the file path
 //	For the users
 void importCoursesSchedulesOfAClass(courseList &course_list, classList &class_list);
 void addACourseSchedule(courseList &course_list, classList &class_list);
-<<<<<<< HEAD
->>>>>>> d7f51076cc7cd27ac4ba8e540b2b0578803fa31e
-=======
->>>>>>> parent of a33f108... bullshit
 void moveStudentsFromClassAToB(classList a);
 bool exit();
 void exportPresence(string path, course a);
@@ -242,14 +217,7 @@ void findCourseFromCode(courseList &course_list, string &course_code, course*  &
 void findClassFromCode(classList &class_list, string &class_name, classYear*  &result);
 void viewListOfSchedules(courseList &course_list, classList &class_list);
 void recursionEditGrade(int n, presence *&edit);
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-void editGrade(courseList &a);
->>>>>>> d7f51076cc7cd27ac4ba8e540b2b0578803fa31e
-=======
 void editGrade(courseList &a);
 void IntToXX(int n);
->>>>>>> parent of a33f108... bullshit
 
 #endif
