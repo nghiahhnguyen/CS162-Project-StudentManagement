@@ -49,6 +49,7 @@ struct date {
 	int day, month, year;
 };
 
+
 struct Time
 {
 	int hour, minute;
@@ -56,9 +57,7 @@ struct Time
 		this->hour = a.hour;
 		this->minute = a.minute;
 	}
-	void displayTime() {
-		cout << hour << ":" << minute << endl;
-	}
+	void displayTime();
 };
 
 enum dateofweek {
@@ -84,31 +83,31 @@ struct session
 		switch (session_day) {
 		case 1:
 			cout << "Date of week: Sunday\n";
-				
+
 			break;
 		case 2:
 			cout << "Date of week: Monday\n";
-				
+
 			break;
 		case 3:
 			cout << "Date of week: Tuesday\n";
-				
+
 			break;
 		case 4:
 			cout << "Date of week: Wednesday\n";
-				
+
 			break;
 		case 5:
 			cout << "Date of week: Thursday\n";
-				
+
 			break;
 		case 6:
 			cout << "Date of week: Friday\n";
-				
+
 			break;
 		case 7:
 			cout << "Date of week: Saturday\n";
-				
+
 			break;
 		}
 		cout << "Start time: ";
@@ -124,7 +123,7 @@ struct presence {
 	int semester, id, week;
 	float midterm, lab, final, total, bonus;	//Thay bao cho them cot total
 	char attendance[6];
-	presence* next=NULL;
+	presence* next = NULL;
 };
 
 struct schedule {
@@ -140,14 +139,14 @@ struct course {
 	int semester;
 	date start_date, end_date;
 	session course_session;
-	presence* head_presence=NULL;
-	course* next=NULL;
+	presence* head_presence = NULL;
+	course* next = NULL;
 	schedule* head_schedule = NULL;
 };
 
 struct courseCode {
 	string course_code;
-	courseCode* next=NULL;
+	courseCode* next = NULL;
 };
 
 struct classYear {
@@ -157,21 +156,21 @@ struct classYear {
 	courseCode* head_course_code = NULL;
 };
 
-struct courseList 
+struct courseList
 {
-	course* head=NULL;
+	course* head = NULL;
 	void addNewCourse();
 };
 
-struct classList 
+struct classList
 {
-	classYear *head=NULL;
+	classYear *head = NULL;
 	void addEmptyClass();
 };
 
 //	template to create a new node for a linked list given the head node
 template<typename T>
-T* createNewNode(T* head) {
+T* createNewNode(T* &head) {
 	T* cur = head;
 	if (head == NULL) {
 		head = new T;
@@ -200,7 +199,7 @@ void gotoxy(int x, int y);
 void showMenu(classList &class_list, courseList &course_list, userList &staff, userList &lecturer);
 //	This version is for importing courses' schedule without asking for the class and path
 //	For the developers
-void importCoursesSchedulesOfAClass(courseList &course_list, classYear* cur_class, string path, string class_code);
+void importCoursesSchedulesOfAClass(courseList &course_list, classList &class_list, string path, string class_name);
 //	This version asks the user what is the class and the file path
 //	For the users
 void importCoursesSchedulesOfAClass(courseList &course_list, classList &class_list);
@@ -219,5 +218,6 @@ void findClassFromCode(classList &class_list, string &class_name, classYear*  &r
 void viewListOfSchedules(courseList &course_list, classList &class_list);
 void recursionEditGrade(int n, presence *&edit);
 void editGrade(courseList &a);
+void IntToXX(int n);
 
 #endif

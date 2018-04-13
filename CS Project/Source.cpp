@@ -43,7 +43,7 @@ int main() {
 	//	import courses
 	importCourses("Courses.csv",course_list);
 	//	import courses' schedule of 17APCS1
-	importCoursesSchedulesOfAClass(course_list, class_list.head, (string)"Courses-Schedule.csv", (string)"17APCS1");
+	importCoursesSchedulesOfAClass(course_list, class_list, (string)"Courses-Schedule.csv", (string)"17APCS1");
 
 	showMenu(class_list, course_list, staff, lecturer);
 
