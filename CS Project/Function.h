@@ -219,5 +219,6 @@ void viewListOfSchedules(courseList &course_list, classList &class_list);
 void recursionEditGrade(int n, presence *&edit);
 void editGrade(courseList &a);
 void IntToXX(int n);
+void editCourseSchedule(courseList L);
 
 #endif
