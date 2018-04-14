@@ -62,12 +62,12 @@ struct Time
 
 enum dateofweek {
 	sunday = 1,
-	monday,
-	tuesday,
-	wednesday,
-	thursday,
-	friday,
-	saturday,
+	monday = 2,
+	tuesday = 3,
+	wednesday = 4,
+	thursday = 5,
+	friday =6,
+	saturday =7,
 };
 
 struct session
@@ -180,6 +180,7 @@ T* createNewNode(T* &head) {
 		while (cur->next != NULL)
 			cur = cur->next;
 		cur->next = new T;
+		return cur->next;
 	}
 }
 
@@ -219,5 +220,6 @@ void viewListOfSchedules(courseList &course_list, classList &class_list);
 void recursionEditGrade(int n, presence *&edit);
 void editGrade(courseList &a);
 void IntToXX(int n);
+void editCourseSchedule(courseList L);
 
 #endif
