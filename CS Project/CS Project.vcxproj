@@ -148,9 +148,11 @@
   <ItemGroup>
     <None Include="17APCS1-Student.csv" />
     <None Include="17APCS1-Students.csv" />
+    <None Include="17APCS2-Students.csv" />
     <None Include="Academic-Staff.csv" />
     <None Include="Courses-Schedule.csv" />
     <None Include="Courses.csv" />
+    <None Include="Courses-Schedule2.csv" />
     <None Include="CS161-Presence.csv" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

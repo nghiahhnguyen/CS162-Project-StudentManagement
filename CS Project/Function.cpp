@@ -2211,7 +2211,7 @@ bool changeUnitDate(string str, date &D)
 	D.year = 0;
 
 	for (int i = 0; i < str.length(); i++)
-		if (str[i] != '/')
+		if (str[i] != '-')
 		{
 			int u = int(str[i]) - 48;
 			if (u<0 || u>9)
@@ -2225,7 +2225,7 @@ bool changeUnitDate(string str, date &D)
 
 	int posi = 0, sum = 0;
 
-	while (str[posi] != '/')
+	while (str[posi] != '-')
 	{
 		sum = sum * 10 + int(str[posi]) - 48;
 		posi++;
@@ -2234,7 +2234,7 @@ bool changeUnitDate(string str, date &D)
 
 	posi++;
 	sum = 0;
-	while (str[posi] != '/')
+	while (str[posi] != '-')
 	{
 		sum = sum * 10 + int(str[posi]) - 48;
 		posi++;
@@ -2292,42 +2292,100 @@ bool interrupted(Time start1, Time end1, Time start2, Time end2)
 	//check if 2 interval of time is interrupted
 
 	int begin1 = start1.hour * 60 + start1.minute;
-	int stop1 = end1.hour * 60 + start1.minute;
+	int stop1 = end1.hour * 60 + end1.minute;
 
-	int begin2 = start2.hour * 60 + start1.minute;
+	int begin2 = start2.hour * 60 + start2.minute;
 	int stop2 = end2.hour * 60 + end2.minute;
 
-	if (begin1>stop2 || stop1<begin2)
-		return true;
+	if (begin1 > stop2 || stop1 < begin2)
+		return false;
 
-	return false;
+	return true;
 }
 
-bool isDuplicatedTimes(courseList L, schedule *tempSchedule, dateofweek date, string room, Time start, Time end)
+bool isDuplicatedTimes(courseList L, string course_code, schedule *tempSchedule, dateofweek date, string room, Time start, Time end)
 {
 
 	//Nguyen Vo Duc Loc
 	//check if time is duplicated with other schedule
 
+
+	//------------------------check if there are no duplicated along the courseList
 	course *cur = L.head;
 	schedule *pre;
 
+/*	std::cout << std::endl;
+	std::cout << course_code << std::endl;
+	std::cout << tempSchedule->class_name << std::endl;
+	std::cout << tempSchedule->course_session.session_day << std::endl;
+	std::cout << tempSchedule->course_session.start.hour << ":" << tempSchedule->course_session.start.minute << std::endl;
+	std::cout << tempSchedule->course_session.end.hour << ":" << tempSchedule->course_session.end.minute << std::endl;
+	std::cout << tempSchedule->room << std::endl;
+	std::cout << std::endl;
+*/
 	while (cur != NULL)
 	{
 		pre = cur->head_schedule;
 		while (pre != NULL)
 		{
-			if (pre->course_session.session_day == date && pre->room == room)
+/*			std::cout << cur->course_code << std::endl;
+			std::cout << pre->class_name << std::endl;
+			std::cout << pre->course_session.session_day << std::endl;
+			std::cout << pre->course_session.start.hour <<":"<<pre->course_session.start.minute<< std::endl;
+			std::cout << pre->course_session.end.hour << ":" << pre->course_session.end.minute << std::endl;
+			std::cout << pre->room << std::endl <<std::endl;
+*/
+			if (pre != tempSchedule)
 			{
-				if (interrupted(start, end, pre->course_session.start, pre->course_session.end))
+				if (pre->class_name == tempSchedule->class_name && pre->course_session.session_day==date)
 				{
-					return true;
+					if (interrupted(start, end, pre->course_session.start, pre->course_session.end))
+						return true;
+				}
+				else
+				if (pre->course_session.session_day == date && pre->room == room)
+				{
+					if (interrupted(start, end, pre->course_session.start, pre->course_session.end))
+					{
+/*						std::cout << start.hour << ":" << start.minute << " ";
+						std::cout << end.hour << ":" << end.minute << std::endl;
+						std::cout << pre->course_session.start.hour << ":" << pre->course_session.start.minute << " ";
+						std::cout << pre->course_session.end.hour << ":" << pre->course_session.end.minute;
+						std::cout << std::endl;
+*/	
+						return true;
+					}
 				}
 			}
 			pre = pre->next;
 		}
 		cur = cur->next;
 	}
+
+	//-----------------check if there are no interruption in a Course
+	cur = L.head;
+	while (cur != NULL)
+	{
+		if (cur->course_code == course_code)
+			break;
+		cur = cur->next;
+	}
+
+	if (cur != NULL)
+	{
+		pre = cur->head_schedule;
+		while (pre != NULL)
+		{
+			if (pre!=tempSchedule)
+				if (date==pre->course_session.session_day)
+					if (interrupted(pre->course_session.start, pre->course_session.end, start, end))
+					{
+						return true;
+					}
+			pre = pre->next;
+		}
+	}
+
 	return false;
 }
 
@@ -2337,193 +2395,97 @@ void editCourseSchedule(courseList L)
 	//Nguyen Vo Duc Loc
 	//dep trai phong do
 
-	//haven't checked yet
 
-	char temp;
+	string course_code, class_name;
+	std::cout << "pls enter the course code: "; std::cin >> course_code;
+	std::cout << "pls enter the class name: "; std::cin >> class_name;
 
-	std::cout << "	[1] edit the session of a schedule of a class:\n"
-		<< "	[2] edit the schedule of a class \n"
-		<< "	[3] edit the session of a course \n";
-	std::cout << "pls enter your statement: ";
-	std::cin >> temp;
-	std::cin.ignore(10, '\n');
+	course *cur_course = L.head;
+	schedule *cur_schedule = NULL;
 
-	if (temp == '2')
+	//-------------------------check if course_code and class_name existed--
+
+	while (cur_course != NULL)
 	{
-		string course_code, class_name;
-		std::cout << "pls enter the course code: "; std::cin >> course_code;
-		std::cout << "pls enter the class name: "; std::cin >> class_name;
-
-		course *cur_course = L.head;
-		schedule *cur_schedule = NULL;
-
-		//-------------------------check if course_code and class_name existed--
-
-		while (cur_course != NULL)
-		{
-			if (cur_course->course_code == course_code)
-				break;
-			cur_course = cur_course->next;
-		}
-
-		if (cur_course != NULL)
-		{
-			cur_schedule = cur_course->head_schedule;
-			while (cur_schedule != NULL)
-			{
-				if (cur_schedule->class_name == class_name)
-					break;
-				cur_schedule = cur_schedule->next;
-			}
-		}
-		//--------------------------------------------
-		if (cur_course != NULL && cur_schedule != NULL)		//if they existed
-		{
-			dateofweek date;
-			int tempDate;
-
-			std::cout << "pls enter the index of date (sunday..saturday = 1..7): ";
-			std::cin >> tempDate;
-			switch (date)
-			{
-			case 1:date = sunday;
-			case 2:date = monday;
-			case 3:date = tuesday;
-			case 4:date = wednesday;
-			case 5:date = thursday;
-			case 6:date = saturday;
-			case 7:date = sunday;
-			}
-
-			std::cin.ignore(10, '\n');
-			std::string room;
-			std::cout << "pls enter the room you want to book: ";
-			std::getline(cin, room);
-
-			std::string begin;
-			std::cout << "pls enter the time you want to start your lesson (hour:minute): ";
-			std::cin >> begin;
-
-			std::string finish;
-			std::cout << "pls enter the time you want to finish your lesson (hour:minute): ";
-			std::cin >> finish;
-
-			Time start, end;
-
-			if (changeUnitTimes(begin, start) && changeUnitTimes(finish, end))
-			{
-				if (!isDuplicatedTimes(L, cur_schedule, date, room, start, end))
-				{
-					cur_schedule->room = room;
-					cur_schedule->course_session.start = start;
-					cur_schedule->course_session.end = end;
-					std::cout << "changed successfully" << std::endl;
-				}
-			}
-			else
-				std::cout << "syntax Error" << std::endl;
-		}
-		else
-		{
-			if (cur_course == NULL)
-				std::cout << "course code wrong" << std::endl;
-			if (cur_schedule == NULL)
-				std::cout << "Class name wrong" << std::endl;
-			std::cout << "wrong information" << std::endl;	//if they didn't exist
-		}
+		if (cur_course->course_code == course_code)
+			break;
+		cur_course = cur_course->next;
 	}
 
-	else if (temp == '1')	//edit session of a schedule of a course
+	if (cur_course != NULL)
 	{
-		string course_code;
-		std::cout << "plse enter the course code: "; std::cin >> course_code;
-
-		string class_name;
-		std::cout << "pls enter the class's name: "; std::cin >> class_name;
-
-		course *cur_course = L.head;
-		schedule *cur_schedule = NULL;
-
-		while (cur_course != NULL)
+		cur_schedule = cur_course->head_schedule;
+		while (cur_schedule != NULL)
 		{
-			if (cur_course->course_code == course_code)
+			if (cur_schedule->class_name == class_name)
 				break;
+			cur_schedule = cur_schedule->next;
 		}
-
-		if (cur_course != NULL)
-		{
-			cur_schedule = cur_course->head_schedule;
-			while (cur_schedule != NULL)
-			{
-				if (cur_schedule->class_name == class_name)
-					break;
-				cur_schedule = cur_schedule->next;
-			}
-		}
-
-		if (cur_course != NULL && cur_schedule != NULL)
-		{
-			string begin;
-			std::cout << "pls enter the date when the class start this course (day/month/year): ";
-			std::cin >> begin;
-
-			string finish;
-			std::cout << "pls enter the date when the class finish this course (day/month/year): ";
-			std::cin >> finish;
-
-			date start, end;
-			if (changeUnitDate(begin, start) && changeUnitDate(finish, end) && (isBefore(start, end)))
-			{
-				cur_schedule->start_date = start;
-				cur_schedule->end_date = end;
-				std::cout << "successfully" << std::endl;
-			}
-			else
-				std::cout << "syntax error" << std::endl;
-		}
-		else
-			std::cout << "wrong information" << std::endl;
 	}
-
-	else if (temp == '3')	//edit session of a course
+	//--------------------------------------------
+	if (cur_course != NULL && cur_schedule != NULL)		//if they existed
 	{
-		string course_code;
-		std::cout << "plse enter the course code: "; std::cin >> course_code;
+		dateofweek date;
+		int tempDate;
 
-		course *cur_course = L.head;
-
-		while (cur_course != NULL)
+		std::cout << "pls enter the index of date (sunday..saturday = 1..7): ";
+		std::cin >> tempDate;
+		switch (tempDate)
 		{
-			if (cur_course->course_code == course_code)
-				break;
+		case 1:date = sunday;
+			break;
+		case 2:date = monday;
+			break;
+		case 3:date = tuesday;
+			break;
+		case 4:date = wednesday;
+			break;
+		case 5:date = thursday;
+			break;
+		case 6:date = saturday;
+			break;
+		case 7:date = sunday;
+			break;
 		}
 
-		if (cur_course != NULL)
+		std::cin.ignore(10, '\n');
+		std::string room;
+		std::cout << "pls enter the room you want to book: ";
+		std::getline(cin, room);
+
+		std::string begin;
+		std::cout << "pls enter the time you want to start your lesson (hour:minute): ";
+		std::cin >> begin;
+
+		std::string finish;
+		std::cout << "pls enter the time you want to finish your lesson (hour:minute): ";
+		std::cin >> finish;
+
+		Time start, end;
+
+		if (tempDate>0 && tempDate<8 && changeUnitTimes(begin, start) && changeUnitTimes(finish, end))
 		{
-			string begin;
-			std::cout << "pls enter the date when the course  start (day/month/year): ";
-			std::cin >> begin;
-
-			string finish;
-			std::cout << "pls enter the date when the course finish (day/month/year): ";
-			std::cin >> finish;
-
-			date start, end;
-
-			if (changeUnitDate(begin, start) && changeUnitDate(finish, end) && (isBefore(start, end)))
+			if (!isDuplicatedTimes(L, course_code, cur_schedule, date, room, start, end))
 			{
-				cur_course->start_date = start;
-				cur_course->end_date = end;
-				std::cout << "successfully" << std::endl;
+				cur_schedule->room = room;
+				cur_schedule->course_session.session_day = date;
+				cur_schedule->course_session.start = start;
+				cur_schedule->course_session.end = end;
+				std::cout << "changed successfully" << std::endl;
 			}
 			else
-				std::cout << "syntax error" << std::endl;
-
+				std::cout << " UNSUCESSFULLY ! Your schedule is duplicated" << std::endl;
 		}
 		else
-		{
-			std::cout << "wrong information" << std::endl;
-		}
+			std::cout << "syntax Error" << std::endl;
+	}
+	else
+	{
+		if (cur_course == NULL)
+			std::cout << "course code wrong" << std::endl;
+		if (cur_schedule == NULL)
+			std::cout << "class name wrong" << std::endl;
+		std::cout << "wrong information" << std::endl;	//if they didn't exist
 	}
 
 	char tmp;
@@ -2532,11 +2494,7 @@ void editCourseSchedule(courseList L)
 	std::cin >> tmp;
 
 	if (tmp == '1')
-	{
-		system("cls");
 		editCourseSchedule(L);
-	}
-
 }
 
 
