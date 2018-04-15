@@ -105,10 +105,10 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 						cout << "---------------------------------------------------------\n\n";
 
 						if (temp_1 == 1) {
-
+							checkIn(cur_student, course_list);
 						}
 						else if (temp_1 == 2) {
-
+							viewCheckInResult(cur_student, course_list);
 						}
 						else if (temp_1 == 3) {
 
@@ -2924,7 +2924,7 @@ int weekFromStartDate(const date &start_date) {
 }
 
 //	31
-void student::checkIn(courseList &course_list) {
+void checkIn(student* you, courseList &course_list) {
 	//	Nghia
 	//	haven't check yet
 	string course_code;
@@ -2938,7 +2938,7 @@ void student::checkIn(courseList &course_list) {
 		return;
 	else {
 		presence* cur = cur_course->head_presence;
-		while (cur &&cur->id != this->id)
+		while (cur && cur->id != you->id)
 			cur = cur->next;
 		if (!cur) {
 			cout << "You are not a student of this course.\n";
@@ -2960,7 +2960,7 @@ void student::checkIn(courseList &course_list) {
 }
 ////////////////////////////////////////////////////////////////////
 
-void student::viewCheckInResult(courseList &course_list) {
+void viewCheckInResult(student* you, courseList &course_list) {
 	string course_code;
 	cout << "Enter the code of the course you want to check in: ";
 	cin.ignore();
@@ -2973,7 +2973,7 @@ void student::viewCheckInResult(courseList &course_list) {
 	}
 	else {
 		presence* cur = cur_course->head_presence;
-		while (cur &&cur->id != this->id)
+		while (cur &&cur->id != you->id)
 			cur = cur->next;
 		if (!cur) {
 			cout << "You are not a student of this course.\n";
