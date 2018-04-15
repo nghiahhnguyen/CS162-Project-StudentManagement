@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <cstring>
 #include "windows.h"
+#include <sstream>
 
 using namespace std;
 
@@ -26,8 +27,6 @@ struct student {
 	void generatePassword();
 	void printInfo();
 };
-
-
 
 struct user {
 	string username;
@@ -48,7 +47,6 @@ struct userList {
 struct date {
 	int day, month, year;
 };
-
 
 struct Time
 {
