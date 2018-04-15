@@ -35,20 +35,28 @@ struct student {
 	void checkIn(courseList &course_list);
 	void viewCheckInResult(courseList &course_list);
 <<<<<<< HEAD
+<<<<<<< HEAD
 	/*void operator=(student source) {
 =======
 	void operator=(student source) {
 >>>>>>> parent of 136fd26... Revert "Updating all files before checking"
+=======
+	void operator=(student source) {
+>>>>>>> parent of 5715f89... Revert "Updating all files before checking"
 		id = source.id;
 		full_name = source.full_name;
 		password = source.password;
 		email = source.email;
 		phone = source.phone;
 <<<<<<< HEAD
+<<<<<<< HEAD
 	}*/
 =======
 	}
 >>>>>>> parent of 136fd26... Revert "Updating all files before checking"
+=======
+	}
+>>>>>>> parent of 5715f89... Revert "Updating all files before checking"
 };
 
 struct user {
@@ -178,10 +186,13 @@ struct classYear {
 };
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 
 =======
 >>>>>>> parent of 136fd26... Revert "Updating all files before checking"
+=======
+>>>>>>> parent of 5715f89... Revert "Updating all files before checking"
 struct classList
 {
 	classYear *head = NULL;
@@ -244,11 +255,17 @@ void editGrade(courseList &a);
 void IntToXX(int n);
 void editCourseSchedule(courseList L);
 <<<<<<< HEAD
+<<<<<<< HEAD
 int weekFromStartDate(const date &start_date);
 =======
+=======
+>>>>>>> parent of 5715f89... Revert "Updating all files before checking"
 void exportScoreboardToCsv(courseList* course_list);
 void exportScoreboardToCsv(course* cur_course);
 int weekFromStartDate(const date &start_date);
 
+<<<<<<< HEAD
 >>>>>>> parent of 136fd26... Revert "Updating all files before checking"
+=======
+>>>>>>> parent of 5715f89... Revert "Updating all files before checking"
 #endif
