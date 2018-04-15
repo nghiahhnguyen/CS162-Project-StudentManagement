@@ -34,13 +34,21 @@ struct student {
 	void printInfo();
 	void checkIn(courseList &course_list);
 	void viewCheckInResult(courseList &course_list);
+<<<<<<< HEAD
 	/*void operator=(student source) {
+=======
+	void operator=(student source) {
+>>>>>>> parent of 136fd26... Revert "Updating all files before checking"
 		id = source.id;
 		full_name = source.full_name;
 		password = source.password;
 		email = source.email;
 		phone = source.phone;
+<<<<<<< HEAD
 	}*/
+=======
+	}
+>>>>>>> parent of 136fd26... Revert "Updating all files before checking"
 };
 
 struct user {
@@ -79,8 +87,8 @@ enum dateofweek {
 	tuesday = 3,
 	wednesday = 4,
 	thursday = 5,
-	friday =6,
-	saturday =7,
+	friday = 6,
+	saturday = 7,
 };
 
 struct session
@@ -135,7 +143,7 @@ struct presence {
 	string course_code, year;
 	int semester, id, week;
 	float midterm, lab, final, total, bonus;	//Thay bao cho them cot total
-	char attendance[6];
+	string attendance;
 	presence* next = NULL;
 };
 
@@ -169,12 +177,19 @@ struct classYear {
 	courseCode* head_course_code = NULL;
 };
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> parent of 136fd26... Revert "Updating all files before checking"
 struct classList
 {
 	classYear *head = NULL;
 	void addEmptyClass();
+};
+
+struct studentList_t {
+	student* head;
 };
 
 //	template to create a new node for a linked list given the head node
@@ -192,10 +207,8 @@ T* createNewNode(T* &head) {
 		return cur->next;
 	}
 }
-
-
-
-void input(char path[], classYear&a);
+void input(char path[], classYear &a, studentList_t &student_list);
+void input(classList &class_list, studentList_t &student_list);
 void output(char path[], classYear &a);
 void viewListOfStudentsInAClass(const classList &a);
 void viewListOfClass(classList L);
@@ -206,7 +219,7 @@ void EditStudent(classList L, classYear a);
 void removeAcourse(courseList b);
 void editExistingCourse(courseList &a);
 void gotoxy(int x, int y);
-void showMenu(classList &class_list, courseList &course_list, userList &staff, userList &lecturer);
+void showMenu(classList &class_list, courseList &course_list, userList &staff, userList &lecturer, studentList_t &student_list);
 //	This version is for importing courses' schedule without asking for the class and path
 //	For the developers
 void importCoursesSchedulesOfAClass(courseList &course_list, classList &class_list, string path, string class_name);
@@ -230,5 +243,12 @@ void recursionEditGrade(int n, presence *&edit);
 void editGrade(courseList &a);
 void IntToXX(int n);
 void editCourseSchedule(courseList L);
+<<<<<<< HEAD
 int weekFromStartDate(const date &start_date);
+=======
+void exportScoreboardToCsv(courseList* course_list);
+void exportScoreboardToCsv(course* cur_course);
+int weekFromStartDate(const date &start_date);
+
+>>>>>>> parent of 136fd26... Revert "Updating all files before checking"
 #endif
