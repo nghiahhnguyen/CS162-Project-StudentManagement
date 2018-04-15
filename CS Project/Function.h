@@ -11,8 +11,15 @@
 #include <stdio.h>
 #include <cstring>
 #include "windows.h"
+#include <sstream>
 
 using namespace std;
+
+struct courseList
+{
+	course* head = NULL;
+	void addNewCourse();
+};
 
 struct student {
 	int id;
@@ -25,6 +32,15 @@ struct student {
 	void changePassword();
 	void generatePassword();
 	void printInfo();
+	void checkIn(courseList &course_list);
+	void viewCheckInResult(courseList &course_list);
+	/*void operator=(student source) {
+		id = source.id;
+		full_name = source.full_name;
+		password = source.password;
+		email = source.email;
+		phone = source.phone;
+	}*/
 };
 
 struct user {
@@ -153,11 +169,7 @@ struct classYear {
 	courseCode* head_course_code = NULL;
 };
 
-struct courseList
-{
-	course* head = NULL;
-	void addNewCourse();
-};
+
 
 struct classList
 {
@@ -218,5 +230,5 @@ void recursionEditGrade(int n, presence *&edit);
 void editGrade(courseList &a);
 void IntToXX(int n);
 void editCourseSchedule(courseList L);
-
+int weekFromStartDate(const date &start_date);
 #endif

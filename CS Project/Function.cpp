@@ -2778,3 +2778,87 @@ void IntToXX(int n) {
 	else
 		cout << itoa(n, result, 10);
 }
+
+////////////////////////////////////////////////////////////////
+int weekFromStartDate(const date &start_date) {
+	//	return the week you are in
+	//	Nghia
+	time_t now = time(0);
+	tm *today = localtime(&now), start;
+	start.tm_year = start_date.year;
+	start.tm_mon = start_date.month;
+	start.tm_mday = start_date.day;
+	time_t b = mktime(today), a = mktime(&start);
+	return difftime(b, a) / (60 * 60 * 24 * 7) + 1;
+}
+
+//	31
+void student::checkIn(courseList &course_list) {
+	//	Nghia
+	//	haven't check yet
+	string course_code;
+	cout << "Enter the code of the course you want to check in: ";
+	cin.ignore();
+	getline(cin, course_code, '\n');
+	course* cur_course = course_list.head;
+	while (cur_course && cur_course->course_code != course_code)
+		cur_course = cur_course->next;
+	if (!cur_course)
+		return;
+	else {
+		presence* cur = cur_course->head_presence;
+		while (cur &&cur->id != this->id)
+			cur = cur->next;
+		if (!cur) {
+			cout << "You are not a student of this course.\n";
+			return;
+		}
+
+		int week = weekFromStartDate(cur_course->start_date);
+		cout << "Course: " << course_code << endl
+			<< "You are at week " << week << endl
+			<< "Please confirm that you want to check in:\n"
+			<< "[y]Yes\n[n]No\n"
+			<< "Your answer: ";
+		char ans;
+		cin >> ans;
+		if (ans == 'y' || ans == 'Y') {
+			cur->attendance[week] = 'x';
+		}
+	}
+}
+////////////////////////////////////////////////////////////////////
+
+void student::viewCheckInResult(courseList &course_list) {
+	string course_code;
+	cout << "Enter the code of the course you want to check in: ";
+	cin.ignore();
+	getline(cin, course_code, '\n');
+	course* cur_course = course_list.head;
+	while (cur_course && cur_course->course_code != course_code)
+		cur_course = cur_course->next;
+	if (!cur_course) {
+		cout << "The code you entered matches no existing course.\n";
+	}
+	else {
+		presence* cur = cur_course->head_presence;
+		while (cur &&cur->id != this->id)
+			cur = cur->next;
+		if (!cur) {
+			cout << "You are not a student of this course.\n";
+			return;
+		}
+
+		int week = weekFromStartDate(cur_course->start_date);
+		cout << "Course: " << course_code << endl
+			<< "You are at week " << week << endl
+			<< "Please confirm that you want to check in:\n"
+			<< "[y]Yes\n[n]No\n"
+			<< "Your answer: ";
+		char ans;
+		cin >> ans;
+		if (ans == 'y' || ans == 'Y') {
+			cur->attendance[week] = 'x';
+		}
+	}
+}
