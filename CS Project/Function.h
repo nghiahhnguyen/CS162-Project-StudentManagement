@@ -162,7 +162,8 @@ void exportPresence(string path, course a);
 course* searchCourse(string a, course *b);
 void viewScore(course* a);
 void viewCourseList(course* a);
-void editGrade(courseList a);
+void editGrade(courseList &a);
 void recursionEditGrade(int n, presence *&edit);
+void viewMyScore(courseList course_list);
 
 #endif

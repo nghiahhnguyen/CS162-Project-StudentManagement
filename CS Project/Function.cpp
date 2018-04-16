@@ -730,7 +730,7 @@ void showMenu(classList class_list, courseList course_list, userList staff, user
 
 						}
 						else if (temp_1 == 3) {
-
+							viewMyScore(course_list);
 						}
 						else if (temp_1 == 4) {
 
@@ -940,7 +940,7 @@ void showMenu(classList class_list, courseList course_list, userList staff, user
 
 							}
 							else if (temp_1 == 2) {
-
+								editGrade(course_list);
 							}
 							else if (temp_1 == 3) {
 
@@ -1359,7 +1359,6 @@ void viewAttendance(courseList course_list, presence* head_presence)
 {
 	// Haven't checked
 	// Vy Vy
-
 	string code;
 	cout << "Enter code of the course you want to check attendance: ";
 	cin >> code;
@@ -1560,11 +1559,13 @@ void recursionEditGrade(int n, presence *&edit)
 		return;
 	}
 
+	cout << "Enter the number corresponding to the action you want to take: \n";
 	cout << "Which grade you want to edit?\n";
-	cout << "1. Mid-term\n";
-	cout << "2. Lab\n";
-	cout << "3. Final\n";
-	cout << "4. Bonus\n";
+	cout << "[1] Mid-term\n";
+	cout << "[2] Lab\n";
+	cout << "[3] Final\n";
+	cout << "[4] Bonus\n";
+	cout << "Your choice: ";
 	int x;
 	cin >> x;
 
@@ -1590,9 +1591,47 @@ void recursionEditGrade(int n, presence *&edit)
 	}
 	}
 
+	cout << "Enter the number corresponding to the action you want to take: \n";
 	cout << "Do you want to edit another grade?\n";
-	cout << "1. Yes\n";
-	cout << "0. No\n";
+	cout << "[1] Yes\n";
+	cout << "[0] No\n";
+	cout << "Your choice: ";
 	cin >> n;
 	recursionEditGrade(n, edit);
+}
+void viewMyScore(courseList course_list)
+{
+	// Vy Vy
+
+	string code;
+	int newid;
+	cout << "Please enter your student ID: ";
+	cin >> newid;
+	cout << "Which course you want to view your scores? ";
+	cin >> code;
+	course *cur = course_list.head;
+	while (cur && cur->course_code != code) {
+		cur = cur->next;
+	}
+	if (!cur) {
+		cout << "Sorry, the course code you enter doesn't exist.\n";
+		return;
+	}
+	else {
+		presence *print = cur->head_presence;
+		while (!print && print->id != newid) {
+			print = print->next;
+		}
+		if (!print) {
+			cout << "Sorry, you have entered wrong ID.\n";
+			return;
+		}
+		else {
+			cout << "Mid-term: " << print->midterm << endl;
+			cout << "Lab: " << print->lab << endl;
+			cout << "Final: " << print->final << endl;
+			cout << "Bonus: " << print->bonus << endl;
+			cout << "Total: " << print->total << endl;
+		}
+	}
 }
