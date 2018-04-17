@@ -939,7 +939,7 @@ void EditStudent(classList L, classYear a)
 		return;
 	}
 	else if (!cur->class_name.compare(classname)) {	//return false
-		student *edit = a.head;
+		student *edit = cur->head;
 		cout << "Enter student ID: ";
 		int newid;
 		cin >> newid;
