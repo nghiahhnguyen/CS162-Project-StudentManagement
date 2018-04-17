@@ -41,6 +41,10 @@ struct user {
 	void printInfo();
 };
 
+struct studentList_t {
+	student *head=NULL;
+};
+
 struct userList {
 	user* head;
 };
@@ -221,5 +225,9 @@ void recursionEditGrade(int n, presence *&edit);
 void editGrade(courseList &a);
 void IntToXX(int n);
 void editCourseSchedule(courseList L);
+
+void exportStudentList(studentList_t pupil);
+void inputStudentList(studentList_t &pupil);
+
 
 #endif

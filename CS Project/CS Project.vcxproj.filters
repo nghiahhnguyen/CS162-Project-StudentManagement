@@ -52,5 +52,11 @@
     <None Include="Courses-Schedule2.csv">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="Student-List-Input.csv">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Student-List-Output.csv">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

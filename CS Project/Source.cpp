@@ -50,9 +50,14 @@ int main() {
 	//	import courses' schedule of 17APCS1
 
 
-	importCoursesSchedulesOfAClass(course_list, class_list, (string)"Courses-Schedule.csv", (string)"17APCS1");
-	importCoursesSchedulesOfAClass(course_list, class_list, (string)"Courses-Schedule2.csv", (string)"17APCS2");
+//	importCoursesSchedulesOfAClass(course_list, class_list, (string)"Courses-Schedule.csv", (string)"17APCS1");
+//	importCoursesSchedulesOfAClass(course_list, class_list, (string)"Courses-Schedule2.csv", (string)"17APCS2");
 
-	showMenu(class_list, course_list, staff, lecturer);
+//	showMenu(class_list, course_list, staff, lecturer);
+
+	studentList_t pupils;
+	inputStudentList(pupils);
+	exportStudentList(pupils);
+	
 	return 0;
 }

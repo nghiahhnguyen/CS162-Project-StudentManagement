@@ -2497,8 +2497,101 @@ void editCourseSchedule(courseList L)
 		editCourseSchedule(L);
 }
 
+// ko co so
+void exportStudentList(studentList_t pupil)
+{
+
+	//Loc dep trai
+
+	student *cur = pupil.head;
+
+	std::ofstream fo;
+
+	fo.open("Student-List-Output.csv");
+
+	fo << "ID,name,class,email,phone,password\n";
+	
+	while (cur != NULL)
+	{
+
+		fo << cur->id << ",";
+		fo << cur->full_name << ",";
+		fo << cur->class_name << ",";
+		fo << cur->email<<",";
+		fo << cur->phone<<",";
+		fo << cur->password;
+
+		if (cur->next != NULL)
+			fo << "\n";
+
+		cur = cur->next;
+	}
+
+	fo.close();
+}
+
+void inputStudentList(studentList_t &pupil)
+{
+	//Nguyen Vo Duc Loc
+
+	std::ifstream fi;
+	fi.open("Student-List-Input.csv");
+
+	if (!fi.is_open())
+	{
+		std::cout << "file doesn't exist" << std::endl;
+		return;
+	}
+
+	fi.ignore(200, '\n');		//ignore the titile of the file csv
+
+	string id, full_name, class_name, email, phone, password;
+	student *cur=pupil.head;
+
+	while (cur!=NULL && cur->next != NULL)
+		cur = cur->next;
+
+	while (!fi.eof())
+	{
+		getline(fi, id, ',');
+		getline(fi, full_name, ',');
+		getline(fi, class_name, ',');
+		getline(fi, email, ',');
+		getline(fi, phone, ',');
+		getline(fi, password);
+
+		std::cout << id<<" " << full_name <<" "<< class_name <<" "<< email <<" "<< phone <<" "<< password << std::endl;
+		system("pause");
+
+		if (pupil.head == NULL)
+		{
+			pupil.head = new student;
+			pupil.head->next = NULL;
+			pupil.head->id = stoi(id);
+			pupil.head->full_name = full_name;
+			pupil.head->class_name = class_name;
+			pupil.head->email = email;
+			pupil.head->phone = phone;
+			pupil.head->password = password;
+			cur = pupil.head;
+		}
+		else
+		{
+			cur->next = new student;
+			cur = cur->next;
+			cur->next = NULL;
+			cur->id = stoi(id);
+			cur->full_name = full_name;
+			cur->class_name = class_name;
+			cur->email = email;
+			cur->phone = phone;
+			cur->password = password;
+		}
+	}
 
 
+	fi.close();
+}
 //==============================================================================================================
 
 
