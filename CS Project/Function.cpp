@@ -428,10 +428,13 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 									cin >> temp_2;
 									cout << "---------------------------------------------------------\n\n";
 									if (temp_2 == '1') {
-										//viewScore()
+										cout << "Enter the name of the course: ";
+										string course_name;
+										getline(cin, course_name, '\n');
+										viewScore(searchCourse(course_name, course_list.head));
 									}
 									else if (temp_2 == '2') {
-										//exportScoreboardToCsv()
+										//exportScoreboardToCsv(course_list);
 									}
 									else
 										break;
