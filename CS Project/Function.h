@@ -21,10 +21,9 @@ struct student {
 	string password;
 	string email;
 	string phone;
-	student *next = NULL;
+	student *next;
 	void changePassword();
 	void generatePassword();
-	void printInfo();
 };
 
 
@@ -35,10 +34,9 @@ struct user {
 	string email;
 	string phone;
 	string password;
-	user* next = NULL;
+	user* next;
 	void changePassword();
 	void generateUsernameAndPassword();
-	void printInfo();
 };
 
 struct userList {
@@ -49,7 +47,6 @@ struct date {
 	int day, month, year;
 };
 
-
 struct Time
 {
 	int hour, minute;
@@ -57,17 +54,16 @@ struct Time
 		this->hour = a.hour;
 		this->minute = a.minute;
 	}
-	void displayTime();
 };
 
 enum dateofweek {
 	sunday = 1,
-	monday = 2,
-	tuesday = 3,
-	wednesday = 4,
-	thursday = 5,
-	friday =6,
-	saturday =7,
+	monday,
+	tuesday,
+	wednesday,
+	thursday,
+	friday,
+	saturday,
 };
 
 struct session
@@ -79,55 +75,19 @@ struct session
 		this->end = a.end;
 		this->session_day = a.session_day;
 	}
-	void displaySession() {
-		switch (session_day) {
-		case 1:
-			cout << "Date of week: Sunday\n";
-
-			break;
-		case 2:
-			cout << "Date of week: Monday\n";
-
-			break;
-		case 3:
-			cout << "Date of week: Tuesday\n";
-
-			break;
-		case 4:
-			cout << "Date of week: Wednesday\n";
-
-			break;
-		case 5:
-			cout << "Date of week: Thursday\n";
-
-			break;
-		case 6:
-			cout << "Date of week: Friday\n";
-
-			break;
-		case 7:
-			cout << "Date of week: Saturday\n";
-
-			break;
-		}
-		cout << "Start time: ";
-		start.displayTime();
-		cout << "End time: ";
-		end.displayTime();
-	}
 };
 
 //	stands for a student in a course
 struct presence {
 	string course_code, year;
 	int semester, id, week;
-	float midterm, lab, final, total, bonus;	//Thay bao cho them cot total
-	char attendance[6];
-	presence* next = NULL;
+	float midterm, lab, final, total, bonus;
+	char attendance[10];
+	presence* next=NULL;
 };
 
 struct schedule {
-	string room, year, class_name;
+	string room, year;
 	int semester;
 	date start_date, end_date;
 	session course_session;
@@ -139,38 +99,38 @@ struct course {
 	int semester;
 	date start_date, end_date;
 	session course_session;
-	presence* head_presence = NULL;
-	course* next = NULL;
+	presence* head_presence=NULL;
+	course* next=NULL;
 	schedule* head_schedule = NULL;
 };
 
 struct courseCode {
 	string course_code;
-	courseCode* next = NULL;
+	courseCode* next=NULL;
 };
 
 struct classYear {
 	string class_name;
 	student *head = NULL;
 	classYear* next = NULL;
-	courseCode* head_course_code = NULL;
+	courseCode* head_course_code;
 };
 
-struct courseList
+struct courseList 
 {
-	course* head = NULL;
+	course* head=NULL;
 	void addNewCourse();
 };
 
-struct classList
+struct classList 
 {
-	classYear *head = NULL;
+	classYear *head=NULL;
 	void addEmptyClass();
 };
 
 //	template to create a new node for a linked list given the head node
 template<typename T>
-T* createNewNode(T* &head) {
+T* createNewNode(T* head) {
 	T* cur = head;
 	if (head == NULL) {
 		head = new T;
@@ -180,46 +140,30 @@ T* createNewNode(T* &head) {
 		while (cur->next != NULL)
 			cur = cur->next;
 		cur->next = new T;
-		return cur->next;
 	}
 }
 
 
 
-void input(char path[], classYear&a);
-void output(char path[], classYear &a);
+void input(const char path[], classYear&a);
+void output(const char path[], classYear &a);
 void viewListOfStudentsInAClass(const classList &a);
 void viewListOfClass(classList L);
 void importCourses(string path, courseList& a);
-void importCourses(courseList& a);
-void AddNewStudentToClass(classList L, classYear &a);
-void EditStudent(classList L, classYear a);
 void removeAcourse(courseList b);
 void editExistingCourse(courseList &a);
 void gotoxy(int x, int y);
-void showMenu(classList &class_list, courseList &course_list, userList &staff, userList &lecturer);
-//	This version is for importing courses' schedule without asking for the class and path
-//	For the developers
-void importCoursesSchedulesOfAClass(courseList &course_list, classList &class_list, string path, string class_name);
-//	This version asks the user what is the class and the file path
-//	For the users
-void importCoursesSchedulesOfAClass(courseList &course_list, classList &class_list);
-void addACourseSchedule(courseList &course_list, classList &class_list);
+void showMenu(classList class_list, courseList course_list, userList staff, userList lecturer);
+void importCoursesSchedulesOfAClass(courseList course_list, classYear* cur_class, string path);
+void addACourseSchedule(courseList course_list, classList class_list);
 void moveStudentsFromClassAToB(classList a);
 bool exit();
 void exportPresence(string path, course a);
 course* searchCourse(string a, course *b);
 void viewScore(course* a);
-void viewCourseList(courseList a);
-void viewAttendance(courseList course_list, presence* head_presence);
-void importUsers(userList &staff, string path);
-void inputPassword(string &password);
-void findCourseFromCode(courseList &course_list, string &course_code, course*  &result);
-void findClassFromCode(classList &class_list, string &class_name, classYear*  &result);
-void viewListOfSchedules(courseList &course_list, classList &class_list);
-void recursionEditGrade(int n, presence *&edit);
+void viewCourseList(course* a);
 void editGrade(courseList &a);
-void IntToXX(int n);
-void editCourseSchedule(courseList L);
+void recursionEditGrade(int n, presence *&edit);
+void viewMyScore(courseList course_list);
 
 #endif
