@@ -972,7 +972,51 @@ void EditStudent(classList L, classYear a)
 		}
 	}
 }
+//9
+void removeAStudent(classList &class_list)
+{
+	// Vy Vy
 
+	string classname;
+	cout << "Enter name of the class you want to remove a student: ";
+	cin >> classname;
+	
+	classYear *cur = class_list.head;
+	while (cur && cur->class_name!=classname) {
+		cur = cur->next;
+	}
+	if (!cur) {
+		cout << "Sorry, the class you entered doesn't exist.\n";
+		return;
+	}
+	else {
+		int newid;
+		cout << "Enter the ID of the student you want to remove: ";
+		cin >> newid;
+		student *del = cur->head;
+
+		// Check first student
+		if (del->id == newid) {
+			cur->head = cur->head->next;
+			delete del;
+			return;
+		}
+
+		while (del->next && del->next->id != newid) {
+			del = del->next;
+		}
+		if (!del->next) {
+			cout << "Sorry, the ID you entered doesn't exist.\n";
+			return;
+		}
+		else {
+			student *tmp = del->next;
+			del->next = tmp->next;
+			delete tmp;
+			return;
+		}
+	}
+}
 //	10
 void moveStudentsFromClassAToB(classList a) {
 
