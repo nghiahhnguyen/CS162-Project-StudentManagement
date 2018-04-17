@@ -160,12 +160,13 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 
 				//	Check if there is any staff matching the log in info
 				while (true) {
+					cur_user = staff.head;
 					while (cur_user && (username != cur_user->username || password != cur_user->password))
 						cur_user = cur_user->next;
 
 					//	if there is no staff that matches the log in info
 					if (!cur_user) {
-
+						password = "";
 						system("cls");
 						cout << "\t\t\t\tSTUDENT MANAGEMENT PROGRAM\n"
 							<< "\t\t*********************************************************\n\n"
@@ -176,9 +177,9 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 						cin >> username;
 						cout << "Password: ";
 						inputPassword(password);
+						continue;
 					}
-					else
-						break;
+					else break;
 				}
 
 
@@ -410,7 +411,7 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 								}
 							}
 							else if (temp_1 == 6) {
-								check_2 = false;
+								break;
 							}
 						}
 					}
@@ -650,8 +651,10 @@ void user::changePassword()
 
 	string pass, newPass;
 
+	cin.ignore(50, '\n');
+
 	cout << "pls enter your previous password: ";
-	getline(cin, pass);
+	inputPassword(pass);
 
 	if (pass != password)
 	{
@@ -660,20 +663,68 @@ void user::changePassword()
 		return;
 	}
 
-	cout << "pls enter your new password: ";
-	getline(cin, pass);
-	cout << "pls enter again your new password: ";
-	cin >> newPass;
+	pass = "";
+	cout << "\npls enter your new password: ";
+	inputPassword(pass);
+	cout << "\npls enter again your new password: ";
+	inputPassword(newPass);
 
 	if (newPass == pass)
 	{
 		password = newPass;
-		cout << "your password is changed successfully";
+		cout << "\nyour password is changed successfully";
 	}
 	else
-		cout << "unsucessfully";
+	{
+		cout << "\n" << newPass << "\n" << pass;
+		cout << "\nunsucessfully";
+	}
 
-	system("pause");
+}
+
+// ghi de password
+void saveNewPasswordForStaff(char path[], userList staff)
+{
+
+	//Vy Vy
+
+	ofstream fout;
+	fout.open(path);
+
+	user *newstaff = staff.head;
+
+	if (fout.good()) {
+		fout << "Username,Full name,Email,Mobile phone,Password\n";
+		while (newstaff) {
+			fout << newstaff->username << "," << newstaff->full_name << "," << newstaff->email << "," << newstaff->phone << "," << newstaff->password;
+			fout << endl;
+			newstaff = newstaff->next;
+		}
+	}
+
+	fout.close();
+}
+
+// ghi de password
+void saveNewPasswordForLecturer(char path[], userList lecturer)
+{
+	//Vy Vy
+
+	ofstream fout;
+	fout.open(path);
+
+	user *newstaff = lecturer.head;
+
+	if (fout.good()) {
+		fout << "Username,Full name,Email,Mobile phone,Password\n";
+		while (newstaff) {
+			fout << newstaff->username << "," << newstaff->full_name << "," << newstaff->email << "," << newstaff->phone << "," << newstaff->password;
+			fout << endl;
+			newstaff = newstaff->next;
+		}
+	}
+
+	fout.close();
 }
 
 //	6

@@ -229,5 +229,8 @@ void editCourseSchedule(courseList L);
 void exportStudentList(studentList_t pupil);
 void inputStudentList(studentList_t &pupil);
 
+void saveNewPasswordForStaff(char path[], userList staff);
+void saveNewPasswordForLecturer(char path[], userList lecturer);
+
 
 #endif
