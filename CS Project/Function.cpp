@@ -288,7 +288,7 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 									cin >> temp_2;
 									cout << "---------------------------------------------------------\n\n";
 									if (temp_2 == '1') {
-										importCourses(course_list);
+										importCourses(course_list, student_list);
 									}
 									else if (temp_2 == '2') {
 										course_list.addNewCourse();
@@ -1202,7 +1202,7 @@ void student::generatePassword() {
 }
 
 //	14
-void importCourses(string path, courseList& a) {
+void importCourses(string path, courseList& a, studentList_t student_list) {
 	//	import courses from a .csv file
 	//	Nguyen Ho Huu Nghia
 
@@ -1231,9 +1231,151 @@ void importCourses(string path, courseList& a) {
 
 				while (classes.good()) {
 					classes >> class_name;
-					file_name = class_name + a.head->course_code;
+					file_name = class_name + "-" + a.head->course_code + ".csv";
+					fin1.open(file_name);
+					
+					if(fin1.good()){
+
+						fin1.ignore(1000, '\n');
+
+						while (fin1.good()) {
+							fin1.ignore(1000, '\n');
+							fin1.ignore(1000, ',');
+
+							string buffer_student_id;
+							getline(fin1, buffer_student_id, ',');
+							int student_id = stoi(buffer_student_id);
+
+							if (student_list.head->id != student_id) {
+								student* cur_student = student_list.head;
+								while (cur_student->next && cur_student->next->id != student_id)
+									cur_student = cur_student->next;
+								if (!cur_student->next) {
+									cur_student->next = new student;
+									cur_student->next->id = student_id;
+									getline(fin1, cur_student->next->full_name, ',');
+									cur_student->next->generatePassword();
+								}
+							}
+						}
+					}
+					fin1.close();
+				}
+
+
+				a.head->next = NULL;
+				cur = a.head;
+			}
+
+			else {
+				cur->next=new course;
+				cur = cur->next;
+				getline(fin, cur->course_code, ',');
+				getline(fin, cur->course_name, ',');
+				getline(fin, cur->lecturer_username, ',');
+
+				getline(fin, buffer, '\n');
+				stringstream classes(buffer);
+
+				while (classes.good()) {
+					classes >> class_name;
+					file_name = class_name + "-" + cur->course_code + ".csv";
+					fin1.open(file_name);
+					if(fin1.good()){
+						fin1.ignore(1000, '\n');
+						while (fin1.good()) {
+							fin1.ignore(1000, '\n');
+							fin1.ignore(1000, ',');
+							string buffer_student_id;
+							getline(fin1, buffer_student_id, ',');
+							int student_id = stoi(buffer_student_id);
+							if (!student_list.head->id == student_id) {
+								student* cur_student = student_list.head;
+								while (cur_student->next && cur_student->next->id != student_id)
+									cur_student = cur_student->next;
+								if (!cur_student->next) {
+									cur_student->next = new student;
+									cur_student->next->id = student_id;
+									getline(fin1, cur_student->next->full_name, ',');
+									cur_student->next->generatePassword();
+								}
+							}
+						}
+					}
+					fin1.close();
+				}
+
+
+				cur->next = NULL;
+			}
+		}
+	}
+	fin.close();
+}
+
+//	14
+//	For the users
+void importCourses(courseList& a, studentList_t student_list) {
+	//	import courses from a .csv file
+	//	Nguyen Ho Huu Nghia
+
+	cout << "Enter the path of the .csv file: ";
+	string path;
+	getline(cin, path, '\n');
+
+	ifstream fin(path), fin1;
+	fin.ignore(10000, '\n');
+
+	a.head = NULL;
+	if (fin.good()) {
+
+		course* cur;
+
+		//	start reading students' info
+		string buffer;
+
+		while (fin.good()) {
+			string class_name, file_name;
+
+			if (a.head == NULL) {
+				a.head = new course;
+				getline(fin, a.head->course_code, ',');
+				getline(fin, a.head->course_name, ',');
+				getline(fin, a.head->lecturer_username, ',');
+
+				getline(fin, buffer, '\n');
+				stringstream classes(buffer);
+
+				while (classes.good()) {
+					classes >> class_name;
+					file_name = class_name + "-" + a.head->course_code + ".csv";
 					fin1.open(file_name);
 
+					if (fin1.good()) {
+
+						fin1.ignore(1000, '\n');
+
+						while (fin1.good()) {
+							fin1.ignore(1000, '\n');
+							fin1.ignore(1000, ',');
+
+							string buffer_student_id;
+							getline(fin1, buffer_student_id, ',');
+							int student_id = stoi(buffer_student_id);
+
+							if (student_list.head->id != student_id) {
+								student* cur_student = student_list.head;
+								while (cur_student->next && cur_student->next->id != student_id)
+									cur_student = cur_student->next;
+								if (!cur_student->next) {
+									cur_student->next = new student;
+									cur_student->next->id = student_id;
+									getline(fin1, cur_student->next->full_name, ',');
+									cur_student->next->generatePassword();
+								}
+							}
+						}
+					}
 					fin1.close();
 				}
 
@@ -1248,107 +1390,39 @@ void importCourses(string path, courseList& a) {
 				getline(fin, cur->course_code, ',');
 				getline(fin, cur->course_name, ',');
 				getline(fin, cur->lecturer_username, ',');
-				getline(fin, cur->year, ',');
-				getline(fin, buffer, ',');
-				cur->semester = stoi(buffer);
 
-				getline(fin, buffer, '-');
-				cur->start_date.day = stoi(buffer);
-				getline(fin, buffer, '-');
-				cur->start_date.month = stoi(buffer);
-				getline(fin, buffer, ',');
-				cur->start_date.day = stoi(buffer);
+				getline(fin, buffer, '\n');
+				stringstream classes(buffer);
 
-				getline(fin, buffer, '-');
-				cur->end_date.day = stoi(buffer);
-				getline(fin, buffer, '-');
-				cur->end_date.month = stoi(buffer);
-				getline(fin, buffer, ',');
-				cur->end_date.year = stoi(buffer);
+				while (classes.good()) {
+					classes >> class_name;
+					file_name = class_name + "-" + cur->course_code + ".csv";
+					fin1.open(file_name);
+					if (fin1.good()) {
+						fin1.ignore(1000, '\n');
+						while (fin1.good()) {
+							fin1.ignore(1000, '\n');
+							fin1.ignore(1000, ',');
+							string buffer_student_id;
+							getline(fin1, buffer_student_id, ',');
+							int student_id = stoi(buffer_student_id);
+							if (!student_list.head->id == student_id) {
+								student* cur_student = student_list.head;
+								while (cur_student->next && cur_student->next->id != student_id)
+									cur_student = cur_student->next;
+								if (!cur_student->next) {
+									cur_student->next = new student;
+									cur_student->next->id = student_id;
+									getline(fin1, cur_student->next->full_name, ',');
+									cur_student->next->generatePassword();
+								}
+							}
+						}
+					}
+					fin1.close();
+				}
 
-				getline(fin, cur->room, '\n');
-				cur->next = NULL;
-			}
-		}
-	}
-	fin.close();
-}
 
-//	14
-//	For the users
-void importCourses(courseList& a) {
-	//	import courses from a .csv file
-	//	Nguyen Ho Huu Nghia
-
-	cout << "Enter the path of the .csv file: ";
-	string path;
-	getline(cin, path, '\n');
-
-	ifstream fin(path);
-	fin.ignore(10000, '\n');
-
-	a.head = NULL;
-	if (fin.good()) {
-
-		course* cur;
-
-		//	start reading students' info
-		string buffer;
-
-		while (fin.good()) {
-
-			if (a.head == NULL) {
-				a.head = new course;
-				getline(fin, a.head->course_code, ',');
-				getline(fin, a.head->course_name, ',');
-				getline(fin, a.head->lecturer_username, ',');
-				getline(fin, a.head->year, ',');
-				getline(fin, buffer, ',');
-				a.head->semester = stoi(buffer);
-
-				getline(fin, buffer, '-');
-				a.head->start_date.day = stoi(buffer);
-				getline(fin, buffer, '-');
-				a.head->start_date.month = stoi(buffer);
-				getline(fin, buffer, ',');
-				a.head->start_date.day = stoi(buffer);
-
-				getline(fin, buffer, '-');
-				a.head->end_date.day = stoi(buffer);
-				getline(fin, buffer, '-');
-				a.head->end_date.month = stoi(buffer);
-				getline(fin, buffer, ',');
-				a.head->end_date.year = stoi(buffer);
-				getline(fin, a.head->room, '\n');
-				a.head->next = NULL;
-				cur = a.head;
-			}
-
-			else {
-				cur->next = new course;
-				cur = cur->next;
-				getline(fin, cur->course_code, ',');
-				getline(fin, cur->course_name, ',');
-				getline(fin, cur->lecturer_username, ',');
-				getline(fin, cur->year, ',');
-				getline(fin, buffer, ',');
-				cur->semester = stoi(buffer);
-
-				getline(fin, buffer, '-');
-				cur->start_date.day = stoi(buffer);
-				getline(fin, buffer, '-');
-				cur->start_date.month = stoi(buffer);
-				getline(fin, buffer, ',');
-				cur->start_date.day = stoi(buffer);
-
-				getline(fin, buffer, '-');
-				cur->end_date.day = stoi(buffer);
-				getline(fin, buffer, '-');
-				cur->end_date.month = stoi(buffer);
-				getline(fin, buffer, ',');
-				cur->end_date.year = stoi(buffer);
-
-				getline(fin, cur->room, '\n');
 				cur->next = NULL;
 			}
 		}
@@ -1554,114 +1628,10 @@ void importCoursesSchedulesOfAClass(courseList &course_list, classList &class_li
 		//	ignore the 1st line containing the name of columns
 		fin.ignore(10000, '\n');
 
-
-		cur_class->head_course_code = new courseCode;
-		cur_class->head_course_code->next = NULL;
-		char buffer[5];
-
-		getline(fin, cur_class->head_course_code->course_code, ',');
-
-		//	find the corresponding course in the course list
-		course *cur_course = course_list.head, *pre_course = cur_course;
-		while (cur_course->course_code != cur_class->head_course_code->course_code && cur_course != NULL) {
-			pre_course = cur_course;
-			cur_course = cur_course->next;
-		}
-
-		//	if the course doesn't exist, add a new one
-		if (cur_course == NULL) {
-			pre_course->next = new course;
-			cur_course = pre_course->next;
-		}
-
-		getline(fin, cur_course->course_name, ',');
-		getline(fin, cur_course->lecturer_username, ',');
-
-
-		schedule* cur_schedule = createNewNode(cur_course->head_schedule);
-
-		cur_schedule->class_name = cur_class->class_name;
-
-		getline(fin, cur_schedule->year, ',');
-
-		fin.getline(buffer, 2, ',');
-		cur_schedule->semester = atoi(buffer);
-
-		//	start date
-		fin.getline(buffer, 3, '-');
-		cur_schedule->start_date.day = atoi(buffer);
-		fin.getline(buffer, 3, '-');
-		cur_schedule->start_date.month = atoi(buffer);
-		fin.getline(buffer, 5, ',');
-		cur_schedule->start_date.year = atoi(buffer);
-
-		//	end date
-		fin.getline(buffer, 3, '-');
-		cur_schedule->end_date.day = atoi(buffer);
-		fin.getline(buffer, 3, '-');
-		cur_schedule->end_date.month = atoi(buffer);
-		fin.getline(buffer, 5, ',');
-		cur_schedule->end_date.year = atoi(buffer);
-
-		fin.getline(buffer, 2, ',');
-		switch (atoi(buffer)) {
-		case 1:
-			cur_schedule->course_session.session_day = sunday;
-			break;
-		case 2:
-			cur_schedule->course_session.session_day = monday;
-			break;
-		case 3:
-			cur_schedule->course_session.session_day = tuesday;
-			break;
-		case 4:
-			cur_schedule->course_session.session_day = wednesday;
-			break;
-		case 5:
-			cur_schedule->course_session.session_day = thursday;
-			break;
-		case 6:
-			cur_schedule->course_session.session_day = friday;
-			break;
-		case 7:
-			cur_schedule->course_session.session_day = saturday;
-			break;
-		}
-		//	Start time
-		fin.getline(buffer, 3, ':');
-		cur_schedule->course_session.start.hour = atoi(buffer);
-		fin.getline(buffer, 3, ',');
-		cur_schedule->course_session.start.minute = atoi(buffer);
-
-		//	End time
-		fin.getline(buffer, 3, ':');
-		cur_schedule->course_session.end.hour = atoi(buffer);
-		fin.getline(buffer, 3, ',');
-		cur_schedule->course_session.end.minute = atoi(buffer);
-
-		//	Get room
-		getline(fin, cur_schedule->room, '\n');
-
-		/*
-		cur_class.head_course->course_code = course_code;
-		cur_class.head_course->course_name = course_name;
-		cur_class.head_course->lecturer_username = lecturer_username;
-		cur_class.head_course->year = year;
-		cur_class.head_course->semester = semester;
-		cur_class.head_course->start_date = start_date;
-		cur_class.head_course->end_date = end_date;
-		cur_class.head_course->course_session = course_session;
-		cur_class.head_course->room = room;
-		*/
-
-		courseCode* cur_course_code = cur_class->head_course_code;
-
-
 		while (fin.good()) {
 
 			//	create a new course code 
-			cur_course_code->next = new courseCode;
-			cur_course_code = cur_course_code->next;
+			courseCode*  cur_course_code = createNewNode(cur_class->head_course_code);
 
 			getline(fin, cur_course_code->course_code, ',');
 
@@ -2911,17 +2881,77 @@ void IntToXX(int n) {
 }
 
 ////////////////////////////////////////////////////////////////
-int weekFromStartDate(const date &start_date) {
-	//	return the week you are in
-	//	Nghia
-	time_t now = time(0);
-	tm *today = localtime(&now), start;
-	start.tm_year = start_date.year;
-	start.tm_mon = start_date.month;
-	start.tm_mday = start_date.day;
-	time_t b = mktime(today), a = mktime(&start);
-	return difftime(b, a) / (60 * 60 * 24 * 7) + 1;
+int countLeapYears(date d)
+{
+	int years = d.year;
+
+	// Check if the current year needs to be considered
+	// for the count of leap years or not
+	if (d.month <= 2)
+		years--;
+
+	// An year is a leap year if it is a multiple of 4,
+	// multiple of 400 and not a multiple of 100.
+	return years / 4 - years / 100 + years / 400;
 }
+
+int weeksBetweenTwoDates(const date &dt1, const date& dt2) {
+
+	const int monthDays[12] = { 31, 28, 31, 30, 31, 30,
+		31, 31, 30, 31, 30, 31 };
+
+	// initialize count using years and day
+	long int n1 = dt1.year * 365 + dt1.day;
+
+	// Add days for months in given date
+	for (int i = 0; i<dt1.month - 1; i++)
+		n1 += monthDays[i];
+
+	// Since every leap year is of 366 days,
+	// Add a day for every leap year
+	n1 += countLeapYears(dt1);
+
+	long int n2 = dt2.year * 365 + dt2.day;
+	for (int i = 0; i<dt2.month - 1; i++)
+		n2 += monthDays[i];
+	n2 += countLeapYears(dt2);
+
+	// return difference between two counts
+	return (n2 - n1) / 7 + 1;
+}
+
+int weeksFromStartDate(const date &dt1) {
+
+	const int monthDays[12] = { 31, 28, 31, 30, 31, 30,
+		31, 31, 30, 31, 30, 31 };
+
+	// initialize count using years and day
+	long int n1 = dt1.year * 365 + dt1.day;
+
+	// Add days for months in given date
+	for (int i = 0; i<dt1.month - 1; i++)
+		n1 += monthDays[i];
+
+	// Since every leap year is of 366 days,
+	// Add a day for every leap year
+	n1 += countLeapYears(dt1);
+
+	time_t now = time(0);
+	tm* today = localtime(&now);
+	date dt2;
+	dt2.year = today->tm_year + 1900;
+	dt2.month = today->tm_mon + 1;
+	dt2.day = today->tm_mday;
+
+	long int n2 = dt2.year * 365 + dt2.day;
+	for (int i = 0; i<dt2.month - 1; i++)
+		n2 += monthDays[i];
+	n2 += countLeapYears(dt2);
+
+	// return difference between two counts
+	return (n2 - n1) / 7 + 1;
+}
+
 
 //	31
 void checkIn(student* you, courseList &course_list) {
@@ -2945,7 +2975,7 @@ void checkIn(student* you, courseList &course_list) {
 			return;
 		}
 
-		int week = weekFromStartDate(cur_course->start_date);
+		int week = weeksFromStartDate(cur_course->start_date);
 		cout << "Course: " << course_code << endl
 			<< "You are at week " << week << endl
 			<< "Please confirm that you want to check in:\n"

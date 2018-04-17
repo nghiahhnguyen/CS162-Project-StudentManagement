@@ -130,6 +130,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -146,8 +147,14 @@
     <ClInclude Include="Function.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="17APCS1-CS162.csv" />
+    <None Include="17APCS1-MTH252.csv" />
+    <None Include="17APCS1-PH212.csv" />
     <None Include="17APCS1-Student.csv" />
     <None Include="17APCS1-Students.csv" />
+    <None Include="17APCS2-CS162.csv" />
+    <None Include="17APCS2-MTH252.csv" />
+    <None Include="17APCS2-PH212.csv" />
     <None Include="17APCS2-Students.csv" />
     <None Include="Academic-Staff.csv" />
     <None Include="Courses-Schedule.csv" />

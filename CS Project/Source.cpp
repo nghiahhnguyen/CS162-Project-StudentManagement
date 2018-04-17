@@ -35,7 +35,7 @@ int main() {
 	input(path3, *(first_class->next), student_list);
 
 	//	import courses
-	importCourses("Courses.csv", course_list);
+	importCourses("Courses.csv", course_list, student_list);
 
 	//	import courses' schedule of 17APCS1
 	importCoursesSchedulesOfAClass(course_list, class_list, (string)"Courses-Schedule.csv", (string)"17APCS1");

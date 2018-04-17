@@ -31,6 +31,7 @@ struct student {
 		id = source.id;
 		full_name = source.full_name;
 		password = source.password;
+		class_name = source.class_name;
 		email = source.email;
 		phone = source.phone;
 	}
@@ -198,19 +199,15 @@ void input(classList &class_list, studentList_t &student_list);
 void output(char path[], classYear &a);
 void viewListOfStudentsInAClass(const classList &a);
 void viewListOfClass(classList L);
-void importCourses(string path, courseList& a);
-void importCourses(courseList& a);
+void importCourses(string path, courseList& a, studentList_t student_list);
+void importCourses(courseList& a, studentList_t student_list);
 void AddNewStudentToClass(classList L, classYear &a);
 void EditStudent(classList L, classYear a);
 void removeAcourse(courseList b);
 void editExistingCourse(courseList &a);
 void gotoxy(int x, int y);
 void showMenu(classList &class_list, courseList &course_list, userList &staff, userList &lecturer, studentList_t &student_list);
-//	This version is for importing courses' schedule without asking for the class and path
-//	For the developers
 void importCoursesSchedulesOfAClass(courseList &course_list, classList &class_list, string path, string class_name);
-//	This version asks the user what is the class and the file path
-//	For the users
 void importCoursesSchedulesOfAClass(courseList &course_list, classList &class_list);
 void addACourseSchedule(courseList &course_list, classList &class_list);
 void moveStudentsFromClassAToB(classList a);
@@ -231,8 +228,10 @@ void IntToXX(int n);
 void editCourseSchedule(courseList L);
 void exportScoreboardToCsv(courseList* course_list);
 void exportScoreboardToCsv(course* cur_course);
-int weekFromStartDate(const date &start_date);
+int weeksBetweenTwoDates(const date &dt1, const date& dt2);
+int weeksFromStartDate(const date &dt1);
 void checkIn(student* you, courseList &course_list);
 void viewCheckInResult(student* you, courseList &course_list);
+int countLeapYears(date d);
 
 #endif
