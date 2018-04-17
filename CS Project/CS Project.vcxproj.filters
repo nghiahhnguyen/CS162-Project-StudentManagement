@@ -43,7 +43,13 @@
     <None Include="Courses.csv">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="Score-board.xlsx">
+    <None Include="Academic-Staff.csv">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="17APCS2-Students.csv">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Courses-Schedule2.csv">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
