@@ -129,7 +129,7 @@ struct presence {
 	string course_code, year;
 	int semester, id, week;
 	float midterm, lab, final, total, bonus;	//Thay bao cho them cot total
-	string attendance;
+	string attendance="";
 	presence* next = NULL;
 };
 
@@ -201,8 +201,8 @@ void viewListOfStudentsInAClass(const classList &a);
 void viewListOfClass(classList L);
 void importCourses(string path, courseList& a, studentList_t student_list);
 void importCourses(courseList& a, studentList_t student_list);
-void AddNewStudentToClass(classList L, classYear &a);
-void EditStudent(classList L, classYear a);
+void AddNewStudentToClass(classList L);
+void EditStudent(classList L);
 void removeAcourse(courseList b);
 void editExistingCourse(courseList &a);
 void gotoxy(int x, int y);
@@ -216,7 +216,7 @@ void exportPresence(string path, course a);
 course* searchCourse(string a, course *b);
 void viewScore(course* a);
 void viewCourseList(courseList a);
-void viewAttendance(courseList course_list, presence* head_presence);
+void viewAttendance(courseList course_list);
 void importUsers(userList &staff, string path);
 void inputPassword(string &password);
 void findCourseFromCode(courseList &course_list, string &course_code, course*  &result);
@@ -233,5 +233,6 @@ int weeksFromStartDate(const date &dt1);
 void checkIn(student* you, courseList &course_list);
 void viewCheckInResult(student* you, courseList &course_list);
 int countLeapYears(date d);
+void viewMyScore(courseList course_list);
 
 #endif
