@@ -1628,10 +1628,13 @@ void importCoursesSchedulesOfAClass(courseList &course_list, classList &class_li
 		//	ignore the 1st line containing the name of columns
 		fin.ignore(10000, '\n');
 
+		courseCode* cur_course_code;
+		char buffer[100];
+
 		while (fin.good()) {
 
 			//	create a new course code 
-			courseCode*  cur_course_code = createNewNode(cur_class->head_course_code);
+			cur_course_code = createNewNode(cur_class->head_course_code);
 
 			getline(fin, cur_course_code->course_code, ',');
 
