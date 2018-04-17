@@ -1668,11 +1668,12 @@ void importCoursesSchedulesOfAClass(courseList &course_list, classList &class_li
 		//	ignore the 1st line containing the name of columns
 		fin.ignore(10000, '\n');
 
-		courseCode* cur_course_code=cur_class->head_course_code;
+		courseCode* cur_course_code;
 		char buffer[100];
 
 		while (fin.good()) {
 
+<<<<<<< HEAD
 			//	get the course code
 			fin.getline(buffer, 100, ',');
 
@@ -1695,7 +1696,12 @@ void importCoursesSchedulesOfAClass(courseList &course_list, classList &class_li
 				cur_course_code = cur_class->head_course_code;
 			}
 			cur_course_code->course_code = buffer;
+=======
+			//	create a new course code 
+			cur_course_code = createNewNode(cur_class->head_course_code);
+>>>>>>> parent of 08257d6... Add viewMyScore by Vy
 
+			getline(fin, cur_course_code->course_code, ',');
 
 			//	find the corresponding course in the course list
 			course *cur_course = course_list.head, *pre_course = cur_course;
@@ -3071,7 +3077,7 @@ void viewCheckInResult(student* you, courseList &course_list) {
 			return;
 		}
 
-		int week = weeksFromStartDate(cur_course->start_date);
+		int week = weekFromStartDate(cur_course->start_date);
 		cout << "Course: " << course_code << endl
 			<< "You are at week " << week << endl
 			<< "Please confirm that you want to check in:\n"
@@ -3081,44 +3087,6 @@ void viewCheckInResult(student* you, courseList &course_list) {
 		cin >> ans;
 		if (ans == 'y' || ans == 'Y') {
 			cur->attendance[week] = 'x';
-		}
-	}
-}
-
-//	33
-void viewMyScore(courseList course_list)
-{
-	// Vy Vy
-
-	string code;
-	int newid;
-	cout << "Please enter your student ID: ";
-	cin >> newid;
-	cout << "Which course you want to view your scores? ";
-	cin >> code;
-	course *cur = course_list.head;
-	while (cur && cur->course_code != code) {
-		cur = cur->next;
-	}
-	if (!cur) {
-		cout << "Sorry, the course code you enter doesn't exist.\n";
-		return;
-	}
-	else {
-		presence *print = cur->head_presence;
-		while (!print && print->id != newid) {
-			print = print->next;
-		}
-		if (!print) {
-			cout << "Sorry, you have entered wrong ID.\n";
-			return;
-		}
-		else {
-			cout << "Mid-term: " << print->midterm << endl;
-			cout << "Lab: " << print->lab << endl;
-			cout << "Final: " << print->final << endl;
-			cout << "Bonus: " << print->bonus << endl;
-			cout << "Total: " << print->total << endl;
 		}
 	}
 }
