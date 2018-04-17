@@ -1237,13 +1237,14 @@ void importCourses(string path, courseList& a, studentList_t student_list) {
 
 						fin1.ignore(1000, '\n');
 
-						while (fin1.good()) {
-							fin1.ignore(1000, '\n');
+						fin1.ignore(1000, '\n');
+						int student_id;
+
+						while (fin1.good() &&!fin.eof()) {
 							fin1.ignore(1000, ',');
 
 							string buffer_student_id;
 							getline(fin1, buffer_student_id, ',');
-							int student_id;
 							student_id= stoi(buffer_student_id);
 
 							if (student_list.head->id != student_id) {
@@ -1257,6 +1258,7 @@ void importCourses(string path, courseList& a, studentList_t student_list) {
 									cur_student->next->generatePassword();
 								}
 							}
+							fin1.ignore(1000, '\n');
 						}
 					}
 					fin1.close();
@@ -1281,15 +1283,22 @@ void importCourses(string path, courseList& a, studentList_t student_list) {
 					classes >> class_name;
 					file_name = class_name + "-" + cur->course_code + ".csv";
 					fin1.open(file_name);
-					if(fin1.good()){
+
+					if (fin1.good()) {
+
 						fin1.ignore(1000, '\n');
-						while (fin1.good()) {
-							fin1.ignore(1000, '\n');
+
+						fin1.ignore(1000, '\n');
+						int student_id;
+
+						while (fin1.good() && !fin.eof()) {
 							fin1.ignore(1000, ',');
+
 							string buffer_student_id;
 							getline(fin1, buffer_student_id, ',');
-							int student_id = stoi(buffer_student_id);
-							if (!student_list.head->id == student_id) {
+							student_id = stoi(buffer_student_id);
+
+							if (student_list.head->id != student_id) {
 								student* cur_student = student_list.head;
 								while (cur_student->next && cur_student->next->id != student_id)
 									cur_student = cur_student->next;
@@ -1300,6 +1309,7 @@ void importCourses(string path, courseList& a, studentList_t student_list) {
 									cur_student->next->generatePassword();
 								}
 							}
+							fin1.ignore(1000, '\n');
 						}
 					}
 					fin1.close();
@@ -1342,6 +1352,7 @@ void importCourses(courseList& a, studentList_t student_list) {
 				getline(fin, a.head->course_code, ',');
 				getline(fin, a.head->course_name, ',');
 				getline(fin, a.head->lecturer_username, ',');
+
 				getline(fin, buffer, '\n');
 				stringstream classes(buffer);
 
@@ -1354,13 +1365,15 @@ void importCourses(courseList& a, studentList_t student_list) {
 
 						fin1.ignore(1000, '\n');
 
-						while (fin1.good()) {
-							fin1.ignore(1000, '\n');
+						fin1.ignore(1000, '\n');
+						int student_id;
+
+						while (fin1.good() && !fin.eof()) {
 							fin1.ignore(1000, ',');
 
 							string buffer_student_id;
 							getline(fin1, buffer_student_id, ',');
-							int student_id = stoi(buffer_student_id);
+							student_id = stoi(buffer_student_id);
 
 							if (student_list.head->id != student_id) {
 								student* cur_student = student_list.head;
@@ -1373,6 +1386,7 @@ void importCourses(courseList& a, studentList_t student_list) {
 									cur_student->next->generatePassword();
 								}
 							}
+							fin1.ignore(1000, '\n');
 						}
 					}
 					fin1.close();
@@ -1397,15 +1411,22 @@ void importCourses(courseList& a, studentList_t student_list) {
 					classes >> class_name;
 					file_name = class_name + "-" + cur->course_code + ".csv";
 					fin1.open(file_name);
+
 					if (fin1.good()) {
+
 						fin1.ignore(1000, '\n');
-						while (fin1.good()) {
-							fin1.ignore(1000, '\n');
+
+						fin1.ignore(1000, '\n');
+						int student_id;
+
+						while (fin1.good() && !fin.eof()) {
 							fin1.ignore(1000, ',');
+
 							string buffer_student_id;
 							getline(fin1, buffer_student_id, ',');
-							int student_id = stoi(buffer_student_id);
-							if (!student_list.head->id == student_id) {
+							student_id = stoi(buffer_student_id);
+
+							if (student_list.head->id != student_id) {
 								student* cur_student = student_list.head;
 								while (cur_student->next && cur_student->next->id != student_id)
 									cur_student = cur_student->next;
@@ -1416,6 +1437,7 @@ void importCourses(courseList& a, studentList_t student_list) {
 									cur_student->next->generatePassword();
 								}
 							}
+							fin1.ignore(1000, '\n');
 						}
 					}
 					fin1.close();
@@ -1633,20 +1655,27 @@ void importCoursesSchedulesOfAClass(courseList &course_list, classList &class_li
 		while (fin.good()) {
 
 			//	get the course code
-			fin.getline(buffer, 100, '\n');
+			fin.getline(buffer, 100, ',');
 
 			//	if the course code doesn't exist then create a new course code 
-			cur_course_code = cur_class->head_course_code;
-			if (cur_class->head_course_code->course_code != (string)buffer) {
-				while (cur_course_code->next && cur_course_code->course_code != (string)buffer)
-					cur_course_code = cur_course_code->next;
-				if (cur_course_code->next == NULL) {
-					cur_course_code->next = new courseCode;
-					cur_course_code = cur_course_code->next;
+			if(cur_class->head_course_code!=NULL){
+				cur_course_code = cur_class->head_course_code;
+				if (cur_class->head_course_code->course_code != (string)buffer) {
+					while (cur_course_code->next && cur_course_code->course_code != (string)buffer)
+						cur_course_code = cur_course_code->next;
+					if (cur_course_code->next == NULL) {
+						cur_course_code->next = new courseCode;
+						cur_course_code = cur_course_code->next;
+					}
+					else
+						cur_course_code = cur_course_code->next;
 				}
-				else
-					cur_course_code = cur_course_code->next;
 			}
+			else {
+				cur_class->head_course_code = new courseCode;
+				cur_course_code = cur_class->head_course_code;
+			}
+			cur_course_code->course_code = buffer;
 
 
 			//	find the corresponding course in the course list
@@ -1666,17 +1695,20 @@ void importCoursesSchedulesOfAClass(courseList &course_list, classList &class_li
 			getline(fin, cur_course->lecturer_username, ',');
 
 			schedule* cur_schedule;
-			cur_schedule = cur_course->head_schedule;
-			if (cur_class->head_course_code->course_code != cur_class->class_name) {
-				while (cur_schedule->next && cur_schedule->next->class_name != cur_class->class_name)
+			if (cur_course->head_schedule == NULL) {
+				cur_course->head_schedule = new schedule;
+				cur_schedule = cur_course->head_schedule;
+				cur_schedule->class_name = cur_class->class_name;
+			}
+			else {
+				cur_schedule = cur_course->head_schedule;
+				while (cur_schedule && cur_schedule->class_name != cur_class->class_name)
 					cur_schedule = cur_schedule->next;
-				if (cur_schedule->next == NULL) {
+				if (!cur_schedule) {
 					cur_schedule->next = new schedule;
 					cur_schedule = cur_schedule->next;
 					cur_schedule->class_name = cur_class->class_name;
 				}
-				else
-					cur_schedule = cur_schedule->next;
 			}
 
 			getline(fin, cur_schedule->year, ',');
@@ -1832,20 +1864,27 @@ void importCoursesSchedulesOfAClass(courseList &course_list, classList &class_li
 		while (fin.good()) {
 
 			//	get the course code
-			fin.getline(buffer, 100, '\n');
+			fin.getline(buffer, 100, ',');
 
 			//	if the course code doesn't exist then create a new course code 
-			cur_course_code = cur_class->head_course_code;
-			if (cur_class->head_course_code->course_code != (string)buffer) {
-				while (cur_course_code->next && cur_course_code->course_code != (string)buffer)
-					cur_course_code = cur_course_code->next;
-				if (cur_course_code->next == NULL) {
-					cur_course_code->next = new courseCode;
-					cur_course_code = cur_course_code->next;
+			if (cur_class->head_course_code != NULL) {
+				cur_course_code = cur_class->head_course_code;
+				if (cur_class->head_course_code->course_code != (string)buffer) {
+					while (cur_course_code->next && cur_course_code->course_code != (string)buffer)
+						cur_course_code = cur_course_code->next;
+					if (cur_course_code->next == NULL) {
+						cur_course_code->next = new courseCode;
+						cur_course_code = cur_course_code->next;
+					}
+					else
+						cur_course_code = cur_course_code->next;
 				}
-				else
-					cur_course_code = cur_course_code->next;
 			}
+			else {
+				cur_class->head_course_code = new courseCode;
+				cur_course_code = cur_class->head_course_code;
+			}
+			cur_course_code->course_code = buffer;
 
 
 			//	find the corresponding course in the course list
@@ -1877,7 +1916,6 @@ void importCoursesSchedulesOfAClass(courseList &course_list, classList &class_li
 				else
 					cur_schedule = cur_schedule->next;
 			}
-
 
 			getline(fin, cur_schedule->year, ',');
 
@@ -1922,7 +1960,7 @@ void importCoursesSchedulesOfAClass(courseList &course_list, classList &class_li
 					while (cur_presence && cur_presence->id != student_id)
 						cur_presence = cur_presence->next;
 
-					if(cur_presence){
+					if (cur_presence) {
 						int weeks = weeksBetweenTwoDates(cur_schedule->start_date, cur_schedule->end_date);
 						if (cur_presence->attendance.length() == 0)
 							while (weeks > 0) {
