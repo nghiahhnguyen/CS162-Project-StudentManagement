@@ -1247,6 +1247,10 @@ void importCourses(string path, courseList& a, studentList_t student_list) {
 							getline(fin1, buffer_student_id, ',');
 							student_id= stoi(buffer_student_id);
 
+							presence* cur_presence = createNewNode(a.head->head_presence);
+							cur_presence->id = student_id;
+							/*
+							if(student_list.head==NULL)
 							if (student_list.head->id != student_id) {
 								student* cur_student = student_list.head;
 								while (cur_student->next && cur_student->next->id != student_id)
@@ -1257,7 +1261,8 @@ void importCourses(string path, courseList& a, studentList_t student_list) {
 									getline(fin1, cur_student->next->full_name, ',');
 									cur_student->next->generatePassword();
 								}
-							}
+							}*/
+							student*cur_student = createNewNode(student_list.head);
 							fin1.ignore(1000, '\n');
 						}
 					}
@@ -1298,6 +1303,10 @@ void importCourses(string path, courseList& a, studentList_t student_list) {
 							getline(fin1, buffer_student_id, ',');
 							student_id = stoi(buffer_student_id);
 
+							presence* cur_presence = createNewNode(cur->head_presence);
+							cur_presence->id = student_id;
+
+							/*
 							if (student_list.head->id != student_id) {
 								student* cur_student = student_list.head;
 								while (cur_student->next && cur_student->next->id != student_id)
@@ -1308,7 +1317,9 @@ void importCourses(string path, courseList& a, studentList_t student_list) {
 									getline(fin1, cur_student->next->full_name, ',');
 									cur_student->next->generatePassword();
 								}
-							}
+							}*/
+
+							student*cur_student = createNewNode(student_list.head);
 							fin1.ignore(1000, '\n');
 						}
 					}
@@ -1375,17 +1386,22 @@ void importCourses(courseList& a, studentList_t student_list) {
 							getline(fin1, buffer_student_id, ',');
 							student_id = stoi(buffer_student_id);
 
+							presence* cur_presence = createNewNode(a.head->head_presence);
+							cur_presence->id = student_id;
+							/*
+							if(student_list.head==NULL)
 							if (student_list.head->id != student_id) {
-								student* cur_student = student_list.head;
-								while (cur_student->next && cur_student->next->id != student_id)
-									cur_student = cur_student->next;
-								if (!cur_student->next) {
-									cur_student->next = new student;
-									cur_student->next->id = student_id;
-									getline(fin1, cur_student->next->full_name, ',');
-									cur_student->next->generatePassword();
-								}
+							student* cur_student = student_list.head;
+							while (cur_student->next && cur_student->next->id != student_id)
+							cur_student = cur_student->next;
+							if (!cur_student->next) {
+							cur_student->next = new student;
+							cur_student->next->id = student_id;
+							getline(fin1, cur_student->next->full_name, ',');
+							cur_student->next->generatePassword();
 							}
+							}*/
+							student*cur_student = createNewNode(student_list.head);
 							fin1.ignore(1000, '\n');
 						}
 					}
@@ -1425,6 +1441,9 @@ void importCourses(courseList& a, studentList_t student_list) {
 							string buffer_student_id;
 							getline(fin1, buffer_student_id, ',');
 							student_id = stoi(buffer_student_id);
+
+							presence* cur_presence = createNewNode(cur->head_presence);
+							cur_presence->id = student_id;
 
 							if (student_list.head->id != student_id) {
 								student* cur_student = student_list.head;

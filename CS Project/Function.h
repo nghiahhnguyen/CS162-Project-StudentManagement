@@ -181,18 +181,16 @@ struct studentList_t {
 
 //	template to create a new node for a linked list given the head node
 template<typename T>
-T* createNewNode(T* &head) {
-	T* cur = head;
-	if (head == NULL) {
+T* createNewNode(T* head) {
+	if (!head) {
 		head = new T;
 		return head;
 	}
-	else {
-		while (cur->next != NULL)
-			cur = cur->next;
-		cur->next = new T;
-		return cur->next;
-	}
+	T* cur = head;
+	while (cur->next != NULL)
+		cur = cur->next;
+	cur->next = new T;
+	return cur->next;
 }
 void input(char path[], classYear &a, studentList_t &student_list);
 void input(classList &class_list, studentList_t &student_list);
