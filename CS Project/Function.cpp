@@ -41,8 +41,9 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 					<< "LOG IN\n"
 					<< "Username: ";
 				string password;
-				int username;
-				cin >> username;
+				string str_username;
+				cin >> str_username;
+				int username = stoi(str_username);
 				cout << "Password: ";
 				inputPassword(password);
 
@@ -76,7 +77,8 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 								<< "The username and password match no student\n"
 								<< "LOG IN\n"
 								<< "Username: ";
-							cin >> username;
+							cin >> str_username;
+							username = stoi(str_username);
 							cout << "Password: ";
 							inputPassword(password);
 							continue;
@@ -219,7 +221,7 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 					else break;
 				}
 
-				if (check_1 = false)
+				if (check_1 == false)
 					break;
 
 
@@ -235,8 +237,7 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 						<< "[4] Log out\n"
 						<< "Your answer: ";
 
-					cin.ignore();
-					cin.get(temp);
+					cin >> temp;
 
 					if (temp == '1') {
 						char temp_1;
@@ -529,7 +530,7 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 					else break;
 				}
 
-				if (check_1 = false)
+				if (check_1 == false)
 					break;
 
 
