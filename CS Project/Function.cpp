@@ -451,6 +451,8 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 							}
 							else if (temp_1 == '6') {
 								check_2 = false;
+							else if (temp_1 == 6) {
+								break;
 							}
 						}
 					}
@@ -735,6 +737,51 @@ void user::changePassword()
 		cout << "\n" << newPass << "\n" << pass;
 		cout << "\nunsucessfully";
 	}
+}
+
+// ghi de password
+void saveNewPasswordForStaff(char path[], userList staff)
+{
+
+	//Vy Vy
+
+	ofstream fout;
+	fout.open(path);
+
+	user *newstaff = staff.head;
+
+	if (fout.good()) {
+		fout << "Username,Full name,Email,Mobile phone,Password\n";
+		while (newstaff) {
+			fout << newstaff->username << "," << newstaff->full_name << "," << newstaff->email << "," << newstaff->phone << "," << newstaff->password;
+			fout << endl;
+			newstaff = newstaff->next;
+		}
+	}
+
+	fout.close();
+}
+
+// ghi de password
+void saveNewPasswordForLecturer(char path[], userList lecturer)
+{
+	//Vy Vy
+
+	ofstream fout;
+	fout.open(path);
+
+	user *newstaff = lecturer.head;
+
+	if (fout.good()) {
+		fout << "Username,Full name,Email,Mobile phone,Password\n";
+		while (newstaff) {
+			fout << newstaff->username << "," << newstaff->full_name << "," << newstaff->email << "," << newstaff->phone << "," << newstaff->password;
+			fout << endl;
+			newstaff = newstaff->next;
+		}
+	}
+
+	fout.close();
 }
 
 	// ghi de password
@@ -2776,7 +2823,6 @@ void editCourseSchedule(courseList L)
 	if (tmp == '1')
 		editCourseSchedule(L);
 }
-
 //	22
 void removeCourseSchedule(courseList L)
 {
@@ -2858,7 +2904,101 @@ void displayList(courseList L)
 		cur_course = cur_course->next;
 	}
 }
+// ko co so
+void exportStudentList(studentList_t pupil)
+{
 
+	//Loc dep trai
+
+	student *cur = pupil.head;
+
+	std::ofstream fo;
+
+	fo.open("Student-List-Output.csv");
+
+	fo << "ID,name,class,email,phone,password\n";
+	
+	while (cur != NULL)
+	{
+
+		fo << cur->id << ",";
+		fo << cur->full_name << ",";
+		fo << cur->class_name << ",";
+		fo << cur->email<<",";
+		fo << cur->phone<<",";
+		fo << cur->password;
+
+		if (cur->next != NULL)
+			fo << "\n";
+
+		cur = cur->next;
+	}
+
+	fo.close();
+}
+
+void inputStudentList(studentList_t &pupil)
+{
+	//Nguyen Vo Duc Loc
+
+	std::ifstream fi;
+	fi.open("Student-List-Input.csv");
+
+	if (!fi.is_open())
+	{
+		std::cout << "file doesn't exist" << std::endl;
+		return;
+	}
+
+	fi.ignore(200, '\n');		//ignore the titile of the file csv
+
+	string id, full_name, class_name, email, phone, password;
+	student *cur=pupil.head;
+
+	while (cur!=NULL && cur->next != NULL)
+		cur = cur->next;
+
+	while (!fi.eof())
+	{
+		getline(fi, id, ',');
+		getline(fi, full_name, ',');
+		getline(fi, class_name, ',');
+		getline(fi, email, ',');
+		getline(fi, phone, ',');
+		getline(fi, password);
+
+		std::cout << id<<" " << full_name <<" "<< class_name <<" "<< email <<" "<< phone <<" "<< password << std::endl;
+		system("pause");
+
+		if (pupil.head == NULL)
+		{
+			pupil.head = new student;
+			pupil.head->next = NULL;
+			pupil.head->id = stoi(id);
+			pupil.head->full_name = full_name;
+			pupil.head->class_name = class_name;
+			pupil.head->email = email;
+			pupil.head->phone = phone;
+			pupil.head->password = password;
+			cur = pupil.head;
+		}
+		else
+		{
+			cur->next = new student;
+			cur = cur->next;
+			cur->next = NULL;
+			cur->id = stoi(id);
+			cur->full_name = full_name;
+			cur->class_name = class_name;
+			cur->email = email;
+			cur->phone = phone;
+			cur->password = password;
+		}
+	}
+
+
+	fi.close();
+}
 //==============================================================================================================
 
 

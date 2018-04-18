@@ -49,6 +49,10 @@ struct user {
 	void printInfo();
 };
 
+struct studentList_t {
+	student *head=NULL;
+};
+
 struct userList {
 	user* head;
 };
@@ -236,5 +240,12 @@ int countLeapYears(date d);
 void viewMyScore(courseList course_list);
 void saveNewPasswordForStaff(char path[], userList staff);
 void saveNewPasswordForLecturer(char path[], userList lecturer);
+
+void exportStudentList(studentList_t pupil);
+void inputStudentList(studentList_t &pupil);
+
+void saveNewPasswordForStaff(char path[], userList staff);
+void saveNewPasswordForLecturer(char path[], userList lecturer);
+
 
 #endif

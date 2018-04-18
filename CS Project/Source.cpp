@@ -43,5 +43,10 @@ int main() {
 	importCoursesSchedulesOfAClass(course_list, class_list, (string)"Courses-Schedule2.csv", (string)"17APCS2");
 
 	showMenu(class_list, course_list, staff, lecturer, student_list);
+
+	char links[] = "Academic-Staff.csv";
+
+	saveNewPasswordForStaff(links, staff);
+	
 	return 0;
 }
