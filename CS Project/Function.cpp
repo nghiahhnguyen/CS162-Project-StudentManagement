@@ -376,6 +376,7 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 									}
 									else if (temp_2 == '4') {
 										//Remove a course's schedule
+										removeCourseSchedule(course_list);
 									}
 									else if (temp_2 == '5') {
 										viewListOfSchedules(course_list, class_list);
@@ -2707,6 +2708,7 @@ void editCourseSchedule(courseList L)
 		std::cout << "wrong information" << std::endl;	//if they didn't exist
 	}
 
+
 	char tmp;
 
 	std::cout << "pls enter 1 if you want to edit the schedule again: ";
@@ -2716,7 +2718,87 @@ void editCourseSchedule(courseList L)
 		editCourseSchedule(L);
 }
 
+//	22
+void removeCourseSchedule(courseList L)
+{
+	//Nguyen Vo Duc Loc
 
+	displayList(L);
+	std::string course_code, class_name;
+	std::cout << "pls enter the course code: "; std::cin >> course_code;
+	std::cout << "pls enter the class's name: "; std::cin >> class_name;
+
+	course *cur_course = L.head;
+	schedule *cur_schedule = NULL, *pre_schedule=NULL;
+
+	while (cur_course != NULL)
+	{
+		if (cur_course->course_code == course_code)
+			break;
+		cur_course = cur_course->next;
+	}
+
+	if (cur_course != NULL)
+	{
+		pre_schedule = NULL;
+		cur_schedule = cur_course->head_schedule;
+		while (cur_schedule != NULL)
+		{
+			if (cur_schedule->class_name == class_name)
+				break;
+			pre_schedule = cur_schedule;
+			cur_schedule = cur_schedule->next;
+		}
+	}
+
+	if (cur_course != NULL && cur_schedule != NULL)
+	{
+		if (pre_schedule != NULL)
+		{
+			pre_schedule->next = cur_schedule->next;
+			delete cur_schedule;
+		}
+		else
+		{
+			cur_course->head_schedule = cur_schedule->next;
+			delete cur_schedule;
+		}
+		std::cout << "your statement is removed successfully" << std::endl;
+	}
+	else
+	{
+		std::cout << "WRONG INFORMATION" << std::endl;
+	}
+	displayList(L);
+}
+
+void displayList(courseList L)
+{
+	//Nguyen Vo Duc Loc
+	//xuat ra tat ca cac schedule cua cac course hien co
+
+	course *cur_course=L.head;
+	schedule *cur_schedule;
+
+	while (cur_course != NULL)
+	{
+		cur_schedule = cur_course->head_schedule;
+		while (cur_schedule != NULL)
+		{
+			std::cout << std::endl;
+			std::cout << cur_course->course_code << std::endl;
+			std::cout << cur_schedule->class_name << std::endl;
+			std::cout << cur_schedule->course_session.session_day << std::endl;
+			std::cout << cur_schedule->course_session.start.hour << ":" << cur_schedule->course_session.end.minute;
+			std::cout << std::endl;
+			std::cout << cur_schedule->course_session.end.hour << ":" << cur_schedule->course_session.end.minute;
+			std::cout << std::endl;
+
+			cur_schedule = cur_schedule->next;
+		}
+		cur_course = cur_course->next;
+	}
+}
 
 //==============================================================================================================
 

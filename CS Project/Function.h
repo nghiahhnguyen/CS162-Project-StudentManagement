@@ -224,6 +224,8 @@ void recursionEditGrade(int n, presence *&edit);
 void editGrade(courseList &a);
 void IntToXX(int n);
 void editCourseSchedule(courseList L);
+void removeCourseSchedule(courseList L);
+void displayList(courseList L);
 void exportScoreboardToCsv(courseList* course_list);
 void exportScoreboardToCsv(course* cur_course);
 int weeksBetweenTwoDates(const date &dt1, const date& dt2);
