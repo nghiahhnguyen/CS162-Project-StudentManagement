@@ -619,14 +619,16 @@ void importUsers(userList &staff, string path) {
 		getline(fin, staff.head->full_name, ',');
 		getline(fin, staff.head->email, ',');
 		getline(fin, staff.head->phone, ',');
+		getline(fin, staff.head->password, '\n');
 		staff.head->generateUsernameAndPassword();
 		while (fin.good()) {
 			cur_user->next = new user;
 			cur_user = cur_user->next;
 			fin.ignore(10, ',');
-			getline(fin, cur_user->full_name);
+			getline(fin, cur_user->full_name,',');
 			getline(fin, cur_user->email, ',');
 			getline(fin, cur_user->phone, ',');
+			getline(fin, cur_user->password, '\n');
 			cur_user->generateUsernameAndPassword();
 		}
 	}
@@ -635,16 +637,16 @@ void importUsers(userList &staff, string path) {
 		getline(fin, staff.head->full_name, ',');
 		getline(fin, staff.head->email, ',');
 		getline(fin, staff.head->phone, ',');
-		getline(fin, staff.head->password, ',');
+		getline(fin, staff.head->password, '\n');
 		while (fin.good()) {
 			cur_user->next = new user;
 			cur_user = cur_user->next;
 			fin.ignore(10, ',');
-			getline(fin, cur_user->username);
-			getline(fin, cur_user->full_name);
+			getline(fin, cur_user->username,',');
+			getline(fin, cur_user->full_name,',');
 			getline(fin, cur_user->email, ',');
 			getline(fin, cur_user->phone, ',');
-			getline(fin, cur_user->password, ',');
+			getline(fin, cur_user->password, '\n');
 		}
 	}
 	fin.close();
@@ -3369,4 +3371,12 @@ void viewMyScore(courseList course_list)
 			cout << "Total: " << print->total << endl;
 		}
 	}
+}
+
+bool isNumber(const string& s) {
+
+	string::const_iterator it = s.begin();
+	while (it != s.end() && isdigit(*it))
+		it++;
+	return !s.empty() && it == s.end();
 }
