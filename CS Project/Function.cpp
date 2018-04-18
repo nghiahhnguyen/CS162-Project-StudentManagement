@@ -2,7 +2,6 @@
 
 // 1+2+5
 void showMenu(classList &class_list, courseList &course_list, userList &staff, userList &lecturer, studentList_t &student_list) {
-
 	//	Show the menu for all user
 	//	By Nguyen Ho Huu Nghia
 
@@ -90,7 +89,7 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 				if (check_1 == false)
 					break;
 
-				while(true){
+				while (true) {
 					//	first menu
 					system("cls");
 					cout << "\t\t\t\tSTUDENT MANAGEMENT PROGRAM\n"
@@ -205,7 +204,7 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 							check_1 = false;
 							break;
 						}
-						else{
+						else {
 							system("cls");
 							cout << "\t\t\t\tSTUDENT MANAGEMENT PROGRAM\n"
 								<< "\t\t*********************************************************\n\n"
@@ -451,11 +450,11 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 							}
 							else if (temp_1 == '6') {
 								check_2 = false;
+							}
 							else if (temp_1 == 6) {
 								break;
 							}
 						}
-					}
 					else if (temp == '2') {
 						cout << "---------------------------------------------------------\n\n";
 						cur_user->printInfo();
@@ -470,12 +469,12 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 						check_1 = false;
 						break;
 					}
+					}
 				}
 			}
+
 		}
-
-
-		//	if the user is a lecturer
+			//	if the user is a lecturer
 		else if (answer == 3) {
 
 			while (check_1) {
@@ -595,15 +594,16 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 						cur_user->changePassword();
 						system("pause");
 					}
-					else if (temp == '4'){
+					else if (temp == '4') {
 						check_1 = false;
 						break;
 					}
 				}
 			}
 		}
-		else if (answer>3)
+		else if (answer > 3){
 			check = false;
+		}
 	}
 }
 
