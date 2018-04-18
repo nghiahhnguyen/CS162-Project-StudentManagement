@@ -42,6 +42,16 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 				string password;
 				string str_username;
 				cin >> str_username;
+				if (isNumber(str_username) == false) 
+					while(isNumber(str_username)==false){
+						system("cls");
+						cout << "\t\t\t\tSTUDENT MANAGEMENT PROGRAM\n"
+							<< "\t\t*********************************************************\n\n"
+							<< "The username of a student must be a number.\n"
+							<< "LOG IN\n"
+							<< "Username: ";
+						cin >> str_username;
+					}
 				int username = stoi(str_username);
 				cout << "Password: ";
 				inputPassword(password);
@@ -621,14 +631,16 @@ void importUsers(userList &staff, string path) {
 		getline(fin, staff.head->full_name, ',');
 		getline(fin, staff.head->email, ',');
 		getline(fin, staff.head->phone, ',');
+		getline(fin, staff.head->password, '\n');
 		staff.head->generateUsernameAndPassword();
 		while (fin.good()) {
 			cur_user->next = new user;
 			cur_user = cur_user->next;
 			fin.ignore(10, ',');
-			getline(fin, cur_user->full_name);
+			getline(fin, cur_user->full_name,',');
 			getline(fin, cur_user->email, ',');
 			getline(fin, cur_user->phone, ',');
+			getline(fin, cur_user->password, '\n');
 			cur_user->generateUsernameAndPassword();
 		}
 	}
@@ -637,16 +649,16 @@ void importUsers(userList &staff, string path) {
 		getline(fin, staff.head->full_name, ',');
 		getline(fin, staff.head->email, ',');
 		getline(fin, staff.head->phone, ',');
-		getline(fin, staff.head->password, ',');
+		getline(fin, staff.head->password, '\n');
 		while (fin.good()) {
 			cur_user->next = new user;
 			cur_user = cur_user->next;
 			fin.ignore(10, ',');
-			getline(fin, cur_user->username);
-			getline(fin, cur_user->full_name);
+			getline(fin, cur_user->username,',');
+			getline(fin, cur_user->full_name,',');
 			getline(fin, cur_user->email, ',');
 			getline(fin, cur_user->phone, ',');
-			getline(fin, cur_user->password, ',');
+			getline(fin, cur_user->password, '\n');
 		}
 	}
 	fin.close();
@@ -871,9 +883,12 @@ void input(char path[], classYear &a, studentList_t &student_list)
 				a.head->full_name = (string)full_name;
 				a.head->class_name = (string)class_year;
 				a.head->next = NULL;
-				a.head->generatePassword();
-				student* cur_student = createNewNode(student_list.head);
-				*cur_student = *a.head;
+				if(a.head->password.empty()==true)
+					a.head->generatePassword();
+				student* cur_student = NULL;
+				addIfNotAdded(student_list.head, a.head->id, cur_student);
+				if(cur_student!=NULL)
+					*cur_student = *a.head;
 				cur = a.head;
 			}
 			else {
@@ -882,9 +897,12 @@ void input(char path[], classYear &a, studentList_t &student_list)
 				cur->id = username;
 				cur->full_name = (string)full_name;
 				cur->class_name = (string)class_year;
-				cur->generatePassword();
-				student* cur_student = createNewNode(student_list.head);
-				*cur_student = *cur;
+				if(cur->password.empty()==true)
+					cur->generatePassword();
+				student* cur_student = NULL;
+				addIfNotAdded(student_list.head, cur->id, cur_student);
+				if (cur_student != NULL)
+					*cur_student = *cur;
 				cur->next = NULL;
 			}
 		}
@@ -952,9 +970,12 @@ void input(classList &class_list, studentList_t &student_list)
 						cur_class->head->full_name = (string)full_name;
 						cur_class->head->class_name = (string)class_year;
 						cur_class->head->next = NULL;
-						cur_class->head->generatePassword();
-						student* cur_student = createNewNode(student_list.head);
-						*cur_student = *cur_class->head;
+						if(cur_class->head->password.empty()==true)
+							cur_class->head->generatePassword();
+						student* cur_student = NULL;
+						addIfNotAdded(student_list.head, cur_class->head->id, cur_student);
+						if(cur_student!=NULL)
+							*cur_student = *cur_class->head;
 						cur = cur_class->head;
 					}
 					else {
@@ -963,9 +984,12 @@ void input(classList &class_list, studentList_t &student_list)
 						cur->id = username;
 						cur->full_name = (string)full_name;
 						cur->class_name = (string)class_year;
-						cur->generatePassword();
-						student* cur_student = createNewNode(student_list.head);
-						*cur_student = *cur;
+						if (cur->password.empty() == true)
+							cur->generatePassword();
+						student* cur_student = NULL;
+						addIfNotAdded(student_list.head, cur->id, cur_student);
+						if (cur_student != NULL)
+							*cur_student = *cur;
 						cur->next = NULL;
 					}
 				}
@@ -1399,12 +1423,21 @@ void student::generatePassword() {
 
 	//	generate password
 	string password = short_name;
-	for (i = phone.size() - 4; i < phone.size(); ++i)
-		password += phone[i];
-
+	int temp_id = this->id;
+	vector <int> temp;
+	for (int i = 0; i < 4; ++i) {
+		temp.push_back(temp_id % 10);
+		temp_id /= 10;
+	}
+	this->email = short_name;
+	for (int i = 0; i < 4; ++i) {
+		password += to_string(temp.back());
+		this->email += to_string(temp.back());
+		temp.pop_back();
+	}
 	//	passing the default password to the student
 	this->password = password;
-	this->email = short_name + "@apcs.vn";
+	this->email += "@apcs.vn";
 }
 
 //	14
@@ -1454,24 +1487,17 @@ void importCourses(string path, courseList& a, studentList_t &student_list) {
 							getline(fin1, buffer_student_id, ',');
 							student_id= stoi(buffer_student_id);
 
-							presence* cur_presence = createNewNode(a.head->head_presence);
-							cur_presence->id = student_id;
-							/*
-							if(student_list.head==NULL)
-							if (student_list.head->id != student_id) {
-								student* cur_student = student_list.head;
-								while (cur_student->next && cur_student->next->id != student_id)
-									cur_student = cur_student->next;
-								if (!cur_student->next) {
-									cur_student->next = new student;
-									cur_student->next->id = student_id;
-									getline(fin1, cur_student->next->full_name, ',');
-									cur_student->next->generatePassword();
-								}
-							}*/
-							student*cur_student = createNewNode(student_list.head);
-							cur_student->id = student_id;
-							fin1.ignore(1000, '\n');
+							presence* cur_presence = NULL;
+							addIfNotAdded(a.head->head_presence, student_id, cur_presence);
+							
+							student* cur_student = NULL;
+							addIfNotAdded(student_list.head, student_id, cur_student);
+							if(cur_student==NULL)
+								fin1.ignore(1000, '\n');
+							else {
+								getline(fin1, cur_student->full_name, '\n');
+								cur_student->generatePassword();
+							}
 						}
 					}
 					fin1.close();
@@ -1511,25 +1537,17 @@ void importCourses(string path, courseList& a, studentList_t &student_list) {
 							getline(fin1, buffer_student_id, ',');
 							student_id = stoi(buffer_student_id);
 
-							presence* cur_presence = createNewNode(cur->head_presence);
-							cur_presence->id = student_id;
+							presence* cur_presence = NULL;
+							addIfNotAdded(cur->head_presence, student_id, cur_presence);
 
-							/*
-							if (student_list.head->id != student_id) {
-								student* cur_student = student_list.head;
-								while (cur_student->next && cur_student->next->id != student_id)
-									cur_student = cur_student->next;
-								if (!cur_student->next) {
-									cur_student->next = new student;
-									cur_student->next->id = student_id;
-									getline(fin1, cur_student->next->full_name, ',');
-									cur_student->next->generatePassword();
-								}
-							}*/
-
-							student*cur_student = createNewNode(student_list.head);
-							cur_student->id = student_id;
-							fin1.ignore(1000, '\n');
+							student* cur_student = NULL;
+							addIfNotAdded(student_list.head, student_id, cur_student);
+							if (cur_student == NULL)
+								fin1.ignore(1000, '\n');
+							else {
+								getline(fin1, cur_student->full_name, '\n');
+								cur_student->generatePassword();
+							}
 						}
 					}
 					fin1.close();
@@ -1595,24 +1613,17 @@ void importCourses(courseList& a, studentList_t &student_list) {
 							getline(fin1, buffer_student_id, ',');
 							student_id = stoi(buffer_student_id);
 
-							presence* cur_presence = createNewNode(a.head->head_presence);
-							cur_presence->id = student_id;
-							/*
-							if(student_list.head==NULL)
-							if (student_list.head->id != student_id) {
-							student* cur_student = student_list.head;
-							while (cur_student->next && cur_student->next->id != student_id)
-							cur_student = cur_student->next;
-							if (!cur_student->next) {
-							cur_student->next = new student;
-							cur_student->next->id = student_id;
-							getline(fin1, cur_student->next->full_name, ',');
-							cur_student->next->generatePassword();
+							presence* cur_presence = NULL;
+							addIfNotAdded(a.head->head_presence, student_id, cur_presence);
+
+							student* cur_student = NULL;
+							addIfNotAdded(student_list.head, student_id, cur_student);
+							if (cur_student == NULL)
+								fin1.ignore(1000, '\n');
+							else {
+								getline(fin1, cur_student->full_name, '\n');
+								cur_student->generatePassword();
 							}
-							}*/
-							student*cur_student = createNewNode(student_list.head);
-							cur_student->id = student_id;
-							fin1.ignore(1000, '\n');
 						}
 					}
 					fin1.close();
@@ -1652,22 +1663,17 @@ void importCourses(courseList& a, studentList_t &student_list) {
 							getline(fin1, buffer_student_id, ',');
 							student_id = stoi(buffer_student_id);
 
-							presence* cur_presence = createNewNode(cur->head_presence);
-							cur_presence->id = student_id;
+							presence* cur_presence = NULL;
+							addIfNotAdded(cur->head_presence, student_id, cur_presence);
 
-							if (student_list.head->id != student_id) {
-								student* cur_student = student_list.head;
-								while (cur_student->next && cur_student->next->id != student_id)
-									cur_student = cur_student->next;
-								if (!cur_student->next) {
-									cur_student->next = new student;
-									cur_student->next->id = student_id;
-									getline(fin1, cur_student->next->full_name, ',');
-									cur_student->id = student_id;
-									cur_student->next->generatePassword();
-								}
+							student* cur_student = NULL;
+							addIfNotAdded(student_list.head, student_id, cur_student);
+							if (cur_student == NULL)
+								fin1.ignore(1000, '\n');
+							else {
+								getline(fin1, cur_student->full_name, '\n');
+								cur_student->generatePassword();
 							}
-							fin1.ignore(1000, '\n');
 						}
 					}
 					fin1.close();
@@ -1925,23 +1931,7 @@ void importCoursesSchedulesOfAClass(courseList &course_list, classList &class_li
 			getline(fin, cur_course->course_name, ',');
 			getline(fin, cur_course->lecturer_username, ',');
 
-			schedule* cur_schedule = createNewNode(cur_course->head_schedule);
-			cur_schedule->class_name = cur_class->class_name;
-			/*if (cur_course->head_schedule == NULL) {
-				cur_course->head_schedule = new schedule;
-				cur_schedule = cur_course->head_schedule;
-				cur_schedule->class_name = cur_class->class_name;
-			}
-			else {
-				cur_schedule = cur_course->head_schedule;
-				while (cur_schedule && cur_schedule->class_name != cur_class->class_name)
-					cur_schedule = cur_schedule->next;
-				if (!cur_schedule) {
-					cur_schedule->next = new schedule;
-					cur_schedule = cur_schedule->next;
-					cur_schedule->class_name = cur_class->class_name;
-				}
-			}*/
+			schedule* cur_schedule = findSchedule(cur_course->head_schedule, cur_class->class_name);
 
 			getline(fin, cur_schedule->year, ',');
 
@@ -1986,8 +1976,7 @@ void importCoursesSchedulesOfAClass(courseList &course_list, classList &class_li
 					getline(fin1, buffer_student_id, ',');
 					int student_id = stoi(buffer_student_id);
 
-					presence* cur_presence = createNewNode(cur_course->head_presence);
-					cur_presence->id = student_id;
+					presence* cur_presence = findNode(cur_course->head_presence, student_id);
 					
 					if (cur_presence->attendance.length() == 0)
 						cur_presence->attendance = temp_attendance;
@@ -3220,8 +3209,17 @@ void inputPassword(string &password)
 	do
 	{
 		ch = getch();
-		if (ch == '\n' || ch == 8 || ch == '\r')
+		if (ch == '\n' || ch == '\r')
 			break;
+		if (ch == '\b') {
+			if (password.empty() == true)
+				continue;
+			putchar('\b');
+			putchar(' ');
+			putchar('\b');
+			password.pop_back();
+			continue;
+		}
 		password.push_back(ch);
 		putchar('*');
 	} while (ch != '\n');
@@ -3411,8 +3409,10 @@ void checkIn(student* you, courseList &course_list) {
 	course* cur_course = course_list.head;
 	while (cur_course && cur_course->course_code != course_code)
 		cur_course = cur_course->next;
-	if (!cur_course)
+	if (!cur_course){
+		cout << "Course doesn't exist.\n";
 		return;
+	}
 	else {
 		presence* cur = cur_course->head_presence;
 		while (cur && cur->id != you->id)
@@ -3421,17 +3421,22 @@ void checkIn(student* you, courseList &course_list) {
 			cout << "You are not a student of this course.\n";
 			return;
 		}
-
-		int week = weeksFromStartDate(cur_course->start_date);
-		cout << "Course: " << course_code << endl
-			<< "You are at week " << week << endl
-			<< "Please confirm that you want to check in:\n"
-			<< "[y]Yes\n[n]No\n"
-			<< "Your answer: ";
-		char ans;
-		cin >> ans;
-		if (ans == 'y' || ans == 'Y') {
-			cur->attendance[week] = 'x';
+		schedule* your_schedule = findSchedule(cur_course->head_schedule, you->class_name);
+		int week = weeksFromStartDate(your_schedule->start_date);
+		if (week <= cur->week) {
+			cout << "Course: " << course_code << endl
+				<< "You are at week " << week << endl
+				<< "Please confirm that you want to check in:\n"
+				<< "[y]Yes\n[n]No\n"
+				<< "Your answer: ";
+			char ans;
+			cin >> ans;
+			if (ans == 'y' || ans == 'Y') {
+				cur->attendance[week] = 'x';
+			}
+		}
+		else {
+			cout << "The course has ended. You can no longer check in.\n";
 		}
 	}
 }
@@ -3440,6 +3445,7 @@ void checkIn(student* you, courseList &course_list) {
 //	32
 void viewCheckInResult(student* you, courseList &course_list) {
 	//	Nghia
+	//	haven't finished
 	string course_code;
 	cout << "Enter the code of the course you want to check in: ";
 	cin.ignore();
@@ -3460,15 +3466,20 @@ void viewCheckInResult(student* you, courseList &course_list) {
 		}
 
 		int week = weeksFromStartDate(cur_course->start_date);
-		cout << "Course: " << course_code << endl
-			<< "You are at week " << week << endl
-			<< "Please confirm that you want to check in:\n"
-			<< "[y]Yes\n[n]No\n"
-			<< "Your answer: ";
-		char ans;
-		cin >> ans;
-		if (ans == 'y' || ans == 'Y') {
-			cur->attendance[week] = 'x';
+		if(week<=cur->week){
+			cout << "Course: " << course_code << endl
+				<< "You are at week " << week << endl
+				<< "Please confirm that you want to check in:\n"
+				<< "[y]Yes\n[n]No\n"
+				<< "Your answer: ";
+			char ans;
+			cin >> ans;
+			if (ans == 'y' || ans == 'Y') {
+				cur->attendance[week] = 'x';
+			}
+		}
+		else {
+			cout << "The course has ended. You can no longer check in.\n";
 		}
 	}
 }
@@ -3508,5 +3519,41 @@ void viewMyScore(courseList course_list)
 			cout << "Bonus: " << print->bonus << endl;
 			cout << "Total: " << print->total << endl;
 		}
+	}
+}
+
+bool isNumber(const string& s) {
+	//	check if a string is a number
+	//	Nghia
+
+	string::const_iterator it = s.begin();
+	while (it != s.end() && isdigit(*it))
+		it++;
+	return !s.empty() && it == s.end();
+}
+
+schedule* findSchedule(schedule* &head, string class_name) {
+
+	if (!head) {
+		head = new schedule;
+		head->class_name = class_name;
+		return head;
+	}
+	else {
+		if (head->class_name != class_name) {
+			schedule* cur = head;
+			while (cur->next && cur->next->class_name != class_name)
+				cur = cur->next;
+			if (!cur->next) {
+				cur->next = new schedule;
+				cur = cur->next;
+				cur->class_name = class_name;
+				return cur;
+			}
+			else
+				return cur->next;
+		}
+		else
+			return head;
 	}
 }
