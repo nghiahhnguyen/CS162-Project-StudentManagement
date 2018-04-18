@@ -12,6 +12,7 @@
 #include <cstring>
 #include "windows.h"
 #include <sstream>
+#include <vector>
 
 using namespace std;
 
@@ -192,6 +193,60 @@ T* createNewNode(T* &head) {
 	cur->next = new T;
 	return cur->next;
 }
+
+//	template to add a new student if the student hasn't been added yet
+template<typename T>
+void addIfNotAdded(T* &head, int id, T* &cur) {
+	//	if the student is already in the list, cur is return as NULL
+
+	if (!head) {
+		head = new T;
+		head->id = id;
+		cur = head;
+		return;
+	}
+	else {
+		if(head->id!=id){
+			cur = head;
+			while (cur->next && cur->next->id != id)
+				cur = cur->next;
+			if (!cur->next) {
+				cur->next = new T;
+				cur = cur->next;
+				cur->id = id;
+			}
+			else
+				cur = NULL;
+		}
+	}
+}
+
+template<typename T>
+T* findNode(T* &head, int id) {
+	
+	if (!head) {
+		head = new T;
+		head->id = id;
+		return head;
+	}
+	else {
+		if (head->id != id) {
+			T* cur = head;
+			while (cur->next && cur->next->id != id)
+				cur = cur->next;
+			if (!cur->next) {
+				cur->next = new T;
+				cur = cur->next;
+				cur->id = id;
+				return cur;
+			}
+			else
+				return cur->next;
+		}
+		else
+			return head;
+	}
+}
 void input(char path[], classYear &a, studentList_t &student_list);
 void input(classList &class_list, studentList_t &student_list);
 void output(char path[], classYear &a);
@@ -236,5 +291,7 @@ int countLeapYears(date d);
 void viewMyScore(courseList course_list);
 void saveNewPasswordForStaff(char path[], userList staff);
 void saveNewPasswordForLecturer(char path[], userList lecturer);
+bool isNumber(const string& s);
+schedule* findSchedule(schedule* &head, string class_name);
 
 #endif
