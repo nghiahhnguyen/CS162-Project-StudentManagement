@@ -1,7 +1,7 @@
 #include "Function.h"
 
 // 1+2+5
-void showMenu(classList &class_list, courseList &course_list, userList &staff, userList &lecturer) {
+void showMenu(classList &class_list, courseList &course_list, userList &staff, userList &lecturer, studentList_t &student_list) {
 
 	//	Show the menu for all user
 	//	By Nguyen Ho Huu Nghia
@@ -30,9 +30,9 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 		if (answer == 1) {
 
 			while (check_1) {
-				int temp;
+				char temp;
 
-				student* cur_student = class_list.head->head;
+				student* cur_student = student_list.head;
 
 
 				system("cls");
@@ -49,24 +49,44 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 
 				//	Check if there is any student matching the log in info
 				while (true) {
+					cur_student = student_list.head;
 					while (cur_student && (username != cur_student->id || password != cur_student->password))
 						cur_student = cur_student->next;
 
-					//	if there is a user
+					//	if there is no staff that matches the log in info
 					if (!cur_student) {
+						password = "";
 						system("cls");
 						cout << "\t\t\t\tSTUDENT MANAGEMENT PROGRAM\n"
 							<< "\t\t*********************************************************\n\n"
 							<< "The username and password match no student\n"
-							<< "LOG IN\n"
-							<< "Username: ";
-						cin >> username;
-						cout << "Password: ";
-						inputPassword(password);
+							<< "Do you want to go back to the previous menu? You can exit the program from there.\n"
+							<< "[y]Yes\n[n]No\n";
+						char go_back_after_wrong_pass;
+						cin.ignore();
+						cin.get(go_back_after_wrong_pass);
+						if (go_back_after_wrong_pass == 'y' || go_back_after_wrong_pass == 'Y') {
+							check_1 = false;
+							break;
+						}
+						else {
+							system("cls");
+							cout << "\t\t\t\tSTUDENT MANAGEMENT PROGRAM\n"
+								<< "\t\t*********************************************************\n\n"
+								<< "The username and password match no student\n"
+								<< "LOG IN\n"
+								<< "Username: ";
+							cin >> username;
+							cout << "Password: ";
+							inputPassword(password);
+							continue;
+						}
 					}
-					else
-						break;
+					else break;
 				}
+
+				if (check_1 == false)
+					break;
 
 				//	first menu
 				system("cls");
@@ -80,9 +100,9 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 					<< "[4] Log out\n"
 					<< "Your answer: ";
 
-				cin >> temp;
+				cin.get(temp);
 
-				if (temp == 1) {
+				if (temp == '1') {
 
 					int temp_1;
 
@@ -105,34 +125,34 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 						cout << "---------------------------------------------------------\n\n";
 
 						if (temp_1 == 1) {
-
+							checkIn(cur_student, course_list);
 						}
 						else if (temp_1 == 2) {
-
+							viewCheckInResult(cur_student, course_list);
 						}
 						else if (temp_1 == 3) {
-
+							viewMyScore(course_list);
 						}
 						else if (temp_1 == 4) {
-
+							viewListOfSchedules(course_list, class_list);
 						}
 						else if (temp_1 == 5) {
-							check_2 = false;
+							break;
 						}
 						system("pause");
 					}
 				}
-				else if (temp == 2) {
+				else if (temp == '2') {
 					cout << "---------------------------------------------------------\n\n";
 					cur_student->printInfo();
 					system("pause");
 				}
-				else if (temp == 3) {
+				else if (temp == '3') {
 					cout << "---------------------------------------------------------\n\n";
 					cur_student->changePassword();
 					system("pause");
 				}
-				else if (temp == 4) {
+				else if (temp == '4') {
 					check_1 = false;;
 				}
 			}
@@ -143,7 +163,7 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 		else if (answer == 2) {
 
 			while (check_1) {
-				int temp;
+				char temp;
 				user* cur_user = staff.head;
 
 
@@ -160,26 +180,44 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 
 				//	Check if there is any staff matching the log in info
 				while (true) {
+					cur_user = staff.head;
 					while (cur_user && (username != cur_user->username || password != cur_user->password))
 						cur_user = cur_user->next;
 
 					//	if there is no staff that matches the log in info
 					if (!cur_user) {
-
+						password = "";
 						system("cls");
 						cout << "\t\t\t\tSTUDENT MANAGEMENT PROGRAM\n"
 							<< "\t\t*********************************************************\n\n"
 							<< "The username and password match no academic staff\n"
-							<< "LOG IN\n"
-							<< "Username: ";
-
-						cin >> username;
-						cout << "Password: ";
-						inputPassword(password);
+							<< "Do you want to go back to the previous menu? You can exit the program from there.\n"
+							<< "[y]Yes\n[n]No\n";
+						char go_back_after_wrong_pass;
+						cin.ignore();
+						cin.get(go_back_after_wrong_pass);
+						if (go_back_after_wrong_pass == 'y' || go_back_after_wrong_pass == 'Y') {
+							check_1 = false;
+							break;
+						}
+						else{
+							system("cls");
+							cout << "\t\t\t\tSTUDENT MANAGEMENT PROGRAM\n"
+								<< "\t\t*********************************************************\n\n"
+								<< "The username and password match no academic staff\n"
+								<< "LOG IN\n"
+								<< "Username: ";
+							cin >> username;
+							cout << "Password: ";
+							inputPassword(password);
+							continue;
+						}
 					}
-					else
-						break;
+					else break;
 				}
+
+				if (check_1 = false)
+					break;
 
 
 				while (true) {
@@ -194,9 +232,9 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 						<< "[4] Log out\n"
 						<< "Your answer: ";
 
-					cin >> temp;
+					cin.get(temp);
 
-					if (temp == 1) {
+					if (temp == '1') {
 						int temp_1;
 
 						while (check_2) {
@@ -239,21 +277,16 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 									cin >> temp_2;
 									cout << "---------------------------------------------------------\n\n";
 									if (temp_2 == '1') {
-										char path[1000];
-										cout << "Enter the path of file: ";
-										cin.ignore();
-										cin.getline(path, 1000);
-										classYear *cur_class = createNewNode(class_list.head);
-										input(path, *cur_class);
+										input(class_list, student_list);
 									}
 									else if (temp_2 == '2') {
-										//AddNewStudentToClass
+										AddNewStudentToClass(class_list);
 									}
 									else if (temp_2 == '3') {
-										//EditStudent
+										EditStudent(class_list);
 									}
 									else if (temp_2 == '4') {
-										//Remove a course schedule
+										removeAcourse(course_list);
 									}
 									else if (temp_2 == '5') {
 										moveStudentsFromClassAToB(class_list);
@@ -293,7 +326,7 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 									cin >> temp_2;
 									cout << "---------------------------------------------------------\n\n";
 									if (temp_2 == '1') {
-										importCourses(course_list);
+										importCourses(course_list, student_list);
 									}
 									else if (temp_2 == '2') {
 										course_list.addNewCourse();
@@ -370,10 +403,10 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 									cin >> temp_2;
 									cout << "---------------------------------------------------------\n\n";
 									if (temp_2 == '1') {
-										//viewAttendance ;
+										viewAttendance(course_list);
 									}
 									else if (temp_2 == '2') {
-										//exportPresence;
+										//exportPresence()
 									}
 									else
 										break;
@@ -388,22 +421,21 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 										<< "\t\t*********************************************************\n\n";
 
 									cout << "Enter the number corresponding to the group of actions you want to take: \n"
-										<< "[1] Import scoreboard of a course (midterm, final, lab, bonus)\n"
-										<< "[2] Edit grade of a student\n"
-										<< "[3] View a scoreboard\n"
+										<< "[1] Search and view scoreboard of a course.\n"
+										<< "[2] Export a scoreboard to a csv file.\n"
 										<< "Your answer: ";
 
 									char temp_2;
 									cin >> temp_2;
 									cout << "---------------------------------------------------------\n\n";
 									if (temp_2 == '1') {
-
+										cout << "Enter the name of the course: ";
+										string course_name;
+										getline(cin, course_name, '\n');
+										viewScore(searchCourse(course_name, course_list.head));
 									}
 									else if (temp_2 == '2') {
-
-									}
-									else if ((temp_2) == '3') {
-
+										//exportScoreboardToCsv(course_list);
 									}
 									else
 										break;
@@ -415,17 +447,17 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 							}
 						}
 					}
-					else if (temp == 2) {
+					else if (temp == '2') {
 						cout << "---------------------------------------------------------\n\n";
 						cur_user->printInfo();
 						system("pause");
 					}
-					else if (temp == 3) {
+					else if (temp == '3') {
 						cout << "---------------------------------------------------------\n\n";
 						cur_user->changePassword();
 						system("pause");
 					}
-					else if (temp == 4) {
+					else if (temp == '4') {
 						check_1 = false;
 						break;
 					}
@@ -455,27 +487,44 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 
 				//	Check if there is any lecturer matching the log in info
 				while (true) {
-					while (cur_user && (username.compare(cur_user->username) || password.compare(cur_user->password)))
+					cur_user = staff.head;
+					while (cur_user && (username != cur_user->username || password != cur_user->password))
 						cur_user = cur_user->next;
 
-					//	if there is no lecturer matching the log in info
+					//	if there is no staff that matches the log in info
 					if (!cur_user) {
-
+						password = "";
 						system("cls");
 						cout << "\t\t\t\tSTUDENT MANAGEMENT PROGRAM\n"
 							<< "\t\t*********************************************************\n\n"
-							<< "The username and password match no academic staff\n"
-							<< "LOG IN\n"
-							<< "Username: ";
-
-						cin >> username;
-						cout << "Password: ";
-						inputPassword(password);
+							<< "The username and password match no lecturer\n"
+							<< "Do you want to go back to the previous menu? You can exit the program from there.\n"
+							<< "[y]Yes\n[n]No\n";
+						char go_back_after_wrong_pass;
+						cin.ignore();
+						cin.get(go_back_after_wrong_pass);
+						if (go_back_after_wrong_pass == 'y' || go_back_after_wrong_pass == 'Y') {
+							check_1 = false;
+							break;
+						}
+						else {
+							system("cls");
+							cout << "\t\t\t\tSTUDENT MANAGEMENT PROGRAM\n"
+								<< "\t\t*********************************************************\n\n"
+								<< "The username and password match no lecturer\n"
+								<< "LOG IN\n"
+								<< "Username: ";
+							cin >> username;
+							cout << "Password: ";
+							inputPassword(password);
+							continue;
+						}
 					}
-					//	if there is one
-					else
-						break;
+					else break;
 				}
+
+				if (check_1 = false)
+					break;
 
 
 				while (true) {
@@ -515,10 +564,10 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 
 							}
 							else if (temp_1 == 2) {
-
+								editGrade(course_list);
 							}
 							else if (temp_1 == 3) {
-
+								//viewScore
 							}
 							else if (temp_1 == 4) {
 								break;
@@ -597,8 +646,7 @@ void user::printInfo() {
 	cout << "Username: " << username << endl
 		<< "Full name: " << full_name << endl
 		<< "Email: " << email << endl
-		<< "Phone: " << phone << endl
-		<< "Password: " << password << endl;
+		<< "Phone: " << phone << endl;
 }
 
 //	3
@@ -607,8 +655,7 @@ void student::printInfo() {
 		<< "Class : " << class_name << endl
 		<< "Full name: " << full_name << endl
 		<< "Email: " << email << endl
-		<< "Phone: " << phone << endl
-		<< "Password: " << password << endl;
+		<< "Phone: " << phone << endl;
 }
 
 //	4
@@ -678,10 +725,11 @@ void user::changePassword()
 }
 
 //	6
-void input(char path[], classYear &a)
+void input(char path[], classYear &a, studentList_t &student_list)
 {
 	//	load an entire new class from a .csv file;
 	//	Nguyen Ho Huu Nghia
+	// haven't checked
 
 	ifstream fin(path);
 	if (fin.good()) {
@@ -720,6 +768,8 @@ void input(char path[], classYear &a)
 				a.head->class_name = (string)class_year;
 				a.head->next = NULL;
 				a.head->generatePassword();
+				student* cur_student = createNewNode(student_list.head);
+				*cur_student = *a.head;
 				cur = a.head;
 			}
 			else {
@@ -729,11 +779,100 @@ void input(char path[], classYear &a)
 				cur->full_name = (string)full_name;
 				cur->class_name = (string)class_year;
 				cur->generatePassword();
+				student* cur_student = createNewNode(student_list.head);
+				*cur_student = *cur;
 				cur->next = NULL;
 			}
 		}
 	}
 	fin.close();
+}
+
+// 6
+void input(classList &class_list, studentList_t &student_list)
+{
+	//	load an entire new class from a .csv file;
+	//	Nguyen Ho Huu Nghia
+	//	For the users
+	//	Haven't checked
+
+	string path;
+	cout << "Enter the path of the file: ";
+	getline(cin, path, '\n');
+
+	string class_name;
+	cout << "Enter the name of the class: ";
+	if (class_list.head->class_name == class_name) {
+		cout << "The class already existed.\n";
+	}
+	else {
+		classYear* cur_class = class_list.head;
+		while (cur_class->next && cur_class->next->class_name != cur_class->class_name)
+			cur_class = cur_class->next;
+		if (cur_class->next == NULL) {
+			cur_class->next = new classYear;
+			cur_class = cur_class->next;
+			ifstream fin(path);
+			if (fin.good()) {
+				//	ignore Class,
+				fin.ignore(1000, ',');
+				//	get Class Year
+				char class_year[16];
+				fin.getline(class_year, 16, ',');
+				cur_class->class_name = (string)class_year;
+				//	ignore line 2
+				fin.ignore(1000, '\n');
+				fin.ignore(1000, '\n');
+
+				student* cur;
+
+				//	start reading students' info
+				char temp_number[13], temp_username[8];
+				int username;
+				char full_name[101];
+				while (fin.good()) {
+
+					//	get ordinal number
+					fin.getline(temp_number, 13, ',');
+
+					//	get username(student_id)
+					fin.getline(temp_username, 8, ',');
+					username = atoi(temp_username);
+
+					//	get fullname
+					fin.getline(full_name, 101, '\n');
+
+					if (cur_class->head == NULL) {
+						cur_class->head = new student;
+						cur_class->head->id = username;
+						cur_class->head->full_name = (string)full_name;
+						cur_class->head->class_name = (string)class_year;
+						cur_class->head->next = NULL;
+						cur_class->head->generatePassword();
+						student* cur_student = createNewNode(student_list.head);
+						*cur_student = *cur_class->head;
+						cur = cur_class->head;
+					}
+					else {
+						cur->next = new student;
+						cur = cur->next;
+						cur->id = username;
+						cur->full_name = (string)full_name;
+						cur->class_name = (string)class_year;
+						cur->generatePassword();
+						student* cur_student = createNewNode(student_list.head);
+						*cur_student = *cur;
+						cur->next = NULL;
+					}
+				}
+			}
+			fin.close();
+
+		}
+		else
+			cout << "The class already existed.\n";
+	}
+
 }
 
 void output(char path[], classYear &a)
@@ -760,7 +899,7 @@ void output(char path[], classYear &a)
 }
 
 //	7
-void AddNewStudentToClass(classList L, classYear &a)
+void AddNewStudentToClass(classList L)
 {
 	// Vy Vy
 	// Finished
@@ -779,7 +918,7 @@ void AddNewStudentToClass(classList L, classYear &a)
 		return;
 	}
 	else if (!cur->class_name.compare(classname)) {	//return false
-		student *add = a.head;
+		student *add = cur->head;
 		cout << "Enter new student's ID: ";
 		int newid;
 		cin >> newid;
@@ -795,8 +934,9 @@ void AddNewStudentToClass(classList L, classYear &a)
 			getline(cin, tmp->phone);
 			cout << "Email: ";
 			getline(cin, tmp->email);
+			tmp->generatePassword();
 			tmp->next = add;
-			a.head = tmp;
+			cur->head = tmp;
 		}
 		else {
 			while (add->next && add->next->id < newid) {
@@ -813,6 +953,7 @@ void AddNewStudentToClass(classList L, classYear &a)
 				getline(cin, add->phone);
 				cout << "Email: ";
 				getline(cin, add->email);
+				add->generatePassword();
 				add->next = NULL;
 			}
 			else {
@@ -826,6 +967,7 @@ void AddNewStudentToClass(classList L, classYear &a)
 				getline(cin, tmp->phone);
 				cout << "Email: ";
 				getline(cin, tmp->email);
+				tmp->generatePassword();
 				tmp->next = add->next;
 				add->next = tmp;
 			}
@@ -834,7 +976,7 @@ void AddNewStudentToClass(classList L, classYear &a)
 }
 
 //	8
-void EditStudent(classList L, classYear a)
+void EditStudent(classList L)
 {
 	// Vy Vy
 	// Finished
@@ -853,7 +995,7 @@ void EditStudent(classList L, classYear a)
 		return;
 	}
 	else if (!cur->class_name.compare(classname)) {	//return false
-		student *edit = a.head;
+		student *edit = cur->head;
 		cout << "Enter student ID: ";
 		int newid;
 		cin >> newid;
@@ -886,7 +1028,51 @@ void EditStudent(classList L, classYear a)
 		}
 	}
 }
+//9
+void removeAStudent(classList &class_list)
+{
+	// Vy Vy
 
+	string classname;
+	cout << "Enter name of the class you want to remove a student: ";
+	cin >> classname;
+	
+	classYear *cur = class_list.head;
+	while (cur && cur->class_name!=classname) {
+		cur = cur->next;
+	}
+	if (!cur) {
+		cout << "Sorry, the class you entered doesn't exist.\n";
+		return;
+	}
+	else {
+		int newid;
+		cout << "Enter the ID of the student you want to remove: ";
+		cin >> newid;
+		student *del = cur->head;
+
+		// Check first student
+		if (del->id == newid) {
+			cur->head = cur->head->next;
+			delete del;
+			return;
+		}
+
+		while (del->next && del->next->id != newid) {
+			del = del->next;
+		}
+		if (!del->next) {
+			cout << "Sorry, the ID you entered doesn't exist.\n";
+			return;
+		}
+		else {
+			student *tmp = del->next;
+			del->next = tmp->next;
+			delete tmp;
+			return;
+		}
+	}
+}
 //	10
 void moveStudentsFromClassAToB(classList a) {
 
@@ -1116,11 +1302,11 @@ void student::generatePassword() {
 }
 
 //	14
-void importCourses(string path, courseList& a) {
+void importCourses(string path, courseList& a, studentList_t student_list) {
 	//	import courses from a .csv file
 	//	Nguyen Ho Huu Nghia
 
-	ifstream fin(path);
+	ifstream fin(path), fin1;
 	fin.ignore(10000, '\n');
 
 	a.head = NULL;
@@ -1132,59 +1318,118 @@ void importCourses(string path, courseList& a) {
 		string buffer;
 
 		while (fin.good()) {
+			string class_name, file_name;
 
 			if (a.head == NULL) {
 				a.head = new course;
 				getline(fin, a.head->course_code, ',');
 				getline(fin, a.head->course_name, ',');
 				getline(fin, a.head->lecturer_username, ',');
-				getline(fin, a.head->year, ',');
-				getline(fin, buffer, ',');
-				a.head->semester = stoi(buffer);
 
-				getline(fin, buffer, '-');
-				a.head->start_date.day = stoi(buffer);
-				getline(fin, buffer, '-');
-				a.head->start_date.month = stoi(buffer);
-				getline(fin, buffer, ',');
-				a.head->start_date.day = stoi(buffer);
+				getline(fin, buffer, '\n');
+				stringstream classes(buffer);
 
-				getline(fin, buffer, '-');
-				a.head->end_date.day = stoi(buffer);
-				getline(fin, buffer, '-');
-				a.head->end_date.month = stoi(buffer);
-				getline(fin, buffer, ',');
-				a.head->end_date.year = stoi(buffer);
-				getline(fin, a.head->room, '\n');
+				while (classes.good()) {
+					classes >> class_name;
+					file_name = class_name + "-" + a.head->course_code + ".csv";
+					fin1.open(file_name);
+					
+					if(fin1.good()){
+
+						fin1.ignore(1000, '\n');
+
+						fin1.ignore(1000, '\n');
+						int student_id;
+
+						while (fin1.good() &&!fin.eof()) {
+							fin1.ignore(1000, ',');
+
+							string buffer_student_id;
+							getline(fin1, buffer_student_id, ',');
+							student_id= stoi(buffer_student_id);
+
+							presence* cur_presence = createNewNode(a.head->head_presence);
+							cur_presence->id = student_id;
+							/*
+							if(student_list.head==NULL)
+							if (student_list.head->id != student_id) {
+								student* cur_student = student_list.head;
+								while (cur_student->next && cur_student->next->id != student_id)
+									cur_student = cur_student->next;
+								if (!cur_student->next) {
+									cur_student->next = new student;
+									cur_student->next->id = student_id;
+									getline(fin1, cur_student->next->full_name, ',');
+									cur_student->next->generatePassword();
+								}
+							}*/
+							student*cur_student = createNewNode(student_list.head);
+							cur_student->id = student_id;
+							fin1.ignore(1000, '\n');
+						}
+					}
+					fin1.close();
+				}
+
+
 				a.head->next = NULL;
 				cur = a.head;
 			}
 
 			else {
-				cur->next = new course;
+				cur->next=new course;
 				cur = cur->next;
 				getline(fin, cur->course_code, ',');
 				getline(fin, cur->course_name, ',');
 				getline(fin, cur->lecturer_username, ',');
-				getline(fin, cur->year, ',');
-				getline(fin, buffer, ',');
-				cur->semester = stoi(buffer);
 
-				getline(fin, buffer, '-');
-				cur->start_date.day = stoi(buffer);
-				getline(fin, buffer, '-');
-				cur->start_date.month = stoi(buffer);
-				getline(fin, buffer, ',');
-				cur->start_date.day = stoi(buffer);
+				getline(fin, buffer, '\n');
+				stringstream classes(buffer);
 
-				getline(fin, buffer, '-');
-				cur->end_date.day = stoi(buffer);
-				getline(fin, buffer, '-');
-				cur->end_date.month = stoi(buffer);
-				getline(fin, buffer, ',');
-				cur->end_date.year = stoi(buffer);
+				while (classes.good()) {
+					classes >> class_name;
+					file_name = class_name + "-" + cur->course_code + ".csv";
+					fin1.open(file_name);
 
-				getline(fin, cur->room, '\n');
+					if (fin1.good()) {
+
+						fin1.ignore(1000, '\n');
+
+						fin1.ignore(1000, '\n');
+						int student_id;
+
+						while (fin1.good() && !fin.eof()) {
+							fin1.ignore(1000, ',');
+
+							string buffer_student_id;
+							getline(fin1, buffer_student_id, ',');
+							student_id = stoi(buffer_student_id);
+
+							presence* cur_presence = createNewNode(cur->head_presence);
+							cur_presence->id = student_id;
+
+							/*
+							if (student_list.head->id != student_id) {
+								student* cur_student = student_list.head;
+								while (cur_student->next && cur_student->next->id != student_id)
+									cur_student = cur_student->next;
+								if (!cur_student->next) {
+									cur_student->next = new student;
+									cur_student->next->id = student_id;
+									getline(fin1, cur_student->next->full_name, ',');
+									cur_student->next->generatePassword();
+								}
+							}*/
+
+							student*cur_student = createNewNode(student_list.head);
+							cur_student->id = student_id;
+							fin1.ignore(1000, '\n');
+						}
+					}
+					fin1.close();
+				}
+
+
 				cur->next = NULL;
 			}
 		}
@@ -1194,7 +1439,7 @@ void importCourses(string path, courseList& a) {
 
 //	14
 //	For the users
-void importCourses(courseList& a) {
+void importCourses(courseList& a, studentList_t student_list) {
 	//	import courses from a .csv file
 	//	Nguyen Ho Huu Nghia
 
@@ -1202,7 +1447,7 @@ void importCourses(courseList& a) {
 	string path;
 	getline(cin, path, '\n');
 
-	ifstream fin(path);
+	ifstream fin(path), fin1;
 	fin.ignore(10000, '\n');
 
 	a.head = NULL;
@@ -1214,30 +1459,60 @@ void importCourses(courseList& a) {
 		string buffer;
 
 		while (fin.good()) {
+			string class_name, file_name;
 
 			if (a.head == NULL) {
 				a.head = new course;
 				getline(fin, a.head->course_code, ',');
 				getline(fin, a.head->course_name, ',');
 				getline(fin, a.head->lecturer_username, ',');
-				getline(fin, a.head->year, ',');
-				getline(fin, buffer, ',');
-				a.head->semester = stoi(buffer);
 
-				getline(fin, buffer, '-');
-				a.head->start_date.day = stoi(buffer);
-				getline(fin, buffer, '-');
-				a.head->start_date.month = stoi(buffer);
-				getline(fin, buffer, ',');
-				a.head->start_date.day = stoi(buffer);
+				getline(fin, buffer, '\n');
+				stringstream classes(buffer);
 
-				getline(fin, buffer, '-');
-				a.head->end_date.day = stoi(buffer);
-				getline(fin, buffer, '-');
-				a.head->end_date.month = stoi(buffer);
-				getline(fin, buffer, ',');
-				a.head->end_date.year = stoi(buffer);
-				getline(fin, a.head->room, '\n');
+				while (classes.good()) {
+					classes >> class_name;
+					file_name = class_name + "-" + a.head->course_code + ".csv";
+					fin1.open(file_name);
+
+					if (fin1.good()) {
+
+						fin1.ignore(1000, '\n');
+
+						fin1.ignore(1000, '\n');
+						int student_id;
+
+						while (fin1.good() && !fin.eof()) {
+							fin1.ignore(1000, ',');
+
+							string buffer_student_id;
+							getline(fin1, buffer_student_id, ',');
+							student_id = stoi(buffer_student_id);
+
+							presence* cur_presence = createNewNode(a.head->head_presence);
+							cur_presence->id = student_id;
+							/*
+							if(student_list.head==NULL)
+							if (student_list.head->id != student_id) {
+							student* cur_student = student_list.head;
+							while (cur_student->next && cur_student->next->id != student_id)
+							cur_student = cur_student->next;
+							if (!cur_student->next) {
+							cur_student->next = new student;
+							cur_student->next->id = student_id;
+							getline(fin1, cur_student->next->full_name, ',');
+							cur_student->next->generatePassword();
+							}
+							}*/
+							student*cur_student = createNewNode(student_list.head);
+							cur_student->id = student_id;
+							fin1.ignore(1000, '\n');
+						}
+					}
+					fin1.close();
+				}
+
+
 				a.head->next = NULL;
 				cur = a.head;
 			}
@@ -1248,25 +1523,51 @@ void importCourses(courseList& a) {
 				getline(fin, cur->course_code, ',');
 				getline(fin, cur->course_name, ',');
 				getline(fin, cur->lecturer_username, ',');
-				getline(fin, cur->year, ',');
-				getline(fin, buffer, ',');
-				cur->semester = stoi(buffer);
 
-				getline(fin, buffer, '-');
-				cur->start_date.day = stoi(buffer);
-				getline(fin, buffer, '-');
-				cur->start_date.month = stoi(buffer);
-				getline(fin, buffer, ',');
-				cur->start_date.day = stoi(buffer);
+				getline(fin, buffer, '\n');
+				stringstream classes(buffer);
 
-				getline(fin, buffer, '-');
-				cur->end_date.day = stoi(buffer);
-				getline(fin, buffer, '-');
-				cur->end_date.month = stoi(buffer);
-				getline(fin, buffer, ',');
-				cur->end_date.year = stoi(buffer);
+				while (classes.good()) {
+					classes >> class_name;
+					file_name = class_name + "-" + cur->course_code + ".csv";
+					fin1.open(file_name);
 
-				getline(fin, cur->room, '\n');
+					if (fin1.good()) {
+
+						fin1.ignore(1000, '\n');
+
+						fin1.ignore(1000, '\n');
+						int student_id;
+
+						while (fin1.good() && !fin.eof()) {
+							fin1.ignore(1000, ',');
+
+							string buffer_student_id;
+							getline(fin1, buffer_student_id, ',');
+							student_id = stoi(buffer_student_id);
+
+							presence* cur_presence = createNewNode(cur->head_presence);
+							cur_presence->id = student_id;
+
+							if (student_list.head->id != student_id) {
+								student* cur_student = student_list.head;
+								while (cur_student->next && cur_student->next->id != student_id)
+									cur_student = cur_student->next;
+								if (!cur_student->next) {
+									cur_student->next = new student;
+									cur_student->next->id = student_id;
+									getline(fin1, cur_student->next->full_name, ',');
+									cur_student->id = student_id;
+									cur_student->next->generatePassword();
+								}
+							}
+							fin1.ignore(1000, '\n');
+						}
+					}
+					fin1.close();
+				}
+
+
 				cur->next = NULL;
 			}
 		}
@@ -1456,6 +1757,7 @@ void importCoursesSchedulesOfAClass(courseList &course_list, classList &class_li
 
 		classYear *cur_class = class_list.head;
 
+		//	find the class from the class name
 		if (class_name != class_list.head->class_name) {
 			while (cur_class->next && cur_class->next->class_name != class_name)
 				cur_class = cur_class->next;
@@ -1472,116 +1774,34 @@ void importCoursesSchedulesOfAClass(courseList &course_list, classList &class_li
 		//	ignore the 1st line containing the name of columns
 		fin.ignore(10000, '\n');
 
-
-		cur_class->head_course_code = new courseCode;
-		cur_class->head_course_code->next = NULL;
-		char buffer[5];
-
-		getline(fin, cur_class->head_course_code->course_code, ',');
-
-		//	find the corresponding course in the course list
-		course *cur_course = course_list.head, *pre_course = cur_course;
-		while (cur_course->course_code != cur_class->head_course_code->course_code && cur_course != NULL) {
-			pre_course = cur_course;
-			cur_course = cur_course->next;
-		}
-
-		//	if the course doesn't exist, add a new one
-		if (cur_course == NULL) {
-			pre_course->next = new course;
-			cur_course = pre_course->next;
-		}
-
-		getline(fin, cur_course->course_name, ',');
-		getline(fin, cur_course->lecturer_username, ',');
-
-
-		schedule* cur_schedule = createNewNode(cur_course->head_schedule);
-
-		cur_schedule->class_name = cur_class->class_name;
-
-		getline(fin, cur_schedule->year, ',');
-
-		fin.getline(buffer, 2, ',');
-		cur_schedule->semester = atoi(buffer);
-
-		//	start date
-		fin.getline(buffer, 3, '-');
-		cur_schedule->start_date.day = atoi(buffer);
-		fin.getline(buffer, 3, '-');
-		cur_schedule->start_date.month = atoi(buffer);
-		fin.getline(buffer, 5, ',');
-		cur_schedule->start_date.year = atoi(buffer);
-
-		//	end date
-		fin.getline(buffer, 3, '-');
-		cur_schedule->end_date.day = atoi(buffer);
-		fin.getline(buffer, 3, '-');
-		cur_schedule->end_date.month = atoi(buffer);
-		fin.getline(buffer, 5, ',');
-		cur_schedule->end_date.year = atoi(buffer);
-
-		fin.getline(buffer, 2, ',');
-		switch (atoi(buffer)) {
-		case 1:
-			cur_schedule->course_session.session_day = sunday;
-			break;
-		case 2:
-			cur_schedule->course_session.session_day = monday;
-			break;
-		case 3:
-			cur_schedule->course_session.session_day = tuesday;
-			break;
-		case 4:
-			cur_schedule->course_session.session_day = wednesday;
-			break;
-		case 5:
-			cur_schedule->course_session.session_day = thursday;
-			break;
-		case 6:
-			cur_schedule->course_session.session_day = friday;
-			break;
-		case 7:
-			cur_schedule->course_session.session_day = saturday;
-			break;
-		}
-		//	Start time
-		fin.getline(buffer, 3, ':');
-		cur_schedule->course_session.start.hour = atoi(buffer);
-		fin.getline(buffer, 3, ',');
-		cur_schedule->course_session.start.minute = atoi(buffer);
-
-		//	End time
-		fin.getline(buffer, 3, ':');
-		cur_schedule->course_session.end.hour = atoi(buffer);
-		fin.getline(buffer, 3, ',');
-		cur_schedule->course_session.end.minute = atoi(buffer);
-
-		//	Get room
-		getline(fin, cur_schedule->room, '\n');
-
-		/*
-		cur_class.head_course->course_code = course_code;
-		cur_class.head_course->course_name = course_name;
-		cur_class.head_course->lecturer_username = lecturer_username;
-		cur_class.head_course->year = year;
-		cur_class.head_course->semester = semester;
-		cur_class.head_course->start_date = start_date;
-		cur_class.head_course->end_date = end_date;
-		cur_class.head_course->course_session = course_session;
-		cur_class.head_course->room = room;
-		*/
-
-		courseCode* cur_course_code = cur_class->head_course_code;
-
+		courseCode* cur_course_code=cur_class->head_course_code;
+		char buffer[100];
 
 		while (fin.good()) {
 
-			//	create a new course code 
-			cur_course_code->next = new courseCode;
-			cur_course_code = cur_course_code->next;
+			//	get the course code
+			fin.getline(buffer, 100, ',');
 
-			getline(fin, cur_course_code->course_code, ',');
+			//	if the course code doesn't exist then create a new course code 
+			if(cur_class->head_course_code!=NULL){
+				cur_course_code = cur_class->head_course_code;
+				if (cur_class->head_course_code->course_code != (string)buffer) {
+					while (cur_course_code->next && cur_course_code->course_code != (string)buffer)
+						cur_course_code = cur_course_code->next;
+					if (cur_course_code->next == NULL) {
+						cur_course_code->next = new courseCode;
+						cur_course_code = cur_course_code->next;
+					}
+					else
+						cur_course_code = cur_course_code->next;
+				}
+			}
+			else {
+				cur_class->head_course_code = new courseCode;
+				cur_course_code = cur_class->head_course_code;
+			}
+			cur_course_code->course_code = buffer;
+
 
 			//	find the corresponding course in the course list
 			course *cur_course = course_list.head, *pre_course = cur_course;
@@ -1600,8 +1820,22 @@ void importCoursesSchedulesOfAClass(courseList &course_list, classList &class_li
 			getline(fin, cur_course->lecturer_username, ',');
 
 			schedule* cur_schedule = createNewNode(cur_course->head_schedule);
-
 			cur_schedule->class_name = cur_class->class_name;
+			/*if (cur_course->head_schedule == NULL) {
+				cur_course->head_schedule = new schedule;
+				cur_schedule = cur_course->head_schedule;
+				cur_schedule->class_name = cur_class->class_name;
+			}
+			else {
+				cur_schedule = cur_course->head_schedule;
+				while (cur_schedule && cur_schedule->class_name != cur_class->class_name)
+					cur_schedule = cur_schedule->next;
+				if (!cur_schedule) {
+					cur_schedule->next = new schedule;
+					cur_schedule = cur_schedule->next;
+					cur_schedule->class_name = cur_class->class_name;
+				}
+			}*/
 
 			getline(fin, cur_schedule->year, ',');
 
@@ -1623,6 +1857,38 @@ void importCoursesSchedulesOfAClass(courseList &course_list, classList &class_li
 			cur_schedule->end_date.month = atoi(buffer);
 			fin.getline(buffer, 5, ',');
 			cur_schedule->end_date.year = atoi(buffer);
+
+			string file_name;
+			ifstream fin1;
+			file_name = cur_class->class_name + "-" + cur_course->course_code + ".csv";
+			fin1.open(file_name); 
+			int weeks = weeksBetweenTwoDates(cur_schedule->start_date, cur_schedule->end_date);
+			string temp_attendance = "";
+			while (weeks > 0) {
+				temp_attendance += " ";
+				weeks--;
+			}
+			if (fin1.good()) {
+
+				fin1.ignore(1000, '\n');
+				fin1.ignore(1000, '\n');
+
+				while (fin1.good()) {
+					fin1.ignore(1000, ',');
+
+					string buffer_student_id;
+					getline(fin1, buffer_student_id, ',');
+					int student_id = stoi(buffer_student_id);
+
+					presence* cur_presence = createNewNode(cur_course->head_presence);
+					cur_presence->id = student_id;
+					
+					if (cur_presence->attendance.length() == 0)
+						cur_presence->attendance = temp_attendance;
+					fin1.ignore(1000, '\n');
+				}
+			}
+			fin1.close();
 
 			fin.getline(buffer, 2, ',');
 			switch (atoi(buffer)) {
@@ -1689,32 +1955,6 @@ void importCoursesSchedulesOfAClass(courseList &course_list, classList &class_li
 	cout << "Enter the name of the class: ";
 	getline(cin, class_name, '\n');
 
-	classYear *cur_class = class_list.head;
-
-	if (class_name != class_list.head->class_name) {
-		while (cur_class->next && cur_class->next->class_name != class_name)
-			cur_class = cur_class->next;
-		if (!cur_class->next) {
-			cout << "Class not found.\n"
-				<< "Do you want to add this class?\n"
-				<< "[y]Yes\n"
-				<< "[n]No\n";
-			char check_add;
-			cin >> check_add;
-			if (check_add == 'n')
-				return;
-			else {
-				cur_class->next = new classYear;
-				cur_class = cur_class->next;
-				cur_class->next = NULL;
-				cur_class->class_name = class_name;
-			}
-
-			return;
-		}
-		else
-			cur_class = cur_class->next;
-	}
 
 	//	check if file is succesfully opened
 	if (!fin.is_open()) {
@@ -1724,120 +1964,53 @@ void importCoursesSchedulesOfAClass(courseList &course_list, classList &class_li
 	}
 	else {
 
+		classYear *cur_class = class_list.head;
+
+		//	find the class from the class name
+		if (class_name != class_list.head->class_name) {
+			while (cur_class->next && cur_class->next->class_name != class_name)
+				cur_class = cur_class->next;
+			if (!cur_class->next) {
+				cur_class->next = new classYear;
+				cur_class = cur_class->next;
+				cur_class->next = NULL;
+				cur_class->class_name = class_name;
+			}
+			else
+				cur_class = cur_class->next;
+		}
 
 		//	ignore the 1st line containing the name of columns
 		fin.ignore(10000, '\n');
 
-
-		cur_class->head_course_code = new courseCode;
-		cur_class->head_course_code->next = NULL;
-		char buffer[5];
-
-		getline(fin, cur_class->head_course_code->course_code, ',');
-
-		//	find the corresponding course in the course list
-		course *cur_course = course_list.head, *pre_course = cur_course;
-		while (cur_course->course_code != cur_class->head_course_code->course_code && cur_course != NULL) {
-			pre_course = cur_course;
-			cur_course = cur_course->next;
-		}
-
-		//	if the course doesn't exist, add a new one
-		if (cur_course == NULL) {
-			pre_course->next = new course;
-			cur_course = pre_course->next;
-		}
-
-		getline(fin, cur_course->course_name, ',');
-		getline(fin, cur_course->lecturer_username, ',');
-
-
-		schedule* cur_schedule = createNewNode(cur_course->head_schedule);
-
-		cur_schedule->class_name = cur_class->class_name;
-
-		getline(fin, cur_schedule->year, ',');
-
-		fin.getline(buffer, 2, ',');
-		cur_schedule->semester = atoi(buffer);
-
-		//	start date
-		fin.getline(buffer, 3, '-');
-		cur_schedule->start_date.day = atoi(buffer);
-		fin.getline(buffer, 3, '-');
-		cur_schedule->start_date.month = atoi(buffer);
-		fin.getline(buffer, 5, ',');
-		cur_schedule->start_date.year = atoi(buffer);
-
-		//	end date
-		fin.getline(buffer, 3, '-');
-		cur_schedule->end_date.day = atoi(buffer);
-		fin.getline(buffer, 3, '-');
-		cur_schedule->end_date.month = atoi(buffer);
-		fin.getline(buffer, 5, ',');
-		cur_schedule->end_date.year = atoi(buffer);
-
-		fin.getline(buffer, 2, ',');
-		switch (atoi(buffer)) {
-		case 1:
-			cur_schedule->course_session.session_day = sunday;
-			break;
-		case 2:
-			cur_schedule->course_session.session_day = monday;
-			break;
-		case 3:
-			cur_schedule->course_session.session_day = tuesday;
-			break;
-		case 4:
-			cur_schedule->course_session.session_day = wednesday;
-			break;
-		case 5:
-			cur_schedule->course_session.session_day = thursday;
-			break;
-		case 6:
-			cur_schedule->course_session.session_day = friday;
-			break;
-		case 7:
-			cur_schedule->course_session.session_day = saturday;
-			break;
-		}
-		//	Start time
-		fin.getline(buffer, 3, ':');
-		cur_schedule->course_session.start.hour = atoi(buffer);
-		fin.getline(buffer, 3, ',');
-		cur_schedule->course_session.start.minute = atoi(buffer);
-
-		//	End time
-		fin.getline(buffer, 3, ':');
-		cur_schedule->course_session.end.hour = atoi(buffer);
-		fin.getline(buffer, 3, ',');
-		cur_schedule->course_session.end.minute = atoi(buffer);
-
-		//	Get room
-		getline(fin, cur_schedule->room, '\n');
-
-		/*
-		cur_class.head_course->course_code = course_code;
-		cur_class.head_course->course_name = course_name;
-		cur_class.head_course->lecturer_username = lecturer_username;
-		cur_class.head_course->year = year;
-		cur_class.head_course->semester = semester;
-		cur_class.head_course->start_date = start_date;
-		cur_class.head_course->end_date = end_date;
-		cur_class.head_course->course_session = course_session;
-		cur_class.head_course->room = room;
-		*/
-
 		courseCode* cur_course_code = cur_class->head_course_code;
-
+		char buffer[100];
 
 		while (fin.good()) {
 
-			//	create a new course code 
-			cur_course_code->next = new courseCode;
-			cur_course_code = cur_course_code->next;
+			//	get the course code
+			fin.getline(buffer, 100, ',');
 
-			getline(fin, cur_course_code->course_code, ',');
+			//	if the course code doesn't exist then create a new course code 
+			if (cur_class->head_course_code != NULL) {
+				cur_course_code = cur_class->head_course_code;
+				if (cur_class->head_course_code->course_code != (string)buffer) {
+					while (cur_course_code->next && cur_course_code->course_code != (string)buffer)
+						cur_course_code = cur_course_code->next;
+					if (cur_course_code->next == NULL) {
+						cur_course_code->next = new courseCode;
+						cur_course_code = cur_course_code->next;
+					}
+					else
+						cur_course_code = cur_course_code->next;
+				}
+			}
+			else {
+				cur_class->head_course_code = new courseCode;
+				cur_course_code = cur_class->head_course_code;
+			}
+			cur_course_code->course_code = buffer;
+
 
 			//	find the corresponding course in the course list
 			course *cur_course = course_list.head, *pre_course = cur_course;
@@ -1856,8 +2029,22 @@ void importCoursesSchedulesOfAClass(courseList &course_list, classList &class_li
 			getline(fin, cur_course->lecturer_username, ',');
 
 			schedule* cur_schedule = createNewNode(cur_course->head_schedule);
-
 			cur_schedule->class_name = cur_class->class_name;
+			/*if (cur_course->head_schedule == NULL) {
+			cur_course->head_schedule = new schedule;
+			cur_schedule = cur_course->head_schedule;
+			cur_schedule->class_name = cur_class->class_name;
+			}
+			else {
+			cur_schedule = cur_course->head_schedule;
+			while (cur_schedule && cur_schedule->class_name != cur_class->class_name)
+			cur_schedule = cur_schedule->next;
+			if (!cur_schedule) {
+			cur_schedule->next = new schedule;
+			cur_schedule = cur_schedule->next;
+			cur_schedule->class_name = cur_class->class_name;
+			}
+			}*/
 
 			getline(fin, cur_schedule->year, ',');
 
@@ -1879,6 +2066,38 @@ void importCoursesSchedulesOfAClass(courseList &course_list, classList &class_li
 			cur_schedule->end_date.month = atoi(buffer);
 			fin.getline(buffer, 5, ',');
 			cur_schedule->end_date.year = atoi(buffer);
+
+			string file_name;
+			ifstream fin1;
+			file_name = cur_class->class_name + "-" + cur_course->course_code + ".csv";
+			fin1.open(file_name);
+			int weeks = weeksBetweenTwoDates(cur_schedule->start_date, cur_schedule->end_date);
+			string temp_attendance = "";
+			while (weeks > 0) {
+				temp_attendance += " ";
+				weeks--;
+			}
+			if (fin1.good()) {
+
+				fin1.ignore(1000, '\n');
+				fin1.ignore(1000, '\n');
+
+				while (fin1.good()) {
+					fin1.ignore(1000, ',');
+
+					string buffer_student_id;
+					getline(fin1, buffer_student_id, ',');
+					int student_id = stoi(buffer_student_id);
+
+					presence* cur_presence = createNewNode(cur_course->head_presence);
+					cur_presence->id = student_id;
+
+					if (cur_presence->attendance.length() == 0)
+						cur_presence->attendance = temp_attendance;
+					fin1.ignore(1000, '\n');
+				}
+			}
+			fin1.close();
 
 			fin.getline(buffer, 2, ',');
 			switch (atoi(buffer)) {
@@ -2315,7 +2534,7 @@ bool isDuplicatedTimes(courseList L, string course_code, schedule *tempSchedule,
 	course *cur = L.head;
 	schedule *pre;
 
-/*	std::cout << std::endl;
+	/*	std::cout << std::endl;
 	std::cout << course_code << std::endl;
 	std::cout << tempSchedule->class_name << std::endl;
 	std::cout << tempSchedule->course_session.session_day << std::endl;
@@ -2323,40 +2542,40 @@ bool isDuplicatedTimes(courseList L, string course_code, schedule *tempSchedule,
 	std::cout << tempSchedule->course_session.end.hour << ":" << tempSchedule->course_session.end.minute << std::endl;
 	std::cout << tempSchedule->room << std::endl;
 	std::cout << std::endl;
-*/
+	*/
 	while (cur != NULL)
 	{
 		pre = cur->head_schedule;
 		while (pre != NULL)
 		{
-/*			std::cout << cur->course_code << std::endl;
+			/*			std::cout << cur->course_code << std::endl;
 			std::cout << pre->class_name << std::endl;
 			std::cout << pre->course_session.session_day << std::endl;
 			std::cout << pre->course_session.start.hour <<":"<<pre->course_session.start.minute<< std::endl;
 			std::cout << pre->course_session.end.hour << ":" << pre->course_session.end.minute << std::endl;
 			std::cout << pre->room << std::endl <<std::endl;
-*/
+			*/
 			if (pre != tempSchedule)
 			{
-				if (pre->class_name == tempSchedule->class_name && pre->course_session.session_day==date)
+				if (pre->class_name == tempSchedule->class_name && pre->course_session.session_day == date)
 				{
 					if (interrupted(start, end, pre->course_session.start, pre->course_session.end))
 						return true;
 				}
 				else
-				if (pre->course_session.session_day == date && pre->room == room)
-				{
-					if (interrupted(start, end, pre->course_session.start, pre->course_session.end))
+					if (pre->course_session.session_day == date && pre->room == room)
 					{
-/*						std::cout << start.hour << ":" << start.minute << " ";
-						std::cout << end.hour << ":" << end.minute << std::endl;
-						std::cout << pre->course_session.start.hour << ":" << pre->course_session.start.minute << " ";
-						std::cout << pre->course_session.end.hour << ":" << pre->course_session.end.minute;
-						std::cout << std::endl;
-*/	
-						return true;
+						if (interrupted(start, end, pre->course_session.start, pre->course_session.end))
+						{
+							/*						std::cout << start.hour << ":" << start.minute << " ";
+							std::cout << end.hour << ":" << end.minute << std::endl;
+							std::cout << pre->course_session.start.hour << ":" << pre->course_session.start.minute << " ";
+							std::cout << pre->course_session.end.hour << ":" << pre->course_session.end.minute;
+							std::cout << std::endl;
+							*/
+							return true;
+						}
 					}
-				}
 			}
 			pre = pre->next;
 		}
@@ -2377,8 +2596,8 @@ bool isDuplicatedTimes(courseList L, string course_code, schedule *tempSchedule,
 		pre = cur->head_schedule;
 		while (pre != NULL)
 		{
-			if (pre!=tempSchedule)
-				if (date==pre->course_session.session_day)
+			if (pre != tempSchedule)
+				if (date == pre->course_session.session_day)
 					if (interrupted(pre->course_session.start, pre->course_session.end, start, end))
 					{
 						return true;
@@ -2673,7 +2892,7 @@ void findClassFromCode(classList& class_list, string& class_name, classYear*  &r
 }
 
 //	24
-void viewAttendance(courseList course_list, presence* head_presence)
+void viewAttendance(courseList course_list)
 {
 	// Haven't checked
 	// Vy Vy
@@ -2689,7 +2908,7 @@ void viewAttendance(courseList course_list, presence* head_presence)
 	if (!cur)
 		cout << "Sorry, the course you enter doesn't exist.\n";
 	else {
-		presence* student_presence = head_presence;
+		presence* student_presence = cur->head_presence;
 		while (student_presence) {
 			cout << setw(17) << "Monday" << setw(5 + 7) << "Tuesday" << setw(5 + 9) << "Wednesday";
 			cout << setw(5 + 7) << "Thurday" << setw(5 + 6) << "Friday" << setw(5 + 8) << "Saturday";
@@ -2745,6 +2964,52 @@ void viewScore(course* a) {
 		cout << "ID : " << cur->id << " Midterm : " << cur->midterm << " Lab : " << cur->lab << " Final : " << cur->final << endl;
 		cur = cur->next;
 	}
+}
+
+//	27
+void exportScoreboardToCsv(courseList* course_list) {
+	//export the Scoreboard of a course to a csv file
+	//By Nghia
+	//The user version
+	string course_code;
+	cout << "Enter the code of the course to export the scoreboard: ";
+	cin.ignore();
+	getline(cin, course_code, '\n');
+	course* cur_course = course_list->head;
+	while (cur_course && cur_course->course_code != course_code)
+		cur_course = cur_course->next;
+	//if there is no matching course
+	if (!cur_course) {
+		cout << "No course match the course code you entered.\n";
+	}
+	else {
+		string temp = course_code + "-Scoreboard.csv";
+		ofstream fout(temp);
+		fout << "Courses:," << course_code << endl
+			<< "Student ID,Midterm score,Lab score,Final score,Bonus,Total score\n";
+		presence* cur_presence = cur_course->head_presence;
+		while (cur_presence) {
+			fout << cur_presence->id << "," << cur_presence->midterm << "," << cur_presence->lab << "," << cur_presence->final << "," << cur_presence->bonus << "," << cur_presence->total << endl;
+		}
+		fout.close();
+		cout << "\nThe scoreboard is exported succesfully.\n";
+	}
+}
+
+//27
+void exportScoreboardToCsv(course* cur_course) {
+	//export the Scoreboard of a course to a csv file
+	//By Nghia
+	//The developer version
+	string temp = cur_course->course_code + "-Scoreboard.csv";
+	ofstream fout(temp);
+	fout << "Courses:," << cur_course->course_code << endl
+		<< "Student ID,Midterm score,Lab score,Final score,Bonus,Total score\n";
+	presence* cur_presence = cur_course->head_presence;
+	while (cur_presence) {
+		fout << cur_presence->id << "," << cur_presence->midterm << "," << cur_presence->lab << "," << cur_presence->final << "," << cur_presence->bonus << "," << cur_presence->total << endl;
+	}
+	fout.close();
 }
 
 void inputPassword(string &password)
@@ -2844,12 +3109,14 @@ void recursionEditGrade(int n, presence *&edit)
 }
 
 void Time::displayTime() {
+	//	Nghia
 	cout << hour << ":";
 	IntToXX(minute);
 	cout << endl;
 }
 
 void IntToXX(int n) {
+	//	Nghia
 	char result[3];
 	if (n / 10 == 0) {
 		result[0] = '0';
@@ -2859,4 +3126,188 @@ void IntToXX(int n) {
 	}
 	else
 		cout << itoa(n, result, 10);
+}
+
+////////////////////////////////////////////////////////////////
+int countLeapYears(date d)
+{
+	int years = d.year;
+
+	// Check if the current year needs to be considered
+	// for the count of leap years or not
+	if (d.month <= 2)
+		years--;
+
+	// An year is a leap year if it is a multiple of 4,
+	// multiple of 400 and not a multiple of 100.
+	return years / 4 - years / 100 + years / 400;
+}
+
+int weeksBetweenTwoDates(const date &dt1, const date& dt2) {
+
+	const int monthDays[12] = { 31, 28, 31, 30, 31, 30,
+		31, 31, 30, 31, 30, 31 };
+
+	// initialize count using years and day
+	long int n1 = dt1.year * 365 + dt1.day;
+
+	// Add days for months in given date
+	for (int i = 0; i<dt1.month - 1; i++)
+		n1 += monthDays[i];
+
+	// Since every leap year is of 366 days,
+	// Add a day for every leap year
+	n1 += countLeapYears(dt1);
+
+	long int n2 = dt2.year * 365 + dt2.day;
+	for (int i = 0; i<dt2.month - 1; i++)
+		n2 += monthDays[i];
+	n2 += countLeapYears(dt2);
+
+	// return difference between two counts
+	return (n2 - n1) / 7 + 1;
+}
+
+int weeksFromStartDate(const date &dt1) {
+
+	const int monthDays[12] = { 31, 28, 31, 30, 31, 30,
+		31, 31, 30, 31, 30, 31 };
+
+	// initialize count using years and day
+	long int n1 = dt1.year * 365 + dt1.day;
+
+	// Add days for months in given date
+	for (int i = 0; i<dt1.month - 1; i++)
+		n1 += monthDays[i];
+
+	// Since every leap year is of 366 days,
+	// Add a day for every leap year
+	n1 += countLeapYears(dt1);
+
+	time_t now = time(0);
+	tm* today = localtime(&now);
+	date dt2;
+	dt2.year = today->tm_year + 1900;
+	dt2.month = today->tm_mon + 1;
+	dt2.day = today->tm_mday;
+
+	long int n2 = dt2.year * 365 + dt2.day;
+	for (int i = 0; i<dt2.month - 1; i++)
+		n2 += monthDays[i];
+	n2 += countLeapYears(dt2);
+
+	// return difference between two counts
+	return (n2 - n1) / 7 + 1;
+}
+
+
+//	31
+void checkIn(student* you, courseList &course_list) {
+	//	Nghia
+	//	haven't check yet
+	string course_code;
+	cout << "Enter the code of the course you want to check in: ";
+	cin.ignore();
+	getline(cin, course_code, '\n');
+	course* cur_course = course_list.head;
+	while (cur_course && cur_course->course_code != course_code)
+		cur_course = cur_course->next;
+	if (!cur_course)
+		return;
+	else {
+		presence* cur = cur_course->head_presence;
+		while (cur && cur->id != you->id)
+			cur = cur->next;
+		if (!cur) {
+			cout << "You are not a student of this course.\n";
+			return;
+		}
+
+		int week = weeksFromStartDate(cur_course->start_date);
+		cout << "Course: " << course_code << endl
+			<< "You are at week " << week << endl
+			<< "Please confirm that you want to check in:\n"
+			<< "[y]Yes\n[n]No\n"
+			<< "Your answer: ";
+		char ans;
+		cin >> ans;
+		if (ans == 'y' || ans == 'Y') {
+			cur->attendance[week] = 'x';
+		}
+	}
+}
+////////////////////////////////////////////////////////////////////
+
+//	32
+void viewCheckInResult(student* you, courseList &course_list) {
+	//	Nghia
+	string course_code;
+	cout << "Enter the code of the course you want to check in: ";
+	cin.ignore();
+	getline(cin, course_code, '\n');
+	course* cur_course = course_list.head;
+	while (cur_course && cur_course->course_code != course_code)
+		cur_course = cur_course->next;
+	if (!cur_course) {
+		cout << "The code you entered matches no existing course.\n";
+	}
+	else {
+		presence* cur = cur_course->head_presence;
+		while (cur &&cur->id != you->id)
+			cur = cur->next;
+		if (!cur) {
+			cout << "You are not a student of this course.\n";
+			return;
+		}
+
+		int week = weeksFromStartDate(cur_course->start_date);
+		cout << "Course: " << course_code << endl
+			<< "You are at week " << week << endl
+			<< "Please confirm that you want to check in:\n"
+			<< "[y]Yes\n[n]No\n"
+			<< "Your answer: ";
+		char ans;
+		cin >> ans;
+		if (ans == 'y' || ans == 'Y') {
+			cur->attendance[week] = 'x';
+		}
+	}
+}
+
+//	33
+void viewMyScore(courseList course_list)
+{
+	// Vy Vy
+
+	string code;
+	int newid;
+	cout << "Please enter your student ID: ";
+	cin >> newid;
+	cout << "Which course you want to view your scores? ";
+	cin >> code;
+	course *cur = course_list.head;
+	while (cur && cur->course_code != code) {
+		cur = cur->next;
+	}
+	if (!cur) {
+		cout << "Sorry, the course code you enter doesn't exist.\n";
+		return;
+	}
+	else {
+		presence *print = cur->head_presence;
+		while (!print && print->id != newid) {
+			print = print->next;
+		}
+		if (!print) {
+			cout << "Sorry, you have entered wrong ID.\n";
+			return;
+		}
+		else {
+			cout << "Mid-term: " << print->midterm << endl;
+			cout << "Lab: " << print->lab << endl;
+			cout << "Final: " << print->final << endl;
+			cout << "Bonus: " << print->bonus << endl;
+			cout << "Total: " << print->total << endl;
+		}
+	}
 }
