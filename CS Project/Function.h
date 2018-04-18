@@ -181,7 +181,7 @@ struct studentList_t {
 
 //	template to create a new node for a linked list given the head node
 template<typename T>
-T* createNewNode(T* head) {
+T* createNewNode(T* &head) {
 	if (!head) {
 		head = new T;
 		return head;
@@ -197,8 +197,8 @@ void input(classList &class_list, studentList_t &student_list);
 void output(char path[], classYear &a);
 void viewListOfStudentsInAClass(const classList &a);
 void viewListOfClass(classList L);
-void importCourses(string path, courseList& a, studentList_t student_list);
-void importCourses(courseList& a, studentList_t student_list);
+void importCourses(string path, courseList& a, studentList_t &student_list);
+void importCourses(courseList& a, studentList_t &student_list);
 void AddNewStudentToClass(classList L);
 void EditStudent(classList L);
 void removeAcourse(courseList b);

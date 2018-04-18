@@ -60,7 +60,7 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 						cout << "\t\t\t\tSTUDENT MANAGEMENT PROGRAM\n"
 							<< "\t\t*********************************************************\n\n"
 							<< "The username and password match no student\n"
-							<< "Do you want to go back to the previous menu? You can exit the program from there.\n"
+							<< "Do you want to go back to the previous menu? You can exit the program from there. Otherwise you can try to retype the password.\n"
 							<< "[y]Yes\n[n]No\n";
 						char go_back_after_wrong_pass;
 						cin.ignore();
@@ -88,72 +88,75 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 				if (check_1 == false)
 					break;
 
-				//	first menu
-				system("cls");
-				cout << "\t\t\t\tSTUDENT MANAGEMENT PROGRAM\n"
-					<< "\t\t*********************************************************\n\n";
+				while(true){
+					//	first menu
+					system("cls");
+					cout << "\t\t\t\tSTUDENT MANAGEMENT PROGRAM\n"
+						<< "\t\t*********************************************************\n\n";
 
-				cout << "Enter the number corresponding to the action you want to take: \n"
-					<< "[1] Show main menu\n"
-					<< "[2] Show my information\n"
-					<< "[3] Change password\n"
-					<< "[4] Log out\n"
-					<< "Your answer: ";
+					cout << "Enter the number corresponding to the action you want to take: \n"
+						<< "[1] Show main menu\n"
+						<< "[2] Show my information\n"
+						<< "[3] Change password\n"
+						<< "[4] Log out\n"
+						<< "Your answer: ";
+					cin.ignore();
+					cin.get(temp);
 
-				cin.get(temp);
+					if (temp == '1') {
 
-				if (temp == '1') {
+						int temp_1;
 
-					int temp_1;
+						while (check_2) {
 
-					while (check_2) {
+							//	main menu
+							system("cls");
+							cout << "\t\t\t\t\tSTUDENT MANAGEMENT PROGRAM\n"
+								<< "\t\t*********************************************************\n\n";
 
-						//	main menu
-						system("cls");
-						cout << "\t\t\t\t\tSTUDENT MANAGEMENT PROGRAM\n"
-							<< "\t\t*********************************************************\n\n";
+							cout << "Enter the number corresponding to the action you want to take: \n"
+								<< "[1] Check-in\n"
+								<< "[2] View check-in result\n"
+								<< "[3] View my scores\n"
+								<< "[4] View schedules\n"
+								<< "[5] Back to the previous menu\n"
+								<< "Your answer: ";
 
-						cout << "Enter the number corresponding to the action you want to take: \n"
-							<< "[1] Check-in\n"
-							<< "[2] View check-in result\n"
-							<< "[3] View my scores\n"
-							<< "[4] View schedules\n"
-							<< "[5] Back to the previous menu\n"
-							<< "Your answer: ";
+							cin >> temp_1;
+							cout << "---------------------------------------------------------\n\n";
 
-						cin >> temp_1;
+							if (temp_1 == 1) {
+								checkIn(cur_student, course_list);
+							}
+							else if (temp_1 == 2) {
+								viewCheckInResult(cur_student, course_list);
+							}
+							else if (temp_1 == 3) {
+								viewMyScore(course_list);
+							}
+							else if (temp_1 == 4) {
+								viewListOfSchedules(course_list, class_list);
+							}
+							else if (temp_1 == 5) {
+								break;
+							}
+							system("pause");
+						}
+					}
+					else if (temp == '2') {
 						cout << "---------------------------------------------------------\n\n";
-
-						if (temp_1 == 1) {
-							checkIn(cur_student, course_list);
-						}
-						else if (temp_1 == 2) {
-							viewCheckInResult(cur_student, course_list);
-						}
-						else if (temp_1 == 3) {
-							viewMyScore(course_list);
-						}
-						else if (temp_1 == 4) {
-							viewListOfSchedules(course_list, class_list);
-						}
-						else if (temp_1 == 5) {
-							break;
-						}
+						cur_student->printInfo();
 						system("pause");
 					}
-				}
-				else if (temp == '2') {
-					cout << "---------------------------------------------------------\n\n";
-					cur_student->printInfo();
-					system("pause");
-				}
-				else if (temp == '3') {
-					cout << "---------------------------------------------------------\n\n";
-					cur_student->changePassword();
-					system("pause");
-				}
-				else if (temp == '4') {
-					check_1 = false;;
+					else if (temp == '3') {
+						cout << "---------------------------------------------------------\n\n";
+						cur_student->changePassword();
+						system("pause");
+					}
+					else if (temp == '4') {
+						check_1 = false;
+						break;
+					}
 				}
 			}
 			continue;
@@ -191,7 +194,7 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 						cout << "\t\t\t\tSTUDENT MANAGEMENT PROGRAM\n"
 							<< "\t\t*********************************************************\n\n"
 							<< "The username and password match no academic staff\n"
-							<< "Do you want to go back to the previous menu? You can exit the program from there.\n"
+							<< "Do you want to go back to the previous menu? You can exit the program from there. Otherwise you can try to retype the password.\n"
 							<< "[y]Yes\n[n]No\n";
 						char go_back_after_wrong_pass;
 						cin.ignore();
@@ -232,10 +235,11 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 						<< "[4] Log out\n"
 						<< "Your answer: ";
 
+					cin.ignore();
 					cin.get(temp);
 
 					if (temp == '1') {
-						int temp_1;
+						char temp_1;
 
 						while (check_2) {
 
@@ -252,9 +256,10 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 								<< "[6] Back to the previous menu\n"
 								<< "Your answer: ";
 
-							cin >> temp_1;
+							cin.ignore();
+							cin.get(temp_1);
 
-							if (temp_1 == 1) {
+							if (temp_1 == '1') {
 								while (true) {
 
 									system("cls");
@@ -306,7 +311,7 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 									system("pause");
 								}
 							}
-							else if (temp_1 == 2) {
+							else if (temp_1 == '2') {
 								while (true) {
 
 									system("cls");
@@ -345,7 +350,7 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 									system("pause");
 								}
 							}
-							else if (temp_1 == 3) {
+							else if (temp_1 == '3') {
 								while (true) {
 
 									system("cls");
@@ -386,7 +391,7 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 									system("pause");
 								}
 							}
-							else if (temp_1 == 4) {
+							else if (temp_1 == '4') {
 								while (true) {
 
 									system("cls");
@@ -413,7 +418,7 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 									system("pause");
 								}
 							}
-							else if (temp_1 == 5) {
+							else if (temp_1 == '5') {
 								while (true) {
 
 									system("cls");
@@ -423,6 +428,7 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 									cout << "Enter the number corresponding to the group of actions you want to take: \n"
 										<< "[1] Search and view scoreboard of a course.\n"
 										<< "[2] Export a scoreboard to a csv file.\n"
+										<< "[3] Back to the previous menu.\n"
 										<< "Your answer: ";
 
 									char temp_2;
@@ -442,7 +448,7 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 									system("pause");
 								}
 							}
-							else if (temp_1 == 6) {
+							else if (temp_1 == '6') {
 								check_2 = false;
 							}
 						}
@@ -470,7 +476,7 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 		else if (answer == 3) {
 
 			while (check_1) {
-				int temp;
+				char temp;
 				user* cur_user = lecturer.head;
 
 
@@ -498,7 +504,7 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 						cout << "\t\t\t\tSTUDENT MANAGEMENT PROGRAM\n"
 							<< "\t\t*********************************************************\n\n"
 							<< "The username and password match no lecturer\n"
-							<< "Do you want to go back to the previous menu? You can exit the program from there.\n"
+							<< "Do you want to go back to the previous menu? You can exit the program from there. Otherwise you can try to retype the password.\n"
 							<< "[y]Yes\n[n]No\n";
 						char go_back_after_wrong_pass;
 						cin.ignore();
@@ -539,10 +545,11 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 						<< "[4] Log out\n"
 						<< "Your answer: ";
 
-					cin >> temp;
+					cin.ignore();
+					cin.get(temp);
 
-					if (temp == 1) {
-						int temp_1;
+					if (temp == '1') {
+						char temp_1;
 
 						while (check_2) {
 
@@ -557,35 +564,35 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 								<< "[4] Back to the previous menu\n"
 								<< "Your answer: ";
 
-							cin >> temp_1;
+							cin.get(temp_1);
 							cout << "---------------------------------------------------------\n\n";
 
-							if (temp_1 == 1) {
+							if (temp_1 == '1') {
 
 							}
-							else if (temp_1 == 2) {
+							else if (temp_1 == '2') {
 								editGrade(course_list);
 							}
-							else if (temp_1 == 3) {
+							else if (temp_1 == '3') {
 								//viewScore
 							}
-							else if (temp_1 == 4) {
+							else if (temp_1 == '4') {
 								break;
 							}
 							system("pause");
 						}
 					}
-					else if (temp == 2) {
+					else if (temp == '2') {
 						cout << "---------------------------------------------------------\n\n";
 						cur_user->printInfo();
 						system("pause");
 					}
-					else if (temp == 3) {
+					else if (temp == '3') {
 						cout << "---------------------------------------------------------\n\n";
 						cur_user->changePassword();
 						system("pause");
 					}
-					else if (temp == 4) {
+					else if (temp == '4'){
 						check_1 = false;
 						break;
 					}
@@ -729,7 +736,6 @@ void input(char path[], classYear &a, studentList_t &student_list)
 {
 	//	load an entire new class from a .csv file;
 	//	Nguyen Ho Huu Nghia
-	// haven't checked
 
 	ifstream fin(path);
 	if (fin.good()) {
@@ -1240,7 +1246,7 @@ void viewListOfStudentsInAClass(const classList &a) {
 }
 
 void user::generateUsernameAndPassword() {
-	//	generete default username and password for academic staff or lecturer
+	//	generete default username and password and email for academic staff or lecturer
 	//	Nguyen Ho Huu Nghia
 
 	//	find the position of the last name
@@ -1265,7 +1271,8 @@ void user::generateUsernameAndPassword() {
 	string password = username;
 	for (i = phone.size() - 4; i < phone.size(); ++i)
 		password += phone[i];
-	//	passing the default username and password
+
+	//	passing the default username and password and email;
 	this->username = username;
 	this->password = password;
 }
@@ -1297,12 +1304,13 @@ void student::generatePassword() {
 	for (i = phone.size() - 4; i < phone.size(); ++i)
 		password += phone[i];
 
-	//	passing the defalut password to the student
+	//	passing the default password to the student
 	this->password = password;
+	this->email = short_name + "@apcs.vn";
 }
 
 //	14
-void importCourses(string path, courseList& a, studentList_t student_list) {
+void importCourses(string path, courseList& a, studentList_t &student_list) {
 	//	import courses from a .csv file
 	//	Nguyen Ho Huu Nghia
 
@@ -1439,7 +1447,7 @@ void importCourses(string path, courseList& a, studentList_t student_list) {
 
 //	14
 //	For the users
-void importCourses(courseList& a, studentList_t student_list) {
+void importCourses(courseList& a, studentList_t &student_list) {
 	//	import courses from a .csv file
 	//	Nguyen Ho Huu Nghia
 
