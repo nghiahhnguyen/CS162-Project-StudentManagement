@@ -698,6 +698,7 @@ void student::changePassword()
 	system("pause");
 }
 
+
 //	4
 void user::changePassword()
 {
@@ -705,8 +706,10 @@ void user::changePassword()
 
 	string pass, newPass;
 
+	cin.ignore(50, '\n');
+
 	cout << "pls enter your previous password: ";
-	getline(cin, pass);
+	inputPassword(pass);
 
 	if (pass != password)
 	{
@@ -715,21 +718,68 @@ void user::changePassword()
 		return;
 	}
 
-	cout << "pls enter your new password: ";
-	getline(cin, pass);
-	cout << "pls enter again your new password: ";
-	cin >> newPass;
+	pass = "";
+	cout << "\npls enter your new password: ";
+	inputPassword(pass);
+	cout << "\npls enter again your new password: ";
+	inputPassword(newPass);
 
 	if (newPass == pass)
 	{
 		password = newPass;
-		cout << "your password is changed successfully";
+		cout << "\nyour password is changed successfully";
 	}
 	else
-		cout << "unsucessfully";
-
-	system("pause");
+	{
+		cout << "\n" << newPass << "\n" << pass;
+		cout << "\nunsucessfully";
+	}
 }
+
+	// ghi de password
+void saveNewPasswordForStaff(char path[], userList staff)
+	{
+
+		//Vy Vy
+
+		ofstream fout;
+		fout.open(path);
+
+		user *newstaff = staff.head;
+
+		if (fout.good()) {
+			fout << "Username,Full name,Email,Mobile phone,Password\n";
+			while (newstaff) {
+				fout << newstaff->username << "," << newstaff->full_name << "," << newstaff->email << "," << newstaff->phone << "," << newstaff->password;
+				fout << endl;
+				newstaff = newstaff->next;
+			}
+		}
+
+		fout.close();
+	}
+
+	// ghi de password
+void saveNewPasswordForLecturer(char path[], userList lecturer)
+	{
+		//Vy Vy
+
+		ofstream fout;
+		fout.open(path);
+
+		user *newstaff = lecturer.head;
+
+		if (fout.good()) {
+			fout << "Username,Full name,Email,Mobile phone,Password\n";
+			while (newstaff) {
+				fout << newstaff->username << "," << newstaff->full_name << "," << newstaff->email << "," << newstaff->phone << "," << newstaff->password;
+				fout << endl;
+				newstaff = newstaff->next;
+			}
+		}
+
+		fout.close();
+	}
 
 //	6
 void input(char path[], classYear &a, studentList_t &student_list)

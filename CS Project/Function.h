@@ -234,5 +234,7 @@ void checkIn(student* you, courseList &course_list);
 void viewCheckInResult(student* you, courseList &course_list);
 int countLeapYears(date d);
 void viewMyScore(courseList course_list);
+void saveNewPasswordForStaff(char path[], userList staff);
+void saveNewPasswordForLecturer(char path[], userList lecturer);
 
 #endif
