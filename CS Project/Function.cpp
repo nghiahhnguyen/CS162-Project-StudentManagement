@@ -764,7 +764,8 @@ void saveNewPasswordForStaff(char path[], userList staff)
 			fout << "Username,Full name,Email,Mobile phone,Password\n";
 			while (newstaff) {
 				fout << newstaff->username << "," << newstaff->full_name << "," << newstaff->email << "," << newstaff->phone << "," << newstaff->password;
-				fout << endl;
+				if(newstaff->next!=NULL)
+					fout << endl;
 				newstaff = newstaff->next;
 			}
 		}
@@ -786,7 +787,8 @@ void saveNewPasswordForLecturer(char path[], userList lecturer)
 			fout << "Username,Full name,Email,Mobile phone,Password\n";
 			while (newstaff) {
 				fout << newstaff->username << "," << newstaff->full_name << "," << newstaff->email << "," << newstaff->phone << "," << newstaff->password;
-				fout << endl;
+				if(newstaff->next!=NULL)
+					fout << endl;
 				newstaff = newstaff->next;
 			}
 		}
