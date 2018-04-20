@@ -133,7 +133,7 @@ struct session
 struct presence {
 	string course_code, year;
 	int semester, id, week;
-	float midterm, lab, final, total, bonus;	//Thay bao cho them cot total
+	float midterm, lab, final, total, bonus;
 	string attendance;
 	presence* next = NULL;
 };

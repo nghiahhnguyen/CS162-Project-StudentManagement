@@ -386,11 +386,9 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 										addACourseSchedule(course_list, class_list);
 									}
 									else if (temp_2 == '3') {
-										//Edit a course's schedule
 										editCourseSchedule(course_list);
 									}
 									else if (temp_2 == '4') {
-										//Remove a course's schedule
 										removeCourseSchedule(course_list);
 									}
 									else if (temp_2 == '5') {
@@ -3049,20 +3047,21 @@ void viewAttendance(courseList course_list)
 		cout << "Sorry, the course you enter doesn't exist.\n";
 	else {
 		presence* student_presence = cur->head_presence;
-		while (student_presence) {
-			cout << setw(17) << "Monday" << setw(5 + 7) << "Tuesday" << setw(5 + 9) << "Wednesday";
-			cout << setw(5 + 7) << "Thurday" << setw(5 + 6) << "Friday" << setw(5 + 8) << "Saturday";
-			cout << endl;
-			cout << student_presence->id << setw(5);
-			cout << student_presence->attendance[0] << setw(5 + 6);
-			cout << student_presence->attendance[1] << setw(5 + 7);
-			cout << student_presence->attendance[2] << setw(5 + 9);
-			cout << student_presence->attendance[3] << setw(5 + 7);
-			cout << student_presence->attendance[4] << setw(5 + 6);
-			cout << student_presence->attendance[5];
-			cout << endl;
-			student_presence = student_presence->next;
+		int n = student_presence->attendance.length();
+
+		for (int i = 0; i < n; ++i) {
+			if (i == 0) {
+				cout << setw(17) << "Week" << i + 1;
+			}
+			else
+				cout << setw(9) << "Week" << i + 1;
 		}
+		cout << endl;
+		cout << student_presence->id << setw(7);
+		for (int i = 0; i < n; ++i) {
+			cout << student_presence->attendance[i] << setw(10);
+		}
+		cout << endl;
 	}
 }
 
