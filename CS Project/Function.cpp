@@ -294,7 +294,7 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 										input(class_list, student_list);
 									}
 									else if (temp_2 == '2') {
-										AddNewStudentToClass(class_list);
+										AddNewStudentToClass(class_list, student_list);
 									}
 									else if (temp_2 == '3') {
 										EditStudent(class_list);
