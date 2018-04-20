@@ -681,30 +681,32 @@ void student::changePassword()
 
 	string pass, newPass;
 
+	cin.ignore(50, '\n');
+
 	cout << "pls enter your previous password: ";
-	getline(cin, pass);
+	inputPassword(pass);
 
 	if (pass != password)
 	{
 		cout << "wrong password";
-		system("pause");
 		return;
 	}
 
-	cout << "pls enter your new password: ";
-	getline(cin, pass);
-	cout << "pls enter again your new password: ";
-	getline(cin, newPass);
+	pass = "";
+
+	cout << "\npls enter your new password: ";
+	inputPassword(pass);
+	cout << "\npls enter again your new password: ";
+	inputPassword(newPass);
 
 	if (newPass == pass)
 	{
 		password = newPass;
-		cout << "your password is changed successfully";
+		cout << "\nyour password is changed successfully";
 	}
 	else
-		cout << "unsucessfully";
+		cout << "\nunsucessfully";
 
-	system("pause");
 }
 
 
@@ -722,8 +724,7 @@ void user::changePassword()
 
 	if (pass != password)
 	{
-		cout << "wrong password";
-		system("pause");
+		cout << "\nwrong password";
 		return;
 	}
 
@@ -739,10 +740,7 @@ void user::changePassword()
 		cout << "\nyour password is changed successfully";
 	}
 	else
-	{
-		cout << "\n" << newPass << "\n" << pass;
-		cout << "\nunsucessfully";
-	}
+		cout << "\nnunsucessfully";
 }
 
 // ghi de password
@@ -1642,33 +1640,43 @@ void courseList::addNewCourse()
 	//Nguyen Vo Duc Loc
 	//add a new empty course to List
 
-	string name, code;
+	string name, course_code;
 
-	cin.get();
+	cin.ignore(50,'\n');
 	cout << "pls enter your course name: ";
 	getline(cin, name);
 
 	cout << "pls enter your course code: ";
-	cin >> code;
+	cin >> course_code;
 
 	course *cur = head;
 	if (head == NULL)
 	{
 		head = new course;
 		head->course_name = name;
-		head->course_code = code;
+		head->course_code = course_code;
 		head->next = NULL;
 		cout << "you add a new course successfully" << endl;
 		return;
 	}
-	else
-		while (cur->next != NULL)
-			cur = cur->next;
+
+	while (cur != NULL)
+	{
+		if (cur->course_code == course_code)
+		{
+			std::cout << "this course is available" << std::endl;
+			return;
+		}
+		if (cur->next == NULL)
+			break;
+		cur = cur->next;
+	}
+
 	cur->next = new course;
 	cur = cur->next;
 	cur->next = NULL;
 	cur->course_name = name;
-	cur->course_code = code;
+	cur->course_code = course_code;
 	cout << "you add a new course successfully" << endl;
 }
 
