@@ -17,7 +17,6 @@ int main() {
 	classYear *first_class = class_list.head;
 
 	char path[] = "17APCS1-Students.csv";
-	char path2[] = "Output.csv";
 
 	char path3[] = "17APCS2-Students.csv";
 
@@ -29,7 +28,6 @@ int main() {
 
 	//	import students into 17APCS1
 	input(path, *first_class, student_list);
-	output(path2, *first_class);
 
 	first_class->next = new classYear;
 	first_class->next->next = NULL;
@@ -41,12 +39,13 @@ int main() {
 	//	import courses' schedule of 17APCS1
 	importCoursesSchedulesOfAClass(course_list, class_list, (string)"Courses-Schedule.csv", (string)"17APCS1");
 	//	import courses' schedule of 17APCS2
-	importCoursesSchedulesOfAClass(course_list, class_list, (string)"Courses-Schedule2.csv", (string)"17APCS2");
+	//importCoursesSchedulesOfAClass(course_list, class_list, (string)"Courses-Schedule2.csv", (string)"17APCS2");
 
 	showMenu(class_list, course_list, staff, lecturer, student_list);
 
+	updateScoreboard(course_list);
 	saveNewPasswordForLecturer((char*)"Academic-Staff.csv", staff);
 	saveNewPasswordForLecturer((char*)"Lecturer.csv", lecturer);
-
+	updateClassList(class_list);
 	return 0;
 }
