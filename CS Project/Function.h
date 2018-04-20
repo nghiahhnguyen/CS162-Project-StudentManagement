@@ -50,6 +50,10 @@ struct user {
 	void printInfo();
 };
 
+struct studentList_t {
+	student *head=NULL;
+};
+
 struct userList {
 	user* head;
 };
@@ -293,5 +297,12 @@ void saveNewPasswordForStaff(char path[], userList staff);
 void saveNewPasswordForLecturer(char path[], userList lecturer);
 bool isNumber(const string& s);
 schedule* findSchedule(schedule* &head, string class_name);
+
+void exportStudentList(studentList_t pupil);
+void inputStudentList(studentList_t &pupil);
+
+void saveNewPasswordForStaff(char path[], userList staff);
+void saveNewPasswordForLecturer(char path[], userList lecturer);
+
 
 #endif

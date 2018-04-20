@@ -47,5 +47,6 @@ int main() {
 	
 	saveNewPasswordForLecturer((char*)"Academic-Staff.csv", staff);
 	saveNewPasswordForLecturer((char*)"Lecturer.csv", lecturer);
+
 	return 0;
 }
