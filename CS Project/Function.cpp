@@ -249,6 +249,7 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 
 					if (temp == '1') {
 						char temp_1;
+						check_2 = true;
 
 						while (check_2) {
 
@@ -418,7 +419,14 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 										viewAttendance(course_list);
 									}
 									else if (temp_2 == '2') {
-										//exportPresence()
+										string path, course_code;
+										cout << "Enter the path: ";
+										getline(cin, path, '\n');
+										cout << "Enter the course code: ";
+										getline(cin, course_code, '\n');
+										course* result;
+										findCourseFromCode(course_list, course_code, result);
+										exportAttendance(path, result);
 									}
 									else
 										break;
@@ -538,7 +546,7 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 				if (check_1 == false)
 					break;
 
-
+				check_1 = true;
 				while (true) {
 					system("cls");
 					cout << "\n\t\t\t\t       STUDENT MANAGEMENT PROGRAM\n\n"
@@ -555,6 +563,7 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 
 					if (temp == '1') {
 						char temp_1;
+						check_2 = true;
 
 						while (check_2) {
 
@@ -574,17 +583,19 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 							cout << "---------------------------------------------------------\n\n";
 
 							if (temp_1 == '1') {
-								exportScoreboardToCsv(&course_list);
+
 							}
 							else if (temp_1 == '2') {
 								editGrade(course_list);
 							}
 							else if (temp_1 == '3') {
-								//viewScore
+								string course_name;
+								cout << "Enter the course name: ";
+								getline(cin, course_name, '\n');
+								viewScore(searchCourse(course_name, course_list.head));
 							}
-							else if (temp_1 == '4') {
+							else 
 								break;
-							}
 							system("pause");
 						}
 					}
@@ -1741,7 +1752,7 @@ void editExistingCourse(courseList &a) {
 
 		//	if there is no course left
 		if (!cur) {
-			cout << "Course not found";
+			cout << "Course not found.\n";
 		}
 		//	if the course is found
 		else {
@@ -1776,14 +1787,14 @@ void editExistingCourse(courseList &a) {
 					cin >> cur->semester;
 					break;
 				}
-				system("cls");
-				cout << "The new information has been added.\n"
+				cout << "The new information has been added.\n---------------------------------\n"
 					<< "Do you want to edit any other information about this course?\nEnter 0 for \"no\" and 1 for \"yes\"\n";
+				cin >> temp;
 				if (temp == 0)
 					break;
 			}
 		}
-		cout << "Do you want to edit another course?\n"
+		cout << "\nDo you want to edit another course?\n"
 			<< "Enter 1 if you do and 0 if you don't:\n";
 		cin >> temp;
 		if (temp == 0)
@@ -2416,10 +2427,6 @@ bool exit() {
 	return t;
 }
 
-
-
-
-
 //==============================================================================================================
 
 
@@ -2992,12 +2999,6 @@ void inputStudentList(studentList_t &pupil)
 }
 //==============================================================================================================
 
-
-
-
-
-
-
 //	23
 void viewListOfSchedules(courseList &course_list, classList &class_list) {
 	//	View list of schedules of a class
@@ -3132,23 +3133,11 @@ void exportAttendance(string path, course *a) {
 	presence *cur = a->head_presence;
 	fout << a->course_code << endl;
 	while (cur != NULL) {
-		cout << "ID :" << cur->id << "Attendance : ";
-		for (int i = 0; i < cur->week; ++i) cout << cur->attendance[i];
-		cout << endl;
+		fout << "ID :," << cur->id << "Attendance : \n";
+		for (int i = 0; i < cur->week; ++i) fout << cur->attendance[i]<<',';
+		fout << endl;
 		cur = cur->next;
 	}
-}
-
-//	26
-course* searchCourse(string a, course *b) {
-
-	//	By NT Tung
-
-	while (b != NULL) {
-		if (b->course_code == a) return b;
-		b = b->next;
-	}
-	return NULL;
 }
 
 //	26
@@ -3415,6 +3404,8 @@ int weeksFromStartDate(const date &dt1) {
 
 //	30
 void viewScoreboard(course *a) {
+	//	Tung
+
 	presence *x = a->head_presence;
 	cout << a->course_name << endl;
 	while (x != NULL) {
@@ -3593,6 +3584,8 @@ void updateScoreboard(courseList course_list) {
 
 //	34
 void viewSchedule(int id1, presence *head, course* head1) {
+	//	Tung
+
 	while (head != NULL) {
 		if (id1 == head->id) {
 			course *y = searchCourse(head->course_code, head1);
@@ -3615,3 +3608,37 @@ void viewSchedule(int id1, presence *head, course* head1) {
 		head = head->next;
 	}
 }
+
+void updateClassList(classList &class_list) {
+	classYear* cur_class = class_list.head;
+	string file_name;
+	ofstream fout;
+	while (cur_class) {
+		file_name = cur_class->class_name + "-Students.csv";
+		fout.open(file_name);
+		fout << "Class,"<<cur_class->class_name<<",\n"
+			<< "No,Student ID,Student name\n";
+		student* cur_student = cur_class->head;
+		int count = 1;
+		while (cur_student) {
+			fout << count << "," << cur_student->id << "," << cur_student->full_name;
+			if (cur_student->next != NULL)
+				fout << endl;
+			cur_student = cur_student->next;
+			count++;
+		}
+		fout.close();
+		cur_class = cur_class->next;
+	}
+}
+
+/*
+void updateCoursesSchedule(string path, courseList course_list) {
+	ofstream fout(path);
+	fout << "Course code,Course name,Lecturer name,Year,Semester,Start date,End date,Session day,Start time,End time,Room\n";
+	course*cur = course_list.head;
+	while (cur) {
+		cout<<cur->course_code<<","<<cur->course_name<<","
+	}
+	fout.close();
+}*/

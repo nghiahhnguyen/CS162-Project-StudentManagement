@@ -17,7 +17,6 @@ int main() {
 	classYear *first_class = class_list.head;
 
 	char path[] = "17APCS1-Students.csv";
-	char path2[] = "Output.csv";
 
 	char path3[] = "17APCS2-Students.csv";
 
@@ -29,7 +28,6 @@ int main() {
 
 	//	import students into 17APCS1
 	input(path, *first_class, student_list);
-	output(path2, *first_class);
 
 	first_class->next = new classYear;
 	first_class->next->next = NULL;
@@ -48,6 +46,6 @@ int main() {
 	updateScoreboard(course_list);
 	saveNewPasswordForLecturer((char*)"Academic-Staff.csv", staff);
 	saveNewPasswordForLecturer((char*)"Lecturer.csv", lecturer);
-
+	updateClassList(class_list);
 	return 0;
 }
