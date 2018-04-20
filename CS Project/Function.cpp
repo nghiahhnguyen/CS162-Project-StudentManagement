@@ -583,7 +583,7 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 							cout << "---------------------------------------------------------\n\n";
 
 							if (temp_1 == '1') {
-
+								importScoreboardFromCsv(course_list);
 							}
 							else if (temp_1 == '2') {
 								editGrade(course_list);
@@ -1807,6 +1807,8 @@ void removeAcourse(courseList b)
 {
 	// Vy Vy
 	// Finished but haven't checked
+
+	cin.ignore(50, '\n');
 
 	course* cur = b.head;
 	course* del;
@@ -3573,7 +3575,88 @@ schedule* findSchedule(schedule* &head, string class_name) {
 			return head;
 	}
 }
+//============================================================================================================
 
+
+void updateScore(courseList course_list, string course_code, int id, float mid, float lab, float final, float bonus, float total)
+{
+
+	//Nguyen Vo Duc Loc
+	//update the score of student in Presence
+
+	course *cur_course=course_list.head;
+	presence *cur_presence=NULL;
+
+	while (cur_course != NULL && cur_course->course_code != course_code)
+		cur_course = cur_course->next;
+
+	if (cur_course!=NULL)
+	{
+		cur_presence = cur_course->head_presence;
+		while (cur_presence != NULL)
+		{
+			if (cur_presence->id == id)
+			{
+				cur_presence->midterm = mid;
+				cur_presence->lab = lab;
+				cur_presence->final = final;
+				cur_presence->bonus = bonus;
+				cur_presence->total = total;
+				return;
+			}
+			cur_presence = cur_presence->next;
+		}
+	}
+
+	std::cout << id << " doesn't belong to any course" << std::endl;
+}
+
+//	28
+//---------------------------------------------
+void importScoreboardFromCsv(courseList course_list)
+{
+
+	//Nguyen Vo Duc Loc
+	//importScoreboard from a csv file
+
+	cin.ignore(50, '\n');
+
+	string path, course_code, chr;
+
+	std::cout << "pls enter the path of csv file: ";
+	std::getline(cin, path,'\n');
+
+	ifstream fi;
+	fi.open(path);
+
+	string id, lab, mid, total, final, bonus;
+
+	if (fi.is_open())
+	{
+		fi.ignore(100, ',');
+		getline(fi, course_code, '\n');
+		fi.ignore(100, '\n');
+
+		while (!fi.eof())
+		{
+			getline(fi, id, ',');
+			getline(fi, mid, ',');
+			getline(fi, lab, ',');
+			getline(fi, final, ',');
+			getline(fi, bonus, ',');
+			getline(fi,total,'\n');
+
+			updateScore(course_list, course_code, stoi(id), stof(mid), stof(lab), stof(final), stof(bonus), stof(total));
+		}
+
+		fi.close();
+	}
+	else
+	{
+		std::cout << "this file doesn't available" << std::endl;
+	}
+	
+}
 void updateScoreboard(courseList course_list) {
 	course* cur_course = course_list.head;
 	while (cur_course) {

@@ -75,5 +75,8 @@
     <None Include="Lecturer.csv">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="CS162-Scoreboard.csv">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

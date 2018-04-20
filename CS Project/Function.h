@@ -304,4 +304,6 @@ void viewScoreboard(course *a);
 void viewSchedule(int id1, presence *head, course* head1);
 void updateClassList(classList &class_list);
 
+void importScoreboardFromCsv(courseList course_list);
+
 #endif
