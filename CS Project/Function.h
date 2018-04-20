@@ -180,10 +180,6 @@ struct classList
 	void addEmptyClass();
 };
 
-struct studentList_t {
-	student* head;
-};
-
 //	template to create a new node for a linked list given the head node
 template<typename T>
 T* createNewNode(T* &head) {
