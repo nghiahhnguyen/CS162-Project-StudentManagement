@@ -300,4 +300,6 @@ void saveNewPasswordForStaff(char path[], userList staff);
 void saveNewPasswordForLecturer(char path[], userList lecturer);
 void printInfo(user* lecturer, courseList course_list);
 
+void importScoreboardFromCsv(courseList course_list);
+
 #endif
