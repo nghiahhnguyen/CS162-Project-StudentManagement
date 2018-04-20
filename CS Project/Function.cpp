@@ -183,7 +183,7 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 				system("cls");
 				cout << "\n\t\t\t\t       STUDENT MANAGEMENT PROGRAM\n\n"
 					<< "\t\t\t*********************************************************\n\n\n"
-					<< "\t\t\t\t\tLOG IN\n\n"
+					<< "\t\t\t\t\t\tLOG IN\n\n"
 					<< "Username: ";
 				string username, password;
 				cin >> username;
@@ -448,7 +448,7 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 										viewScore(searchCourse(course_name, course_list.head));
 									}
 									else if (temp_2 == '2') {
-										//exportScoreboardToCsv(course_list);
+										exportScoreboardToCsv(&course_list);
 									}
 									else
 										break;
@@ -1091,7 +1091,7 @@ void addToStudentList(studentList_t student_list, int newid, string classname, s
 	new_student->full_name = tmp->full_name;
 	new_student->phone = tmp->phone;
 	new_student->email = tmp->email;
-	new_student->generatePassword;
+	new_student->generatePassword();
 }
 
 //	8
@@ -3170,6 +3170,7 @@ void exportScoreboardToCsv(courseList* course_list) {
 		presence* cur_presence = cur_course->head_presence;
 		while (cur_presence) {
 			fout << cur_presence->id << "," << cur_presence->midterm << "," << cur_presence->lab << "," << cur_presence->final << "," << cur_presence->bonus << "," << cur_presence->total << endl;
+			cur_presence = cur_presence->next;
 		}
 		fout.close();
 		cout << "\nThe scoreboard is exported succesfully.\n";
