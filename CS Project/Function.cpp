@@ -301,7 +301,7 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 										EditStudent(class_list);
 									}
 									else if (temp_2 == '4') {
-										removeAcourse(course_list);
+										removeAStudent(class_list);
 									}
 									else if (temp_2 == '5') {
 										moveStudentsFromClassAToB(class_list);

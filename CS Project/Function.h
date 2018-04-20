@@ -257,6 +257,7 @@ void importCourses(courseList& a, studentList_t &student_list);
 void AddNewStudentToClass(classList L, studentList_t student_list);
 void addToStudentList(studentList_t student_list, int newid, string classname, student *tmp);
 void EditStudent(classList L);
+void removeAStudent(classList &class_list);
 void removeAcourse(courseList b);
 void editExistingCourse(courseList &a);
 void gotoxy(int x, int y);
@@ -303,7 +304,6 @@ void exportAttendance(string path, course *a);
 void viewScoreboard(course *a);
 void viewSchedule(int id1, presence *head, course* head1);
 void updateClassList(classList &class_list);
-
 void importScoreboardFromCsv(courseList course_list);
 
 #endif
