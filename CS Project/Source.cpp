@@ -41,10 +41,11 @@ int main() {
 	//	import courses' schedule of 17APCS1
 	importCoursesSchedulesOfAClass(course_list, class_list, (string)"Courses-Schedule.csv", (string)"17APCS1");
 	//	import courses' schedule of 17APCS2
-	importCoursesSchedulesOfAClass(course_list, class_list, (string)"Courses-Schedule2.csv", (string)"17APCS2");
+	//importCoursesSchedulesOfAClass(course_list, class_list, (string)"Courses-Schedule2.csv", (string)"17APCS2");
 
 	showMenu(class_list, course_list, staff, lecturer, student_list);
 
+	updateScoreboard(course_list);
 	saveNewPasswordForLecturer((char*)"Academic-Staff.csv", staff);
 	saveNewPasswordForLecturer((char*)"Lecturer.csv", lecturer);
 

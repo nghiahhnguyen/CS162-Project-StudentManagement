@@ -55,7 +55,7 @@ struct studentList_t {
 };
 
 struct userList {
-	user* head;
+	user* head = NULL;
 };
 
 struct date {
@@ -266,7 +266,6 @@ void importCoursesSchedulesOfAClass(courseList &course_list, classList &class_li
 void addACourseSchedule(courseList &course_list, classList &class_list);
 void moveStudentsFromClassAToB(classList a);
 bool exit();
-void exportPresence(string path, course a);
 course* searchCourse(string a, course *b);
 void viewScore(course* a);
 void viewCourseList(courseList a);
@@ -299,5 +298,9 @@ void inputStudentList(studentList_t &pupil);
 void saveNewPasswordForStaff(char path[], userList staff);
 void saveNewPasswordForLecturer(char path[], userList lecturer);
 void printInfo(user* lecturer, courseList course_list);
+void updateScoreboard(courseList course_list);
+void exportAttendance(string path, course *a);
+void viewScoreboard(course *a);
+void viewSchedule(int id1, presence *head, course* head1);
 
 #endif
