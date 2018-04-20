@@ -162,6 +162,7 @@
     <None Include="Courses.csv" />
     <None Include="Courses-Schedule2.csv" />
     <None Include="CS161-Presence.csv" />
+    <None Include="Lecturer.csv" />
     <None Include="Student-List-Input.csv" />
     <None Include="Student-List-Output.csv" />
   </ItemGroup>

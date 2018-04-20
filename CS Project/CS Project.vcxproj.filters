@@ -70,5 +70,10 @@
     <None Include="17APCS2-PH212.csv">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="Student-List-Input.csv" />
+    <None Include="Student-List-Output.csv" />
+    <None Include="Lecturer.csv">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
