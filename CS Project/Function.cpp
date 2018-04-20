@@ -461,10 +461,8 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 							else if (temp_1 == '6') {
 								check_2 = false;
 							}
-							else if (temp_1 == 6) {
-								break;
-							}
 						}
+					}
 					else if (temp == '2') {
 						cout << "---------------------------------------------------------\n\n";
 						cur_user->printInfo();
@@ -478,7 +476,6 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 					else if (temp == '4') {
 						check_1 = false;
 						break;
-					}
 					}
 				}
 			}
@@ -795,53 +792,6 @@ void saveNewPasswordForLecturer(char path[], userList lecturer)
 
 	fout.close();
 }
-
-	// ghi de password
-void saveNewPasswordForStaff(char path[], userList staff)
-	{
-
-		//Vy Vy
-
-		ofstream fout;
-		fout.open(path);
-
-		user *newstaff = staff.head;
-
-		if (fout.good()) {
-			fout << "Username,Full name,Email,Mobile phone,Password\n";
-			while (newstaff) {
-				fout << newstaff->username << "," << newstaff->full_name << "," << newstaff->email << "," << newstaff->phone << "," << newstaff->password;
-				if(newstaff->next!=NULL)
-					fout << endl;
-				newstaff = newstaff->next;
-			}
-		}
-
-		fout.close();
-	}
-
-	// ghi de password
-void saveNewPasswordForLecturer(char path[], userList lecturer)
-	{
-		//Vy Vy
-
-		ofstream fout;
-		fout.open(path);
-
-		user *newstaff = lecturer.head;
-
-		if (fout.good()) {
-			fout << "Username,Full name,Email,Mobile phone,Password\n";
-			while (newstaff) {
-				fout << newstaff->username << "," << newstaff->full_name << "," << newstaff->email << "," << newstaff->phone << "," << newstaff->password;
-				if(newstaff->next!=NULL)
-					fout << endl;
-				newstaff = newstaff->next;
-			}
-		}
-
-		fout.close();
-	}
 
 //	6
 void input(char path[], classYear &a, studentList_t &student_list)

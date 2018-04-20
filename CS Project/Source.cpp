@@ -25,7 +25,6 @@ int main() {
 	//	to use the input function
 	first_class->head = NULL;
 	importUsers(staff, "Academic-Staff.csv");
-	importUsers(lecturer, "Lecturer.csv");
 
 	//	import students into 17APCS1
 	input(path, *first_class, student_list);
@@ -44,7 +43,7 @@ int main() {
 	importCoursesSchedulesOfAClass(course_list, class_list, (string)"Courses-Schedule2.csv", (string)"17APCS2");
 
 	showMenu(class_list, course_list, staff, lecturer, student_list);
-	
+
 	saveNewPasswordForLecturer((char*)"Academic-Staff.csv", staff);
 	saveNewPasswordForLecturer((char*)"Lecturer.csv", lecturer);
 
