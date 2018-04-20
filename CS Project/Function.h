@@ -55,7 +55,7 @@ struct studentList_t {
 };
 
 struct userList {
-	user* head;
+	user* head = NULL;
 };
 
 struct date {
