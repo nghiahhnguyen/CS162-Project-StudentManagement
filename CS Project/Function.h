@@ -254,7 +254,8 @@ void viewListOfStudentsInAClass(const classList &a);
 void viewListOfClass(classList L);
 void importCourses(string path, courseList& a, studentList_t &student_list);
 void importCourses(courseList& a, studentList_t &student_list);
-void AddNewStudentToClass(classList L);
+void AddNewStudentToClass(classList L, studentList_t student_list);
+void addToStudentList(studentList_t student_list, int newid, string classname, student *tmp);
 void EditStudent(classList L);
 void removeAcourse(courseList b);
 void editExistingCourse(courseList &a);
@@ -293,12 +294,10 @@ void saveNewPasswordForStaff(char path[], userList staff);
 void saveNewPasswordForLecturer(char path[], userList lecturer);
 bool isNumber(const string& s);
 schedule* findSchedule(schedule* &head, string class_name);
-
 void exportStudentList(studentList_t pupil);
 void inputStudentList(studentList_t &pupil);
-
 void saveNewPasswordForStaff(char path[], userList staff);
 void saveNewPasswordForLecturer(char path[], userList lecturer);
-
+void printInfo(user* lecturer, courseList course_list);
 
 #endif

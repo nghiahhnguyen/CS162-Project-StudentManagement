@@ -25,6 +25,7 @@ int main() {
 	//	to use the input function
 	first_class->head = NULL;
 	importUsers(staff, "Academic-Staff.csv");
+	importUsers(lecturer, "Lecturer.csv");
 
 	//	import students into 17APCS1
 	input(path, *first_class, student_list);
