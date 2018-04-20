@@ -976,7 +976,7 @@ void output(char path[], classYear &a)
 }
 
 //	7
-void AddNewStudentToClass(classList L)
+void AddNewStudentToClass(classList L, studentList_t student_list)
 {
 	// Vy Vy
 	// Finished
@@ -999,8 +999,7 @@ void AddNewStudentToClass(classList L)
 		cout << "Enter new student's ID: ";
 		int newid;
 		cin >> newid;
-		//char full_name[101];
-		if (newid < add->id) {
+		if (newid < add->id) {		// if newid < ID of the 1st student
 			student *tmp = new student;
 			tmp->id = newid;
 			tmp->class_name = classname;
@@ -1014,12 +1013,15 @@ void AddNewStudentToClass(classList L)
 			tmp->generatePassword();
 			tmp->next = add;
 			cur->head = tmp;
+
+			// Add this student to student list
+			addToStudentList(student_list, newid, classname, tmp);
 		}
 		else {
 			while (add->next && add->next->id < newid) {
 				add = add->next;
 			}
-			if (!add->next) {
+			if (!add->next) {	// add new student to the end of the list
 				add->next = new student;
 				add->id = newid;
 				add->class_name = classname;
@@ -1032,8 +1034,11 @@ void AddNewStudentToClass(classList L)
 				getline(cin, add->email);
 				add->generatePassword();
 				add->next = NULL;
+
+				// Add this student to student list
+				addToStudentList(student_list, newid, classname, add);
 			}
-			else {
+			else {		// add new student to the middle of the list
 				student *tmp = new student;
 				tmp->id = newid;
 				tmp->class_name = classname;
@@ -1047,9 +1052,30 @@ void AddNewStudentToClass(classList L)
 				tmp->generatePassword();
 				tmp->next = add->next;
 				add->next = tmp;
+
+				// Add this student to student list
+				addToStudentList(student_list, newid, classname, tmp);
 			}
 		}
 	}
+}
+
+// Add new student to the end of the student list
+void addToStudentList(studentList_t student_list, int newid, string classname, student *tmp)
+{
+	student *new_student = student_list.head;
+	while (new_student->next) {
+		new_student = new_student->next;
+	}
+	new_student->next = new student;
+	new_student = new_student->next;
+	new_student->next = NULL;
+	new_student->id = newid;
+	new_student->class_name = classname;
+	new_student->full_name = tmp->full_name;
+	new_student->phone = tmp->phone;
+	new_student->email = tmp->email;
+	new_student->generatePassword;
 }
 
 //	8
