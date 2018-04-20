@@ -294,12 +294,10 @@ void saveNewPasswordForStaff(char path[], userList staff);
 void saveNewPasswordForLecturer(char path[], userList lecturer);
 bool isNumber(const string& s);
 schedule* findSchedule(schedule* &head, string class_name);
-
 void exportStudentList(studentList_t pupil);
 void inputStudentList(studentList_t &pupil);
-
 void saveNewPasswordForStaff(char path[], userList staff);
 void saveNewPasswordForLecturer(char path[], userList lecturer);
-
+void printInfo(user* lecturer, courseList course_list);
 
 #endif
