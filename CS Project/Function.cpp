@@ -1976,7 +1976,9 @@ void importCoursesSchedulesOfAClass(courseList &course_list, classList &class_li
 					int student_id = stoi(buffer_student_id);
 
 					presence* cur_presence = findNode(cur_course->head_presence, student_id);
-					
+
+					cur_presence->week = weeks;
+
 					if (cur_presence->attendance.length() == 0)
 						cur_presence->attendance = temp_attendance;
 					fin1.ignore(1000, '\n');
@@ -2122,7 +2124,7 @@ void importCoursesSchedulesOfAClass(courseList &course_list, classList &class_li
 			getline(fin, cur_course->course_name, ',');
 			getline(fin, cur_course->lecturer_username, ',');
 
-			schedule* cur_schedule = createNewNode(cur_course->head_schedule);
+			schedule* cur_schedule = findSchedule(cur_course->head_schedule, class_name);
 			cur_schedule->class_name = cur_class->class_name;
 			/*if (cur_course->head_schedule == NULL) {
 			cur_course->head_schedule = new schedule;
@@ -2183,8 +2185,9 @@ void importCoursesSchedulesOfAClass(courseList &course_list, classList &class_li
 					getline(fin1, buffer_student_id, ',');
 					int student_id = stoi(buffer_student_id);
 
-					presence* cur_presence = createNewNode(cur_course->head_presence);
-					cur_presence->id = student_id;
+					presence* cur_presence = findNode(cur_course->head_presence, student_id);
+
+					cur_presence->week = weeks;
 
 					if (cur_presence->attendance.length() == 0)
 						cur_presence->attendance = temp_attendance;
@@ -3100,10 +3103,10 @@ void viewAttendance(courseList course_list)
 
 		for (int i = 0; i < n; ++i) {
 			if (i == 0) {
-				cout << setw(17) << "Week" << i + 1;
+				cout << setw(17) << "Week " << i + 1;
 			}
 			else
-				cout << setw(9) << "Week" << i + 1;
+				cout << setw(9) << "Week " << i + 1;
 		}
 		cout << endl;
 		cout << student_presence->id << setw(7);
@@ -3114,17 +3117,24 @@ void viewAttendance(courseList course_list)
 	}
 }
 
+course* searchCourse(string a, course *b) {
+	while (b != NULL) {
+		if (b->course_code == a) return b;
+		b = b->next;
+	}
+	return NULL;
+}
+
 //	25
-void exportPresence(string path, course a) {
-
-	//	By NT Tung
-
+void exportAttendance(string path, course *a) {
 	ofstream fout;
 	fout.open(path);
-	presence *cur = a.head_presence;
-	fout << a.course_code << endl;
+	presence *cur = a->head_presence;
+	fout << a->course_code << endl;
 	while (cur != NULL) {
-		fout << cur->id << endl;
+		cout << "ID :" << cur->id << "Attendance : ";
+		for (int i = 0; i < cur->week; ++i) cout << cur->attendance[i];
+		cout << endl;
 		cur = cur->next;
 	}
 }
@@ -3177,7 +3187,9 @@ void exportScoreboardToCsv(courseList* course_list) {
 			<< "Student ID,Midterm score,Lab score,Final score,Bonus,Total score\n";
 		presence* cur_presence = cur_course->head_presence;
 		while (cur_presence) {
-			fout << cur_presence->id << "," << cur_presence->midterm << "," << cur_presence->lab << "," << cur_presence->final << "," << cur_presence->bonus << "," << cur_presence->total << endl;
+			fout << cur_presence->id << "," << cur_presence->midterm << "," << cur_presence->lab << "," << cur_presence->final << "," << cur_presence->bonus << "," << cur_presence->total;
+			if (cur_presence->next != NULL)
+				fout << endl;
 			cur_presence = cur_presence->next;
 		}
 		fout.close();
@@ -3185,7 +3197,7 @@ void exportScoreboardToCsv(courseList* course_list) {
 	}
 }
 
-//27
+//	27
 void exportScoreboardToCsv(course* cur_course) {
 	//export the Scoreboard of a course to a csv file
 	//By Nghia
@@ -3196,7 +3208,10 @@ void exportScoreboardToCsv(course* cur_course) {
 		<< "Student ID,Midterm score,Lab score,Final score,Bonus,Total score\n";
 	presence* cur_presence = cur_course->head_presence;
 	while (cur_presence) {
-		fout << cur_presence->id << "," << cur_presence->midterm << "," << cur_presence->lab << "," << cur_presence->final << "," << cur_presence->bonus << "," << cur_presence->total << endl;
+		fout << cur_presence->id << "," << cur_presence->midterm << "," << cur_presence->lab << "," << cur_presence->final << "," << cur_presence->bonus << "," << cur_presence->total;
+		if (cur_presence->next != NULL)
+			fout << endl;
+		cur_presence = cur_presence->next;
 	}
 	fout.close();
 }
@@ -3398,11 +3413,21 @@ int weeksFromStartDate(const date &dt1) {
 	return (n2 - n1) / 7 + 1;
 }
 
+//	30
+void viewScoreboard(course *a) {
+	presence *x = a->head_presence;
+	cout << a->course_name << endl;
+	while (x != NULL) {
+		cout << "ID :" << x->id << " Midterm : " << x->midterm << " Lab : " << x->lab << " Final : " << x->final << endl;
+		x = x->next;
+	}
+}
+
 
 //	31
 void checkIn(student* you, courseList &course_list) {
 	//	Nghia
-	//	haven't check yet
+
 	string course_code;
 	cout << "Enter the code of the course you want to check in: ";
 	cin.ignore();
@@ -3424,7 +3449,7 @@ void checkIn(student* you, courseList &course_list) {
 		}
 		schedule* your_schedule = findSchedule(cur_course->head_schedule, you->class_name);
 		int week = weeksFromStartDate(your_schedule->start_date);
-		if (week <= cur->week) {
+		if (week <= weeksBetweenTwoDates(your_schedule->start_date, your_schedule->end_date)) {
 			cout << "Course: " << course_code << endl
 				<< "You are at week " << week << endl
 				<< "Please confirm that you want to check in:\n"
@@ -3466,22 +3491,21 @@ void viewCheckInResult(student* you, courseList &course_list) {
 			return;
 		}
 
-		int week = weeksFromStartDate(cur_course->start_date);
-		if(week<=cur->week){
-			cout << "Course: " << course_code << endl
-				<< "You are at week " << week << endl
-				<< "Please confirm that you want to check in:\n"
-				<< "[y]Yes\n[n]No\n"
-				<< "Your answer: ";
-			char ans;
-			cin >> ans;
-			if (ans == 'y' || ans == 'Y') {
-				cur->attendance[week] = 'x';
+		int n = cur->attendance.length();
+
+		for (int i = 0; i < n; ++i) {
+			if (i == 0) {
+				cout << setw(17) << "Week " << i + 1;
 			}
+			else
+				cout << setw(9) << "Week " << i + 1;
 		}
-		else {
-			cout << "The course has ended. You can no longer check in.\n";
+		cout << endl;
+		cout << cur->id << setw(7);
+		for (int i = 0; i < n; ++i) {
+			cout << cur->attendance[i] << setw(10);
 		}
+		cout << endl;
 	}
 }
 
@@ -3556,5 +3580,38 @@ schedule* findSchedule(schedule* &head, string class_name) {
 		}
 		else
 			return head;
+	}
+}
+
+void updateScoreboard(courseList course_list) {
+	course* cur_course = course_list.head;
+	while (cur_course) {
+		exportScoreboardToCsv(cur_course);
+		cur_course = cur_course->next;
+	}
+}
+
+//	34
+void viewSchedule(int id1, presence *head, course* head1) {
+	while (head != NULL) {
+		if (id1 == head->id) {
+			course *y = searchCourse(head->course_code, head1);
+			schedule *cur_schedule;
+			cur_schedule = y->head_schedule;
+			while (cur_schedule != NULL)
+			{
+				std::cout << std::endl;
+				std::cout << y->course_code << std::endl;
+				std::cout << cur_schedule->class_name << std::endl;
+				std::cout << cur_schedule->course_session.session_day << std::endl;
+				std::cout << cur_schedule->course_session.start.hour << ":" << cur_schedule->course_session.end.minute;
+				std::cout << std::endl;
+				std::cout << cur_schedule->course_session.end.hour << ":" << cur_schedule->course_session.end.minute;
+				std::cout << std::endl;
+
+				cur_schedule = cur_schedule->next;
+			}
+		}
+		head = head->next;
 	}
 }
