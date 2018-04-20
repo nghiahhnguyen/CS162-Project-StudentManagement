@@ -111,8 +111,7 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 						<< "[3] Change password\n"
 						<< "[4] Log out\n"
 						<< "Your answer: ";
-					cin.ignore();
-					cin.get(temp);
+					cin >> temp;
 
 					if (temp == '1') {
 
