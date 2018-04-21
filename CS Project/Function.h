@@ -277,7 +277,7 @@ void findCourseFromCode(courseList &course_list, string &course_code, course*  &
 void findClassFromCode(classList &class_list, string &class_name, classYear*  &result);
 void viewListOfSchedules(courseList &course_list, classList &class_list);
 void recursionEditGrade(int n, presence *&edit);
-void editGrade(courseList &a);
+void editGrade(courseList &a, user *cur_user);
 void IntToXX(int n);
 void editCourseSchedule(courseList L);
 void removeCourseSchedule(courseList L);
@@ -289,7 +289,7 @@ int weeksFromStartDate(const date &dt1);
 void checkIn(student* you, courseList &course_list);
 void viewCheckInResult(student* you, courseList &course_list);
 int countLeapYears(date d);
-void viewMyScore(courseList course_list);
+void viewMyScore(courseList course_list, student *cur_student);
 void saveNewPasswordForStaff(char path[], userList staff);
 void saveNewPasswordForLecturer(char path[], userList lecturer);
 bool isNumber(const string& s);
