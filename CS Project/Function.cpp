@@ -3100,7 +3100,7 @@ void viewAttendance(courseList course_list)
 		presence* student_presence = cur->head_presence;
 		int n = student_presence->attendance.length();
 
-		for (int i = 0; i < n; ++i) {
+		/*for (int i = 0; i < n; ++i) {
 			if (i == 0) {
 				cout << setw(17) << "Week " << i + 1;
 			}
@@ -3112,13 +3112,31 @@ void viewAttendance(courseList course_list)
 			cout << student_presence->id << setw(7);
 			for (int i = 0; i < n; ++i) {
 				if (i < (n - 1))
-					cout << student_presence->attendance[i] << setw(10);
+					cout << setw(10) << student_presence->attendance[i];
 				else
 					cout << student_presence->attendance[i];
 			}
 			cout << endl;
 			student_presence = student_presence->next;
+		}*/
+
+		for (int i = 0; i < n; ++i) {
+			if (i == 0) {
+				cout << setw(16) << "Week " << i + 1;
+			}
+			else
+				cout << setw(9) << "Week " << i + 1;
 		}
+		cout << endl;
+		while (student_presence) {
+			cout << setw(7) << student_presence->id;
+			for (int i = 0; i < n; ++i) {
+				cout << setw(9) << student_presence->attendance[i];
+			}
+			cout << endl;
+			student_presence = student_presence->next;
+		}
+		
 	}
 }
 
