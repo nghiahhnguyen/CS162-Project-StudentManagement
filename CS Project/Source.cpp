@@ -26,8 +26,12 @@ int main() {
 	importUsers(staff, "Academic-Staff.csv");
 	importUsers(lecturer, "Lecturer.csv");
 
+	//	import the students list
+	inputStudentList(student_list);
+
 	//	import students into 17APCS1
 	input(path, *first_class, student_list);
+
 
 	first_class->next = new classYear;
 	first_class->next->next = NULL;
@@ -47,5 +51,6 @@ int main() {
 	saveNewPasswordForLecturer((char*)"Academic-Staff.csv", staff);
 	saveNewPasswordForLecturer((char*)"Lecturer.csv", lecturer);
 	updateClassList(class_list);
+	exportStudentList(student_list);
 	return 0;
 }

@@ -142,7 +142,7 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 								viewCheckInResult(cur_student, course_list);
 							}
 							else if (temp_1 == 3) {
-								viewMyScore(course_list);
+								viewMyScore(course_list, cur_student);
 							}
 							else if (temp_1 == 4) {
 								viewListOfSchedules(course_list, class_list);
@@ -301,7 +301,7 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 										EditStudent(class_list);
 									}
 									else if (temp_2 == '4') {
-										removeAcourse(course_list);
+										removeAStudent(class_list);
 									}
 									else if (temp_2 == '5') {
 										moveStudentsFromClassAToB(class_list);
@@ -586,7 +586,7 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 								importScoreboardFromCsv(course_list);
 							}
 							else if (temp_1 == '2') {
-								editGrade(course_list);
+								editGrade(course_list, cur_user);
 							}
 							else if (temp_1 == '3') {
 								string course_name;
@@ -2914,7 +2914,7 @@ void exportStudentList(studentList_t pupil)
 
 	std::ofstream fo;
 
-	fo.open("Student-List-Output.csv");
+	fo.open("Student-List.csv");
 
 	fo << "ID,name,class,email,phone,password\n";
 	
@@ -2942,7 +2942,7 @@ void inputStudentList(studentList_t &pupil)
 	//Nguyen Vo Duc Loc
 
 	std::ifstream fi;
-	fi.open("Student-List-Input.csv");
+	fi.open("Student-List.csv");
 
 	if (!fi.is_open())
 	{
@@ -3087,7 +3087,6 @@ void findClassFromCode(classList& class_list, string& class_name, classYear*  &r
 //	24
 void viewAttendance(courseList course_list)
 {
-	// Haven't checked
 	// Vy Vy
 
 	string code;
@@ -3112,11 +3111,17 @@ void viewAttendance(courseList course_list)
 				cout << setw(9) << "Week " << i + 1;
 		}
 		cout << endl;
-		cout << student_presence->id << setw(7);
-		for (int i = 0; i < n; ++i) {
-			cout << student_presence->attendance[i] << setw(10);
+		while (student_presence) {
+			cout << student_presence->id << setw(7);
+			for (int i = 0; i < n; ++i) {
+				if (i < (n - 1))
+					cout << student_presence->attendance[i] << setw(10);
+				else
+					cout << student_presence->attendance[i];
+			}
+			cout << endl;
+			student_presence = student_presence->next;
 		}
-		cout << endl;
 	}
 }
 
@@ -3317,7 +3322,7 @@ void importScoreboardFromCsv(courseList course_list)
 }
 
 //	29
-void editGrade(courseList &a)
+void editGrade(courseList &a, user* cur_user)
 {
 	//Vy Vy
 
@@ -3333,6 +3338,10 @@ void editGrade(courseList &a)
 		return;
 	}
 	else {
+		if (cur_user->username != cur->lecturer_username) {
+			cout << "Sorry, you are not the lecturer of this course.\n";
+			return;
+		}
 		int newid;
 		cout << "Enter ID of the student you want to edit grade: ";
 		cin >> newid;
@@ -3355,6 +3364,7 @@ void recursionEditGrade(int n, presence *&edit)
 	if (n == 0) {
 		cout << "Please enter edited total grade: ";
 		cin >> edit->total;
+		cout << "Successfully edited.\n";
 		return;
 	}
 
@@ -3363,6 +3373,7 @@ void recursionEditGrade(int n, presence *&edit)
 	cout << "2. Lab\n";
 	cout << "3. Final\n";
 	cout << "4. Bonus\n";
+	cout << "Your answer: ";
 	int x;
 	cin >> x;
 
@@ -3586,14 +3597,11 @@ void viewCheckInResult(student* you, courseList &course_list) {
 }
 
 //	33
-void viewMyScore(courseList course_list)
+void viewMyScore(courseList course_list, student *cur_student)
 {
 	// Vy Vy
 
 	string code;
-	int newid;
-	cout << "Please enter your student ID: ";
-	cin >> newid;
 	cout << "Which course you want to view your scores? ";
 	cin >> code;
 	course *cur = course_list.head;
@@ -3606,11 +3614,11 @@ void viewMyScore(courseList course_list)
 	}
 	else {
 		presence *print = cur->head_presence;
-		while (!print && print->id != newid) {
+		while (!print && print->id != cur_student->id) {
 			print = print->next;
 		}
 		if (!print) {
-			cout << "Sorry, you have entered wrong ID.\n";
+			cout << "Sorry, your ID is not included int this course.\n";
 			return;
 		}
 		else {

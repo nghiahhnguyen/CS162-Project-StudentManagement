@@ -257,6 +257,7 @@ void importCourses(courseList& a, studentList_t &student_list);
 void AddNewStudentToClass(classList L, studentList_t student_list);
 void addToStudentList(studentList_t student_list, int newid, string classname, student *tmp);
 void EditStudent(classList L);
+void removeAStudent(classList &class_list);
 void removeAcourse(courseList b);
 void editExistingCourse(courseList &a);
 void gotoxy(int x, int y);
@@ -276,7 +277,7 @@ void findCourseFromCode(courseList &course_list, string &course_code, course*  &
 void findClassFromCode(classList &class_list, string &class_name, classYear*  &result);
 void viewListOfSchedules(courseList &course_list, classList &class_list);
 void recursionEditGrade(int n, presence *&edit);
-void editGrade(courseList &a);
+void editGrade(courseList &a, user *cur_user);
 void IntToXX(int n);
 void editCourseSchedule(courseList L);
 void removeCourseSchedule(courseList L);
@@ -288,7 +289,7 @@ int weeksFromStartDate(const date &dt1);
 void checkIn(student* you, courseList &course_list);
 void viewCheckInResult(student* you, courseList &course_list);
 int countLeapYears(date d);
-void viewMyScore(courseList course_list);
+void viewMyScore(courseList course_list, student *cur_student);
 void saveNewPasswordForStaff(char path[], userList staff);
 void saveNewPasswordForLecturer(char path[], userList lecturer);
 bool isNumber(const string& s);
@@ -303,7 +304,6 @@ void exportAttendance(string path, course *a);
 void viewScoreboard(course *a);
 void viewSchedule(int id1, presence *head, course* head1);
 void updateClassList(classList &class_list);
-
 void importScoreboardFromCsv(courseList course_list);
 
 #endif
