@@ -21,13 +21,13 @@ int main() {
 	char path3[] = "17APCS2-Students.csv";
 
 	//	first student of the first class is initialized as NULL
-	//	to use the input function
+	//	to use the input functionviewScore
 	first_class->head = NULL;
 	importUsers(staff, "Academic-Staff.csv");
 	importUsers(lecturer, "Lecturer.csv");
 
 	//	import the students list
-	inputStudentList(student_list);
+	//inputStudentList(student_list);
 
 	//	import students into 17APCS1
 	input(path, *first_class, student_list);

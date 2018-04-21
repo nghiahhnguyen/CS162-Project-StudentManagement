@@ -145,7 +145,7 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 								viewMyScore(course_list, cur_student);
 							}
 							else if (temp_1 == 4) {
-								viewListOfSchedules(course_list, class_list);
+								viewSchedule(cur_student->id, course_list);
 							}
 							else if (temp_1 == 5) {
 								break;
@@ -450,11 +450,15 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 									char temp_2;
 									cin >> temp_2;
 									cout << "---------------------------------------------------------\n\n";
-									if (temp_2 == '1') {
+									if (temp_2 == '1') 
+									{
 										cout << "Enter the name of the course: ";
-										string course_name;
-										getline(cin, course_name, '\n');
-										viewScore(searchCourse(course_name, course_list.head));
+										string course_code;
+
+										cin.ignore(20, '\n');
+										getline(cin, course_code, '\n');
+
+										viewScore(searchCourse(course_code, course_list.head));
 									}
 									else if (temp_2 == '2') {
 										exportScoreboardToCsv(&course_list);
@@ -590,6 +594,8 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 							}
 							else if (temp_1 == '3') {
 								string course_name;
+
+								cin.ignore(10, '\n');
 								cout << "Enter the course name: ";
 								getline(cin, course_name, '\n');
 								viewScore(searchCourse(course_name, course_list.head));
@@ -1205,9 +1211,7 @@ void removeAStudent(classList &class_list)
 void moveStudentsFromClassAToB(classList a) {
 
 	//	By NT Tung
-
-	bool t;
-	if (t) return;
+	if (exit()) return;
 	string name;
 	classYear *cur = a.head, *ca, *cb;
 	bool input = false;
@@ -1223,7 +1227,7 @@ void moveStudentsFromClassAToB(classList a) {
 			input = true;
 		}
 	} while (!input);
-	if (t) return;
+	if (exit()) return;
 	cur = a.head;
 	input = false;
 	do {
@@ -1239,7 +1243,7 @@ void moveStudentsFromClassAToB(classList a) {
 				input = true;
 		}
 	} while (!input);
-	if (t) return;
+	if (exit()) return;
 	student *p = ca->head, *ini = ca->head;
 	bool discont = false;
 	bool trans;
@@ -2219,7 +2223,7 @@ void importCoursesSchedulesOfAClass(courseList &course_list, classList &class_li
 				break;
 			case 3:
 				cur_schedule->course_session.session_day = tuesday;
-				break;
+
 			case 4:
 				cur_schedule->course_session.session_day = wednesday;
 				break;
@@ -3748,18 +3752,19 @@ void updateScoreboard(courseList course_list) {
 }
 
 //	34
-void viewSchedule(int id1, presence *head, course* head1) {
+void viewSchedule(int id1, courseList a) {
 	//	Tung
-
-	while (head != NULL) {
+	course * head1 = a.head;
+	while (head1 != NULL) {
+		presence* head=head1->head_presence;
+		while (head != NULL) {
 		if (id1 == head->id) {
-			course *y = searchCourse(head->course_code, head1);
 			schedule *cur_schedule;
-			cur_schedule = y->head_schedule;
+			cur_schedule = head1->head_schedule;
 			while (cur_schedule != NULL)
 			{
 				std::cout << std::endl;
-				std::cout << y->course_code << std::endl;
+				std::cout << head1->course_code << std::endl;
 				std::cout << cur_schedule->class_name << std::endl;
 				std::cout << cur_schedule->course_session.session_day << std::endl;
 				std::cout << cur_schedule->course_session.start.hour << ":" << cur_schedule->course_session.end.minute;
@@ -3771,6 +3776,8 @@ void viewSchedule(int id1, presence *head, course* head1) {
 			}
 		}
 		head = head->next;
+	}
+		head1 = head1->next;
 	}
 }
 
