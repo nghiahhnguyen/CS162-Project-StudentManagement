@@ -900,6 +900,7 @@ void input(classList &class_list, studentList_t &student_list)
 
 	string path;
 	cout << "Enter the path of the file: ";
+	cin.ignore();
 	getline(cin, path, '\n');
 
 	string class_name;
