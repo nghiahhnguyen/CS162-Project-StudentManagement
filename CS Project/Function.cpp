@@ -421,6 +421,7 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 									else if (temp_2 == '2') {
 										string path, course_code;
 										cout << "Enter the path: ";
+										cin.ignore();
 										getline(cin, path, '\n');
 										cout << "Enter the course code: ";
 										getline(cin, course_code, '\n');
@@ -582,8 +583,7 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 								<< "[4] Back to the previous menu\n"
 								<< "Your answer: ";
 
-							cin.ignore();
-							cin.get(temp_1);
+							cin >> temp_1;
 							cout << "---------------------------------------------------------\n\n";
 
 							if (temp_1 == '1') {
@@ -2971,9 +2971,6 @@ void inputStudentList(studentList_t &pupil)
 		getline(fi, phone, ',');
 		getline(fi, password);
 
-		std::cout << id<<" " << full_name <<" "<< class_name <<" "<< email <<" "<< phone <<" "<< password << std::endl;
-		system("pause");
-
 		if (pupil.head == NULL)
 		{
 			pupil.head = new student;
@@ -3139,14 +3136,72 @@ course* searchCourse(string a, course *b) {
 
 //	25
 void exportAttendance(string path, course *a) {
+	// Tung
+
 	ofstream fout;
 	fout.open(path);
 	presence *cur = a->head_presence;
-	fout << a->course_code << endl;
+	fout <<"ID,"<< a->course_code << endl;
 	while (cur != NULL) {
-		fout << "ID :," << cur->id << "Attendance : \n";
+		fout << cur->id << ",";
 		for (int i = 0; i < cur->week; ++i) fout << cur->attendance[i]<<',';
-		fout << endl;
+		if(cur->next!=NULL)
+			fout << endl;
+		cur = cur->next;
+	}
+}
+
+void exportAttendance(course *a) {
+	//	Export the attendance of a class to a csv file
+	string path = a->course_code + "-Attendance.csv";
+	ofstream fout;
+	fout.open(path);
+	presence *cur = a->head_presence;
+	fout << "ID," << a->course_code << endl;
+	while (cur != NULL) {
+		fout << cur->id << ",";
+		fout << cur->attendance;
+		if (cur->next != NULL)
+			fout << endl;
+		cur = cur->next;
+	}
+	fout.close();
+}
+
+void exportAttendanceCourseList(courseList course_list) {
+	course *cur = course_list.head;
+	while (cur) {
+		exportAttendance(cur);
+		cur = cur->next;
+	}
+}
+
+// Import Attendance of a course
+void importAttendanceCourse(course *a)
+{
+	string filename = a->course_code + "-Attendance.csv";
+	ifstream fin;
+	fin.open(filename);
+	if(fin.good()){
+		presence *cur = a->head_presence;
+		fin.ignore(1000, '\n');
+		string newid;
+		while (fin.good()) {
+			getline(fin, newid, ',');
+			cur->id = stoi(newid);
+			getline(fin, cur->attendance, '\n');
+			cur = cur->next;
+		}
+	}
+	fin.close();
+}
+
+//
+void importAttendanceCourseList(courseList course_list)
+{
+	course *cur = course_list.head;
+	while (cur) {
+		importAttendanceCourse(cur);
 		cur = cur->next;
 	}
 }
@@ -3586,15 +3641,15 @@ void viewCheckInResult(student* you, courseList &course_list) {
 
 		for (int i = 0; i < n; ++i) {
 			if (i == 0) {
-				cout << setw(17) << "Week " << i + 1;
+				cout << setw(16) << "Week " << i + 1;
 			}
 			else
 				cout << setw(9) << "Week " << i + 1;
 		}
 		cout << endl;
-		cout << cur->id << setw(7);
+		cout << setw(7) << cur->id;
 		for (int i = 0; i < n; ++i) {
-			cout << cur->attendance[i] << setw(10);
+			cout << setw(9)<<cur->attendance[i];
 		}
 		cout << endl;
 	}
