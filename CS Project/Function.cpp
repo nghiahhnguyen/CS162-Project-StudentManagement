@@ -578,8 +578,7 @@ void showMenu(classList &class_list, courseList &course_list, userList &staff, u
 								<< "[4] Back to the previous menu\n"
 								<< "Your answer: ";
 
-							cin.ignore();
-							cin.get(temp_1);
+							cin >> temp_1;
 							cout << "---------------------------------------------------------\n\n";
 
 							if (temp_1 == '1') {
