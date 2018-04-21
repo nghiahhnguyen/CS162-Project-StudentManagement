@@ -45,6 +45,8 @@ int main() {
 	//	import courses' schedule of 17APCS2
 	//importCoursesSchedulesOfAClass(course_list, class_list, (string)"Courses-Schedule2.csv", (string)"17APCS2");
 
+	importAttendanceCourseList(course_list);
+
 	showMenu(class_list, course_list, staff, lecturer, student_list);
 
 	updateScoreboard(course_list);
@@ -52,5 +54,6 @@ int main() {
 	saveNewPasswordForLecturer((char*)"Lecturer.csv", lecturer);
 	updateClassList(class_list);
 	exportStudentList(student_list);
+	exportAttendanceCourseList(course_list);
 	return 0;
 }
